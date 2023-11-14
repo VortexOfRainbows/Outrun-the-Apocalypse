@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
-public class FarmerGun : MonoBehaviour
+public class NoItem : InventoryItem
 {
-    public void UpdatePosition(bool Flip = false)
-    {
-        GetComponent<SpriteRenderer>().flipY = Flip;
-        Vector2 GunOffsetFromArm = new Vector2(0.4f, 0f);
-        transform.localPosition = GunOffsetFromArm;
-    }
+    public override string SpriteName => "None";
+    public override Vector2 HandOffset => new Vector2(0, 0);
+    public override bool ChangeHoldAnimation => false;
+}
+public class FarmerGun : InventoryItem
+{
+    public override string SpriteName => "FarmerGun";
+    public override Vector2 HandOffset => new Vector2(1.5f, -4.5f);
+    public override bool ChangeHoldAnimation => true;
+    public override float RotationOffset => -Mathf.PI / 2;
 }

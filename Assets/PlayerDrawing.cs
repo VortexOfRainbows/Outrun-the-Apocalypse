@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UIElements;
 
+[Obsolete]
 public class PlayerDrawing : MonoBehaviour
 {
     SpriteSkin skin => GetComponent<SpriteSkin>();
@@ -48,8 +49,8 @@ public class PlayerDrawing : MonoBehaviour
         GetComponent<SpriteRenderer>().flipX = Player.MainPlayer.Direction == -1;
         RotateHeadToCursor();
         WalkAnimation();
-        Player.MainPlayer.LeftGun.transform.parent = ArmLeft.transform;
-        Player.MainPlayer.LeftGun.UpdatePosition(Player.MainPlayer.Direction == -1);
+        //Player.MainPlayer.LeftGun.transform.parent = ArmLeft.transform;
+        //Player.MainPlayer.LeftGun.UpdatePosition(Player.MainPlayer.Direction == -1);
     }
     float walkSpeedMultiplier = 0.0f;
     float walkcounter = 0;
