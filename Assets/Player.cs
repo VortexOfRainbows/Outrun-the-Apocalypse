@@ -12,6 +12,13 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+<<<<<<< Updated upstream
+=======
+    [SerializeField]
+    public FarmerGun LeftGun;
+    [SerializeField]
+    public Camera MainCamera;
+>>>>>>> Stashed changes
     public static Player MainPlayer;
     public struct ControlDown
     {
@@ -104,7 +111,9 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        //TouchingCollider = false;
+        //This should be moved somewhere where it would make more sense
+        Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
+        
         Velocity = v;
         ControlUpdate();
         Physics();
@@ -112,6 +121,10 @@ public class Player : MonoBehaviour
         PrevVelocity = v;
         LastDirection = Direction;
         LastPosition = Position;
+<<<<<<< Updated upstream
+=======
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
+>>>>>>> Stashed changes
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
@@ -190,7 +203,13 @@ public class Player : MonoBehaviour
             Direction = 1;
         if(Control.Left && !Control.Right)
             Direction = -1;
+<<<<<<< Updated upstream
         PlayerDrawing Drawing = GetComponentInChildren<PlayerDrawing>();
+=======
+        else if (Direction == 0)
+            Direction = 1;
+        CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
+>>>>>>> Stashed changes
         Drawing.PerformUpdate();
     }
     private void RegisterControls()

@@ -33,8 +33,8 @@ public class PlayerDrawing : MonoBehaviour
         ArmLeft.localPosition = new Vector3(0.2f, 0.40f, 0.0f);
         ArmRight.localPosition = new Vector3(0.2f, -0.35f, 0.0f);
         Head.localPosition = new Vector3(0.4f, 0.0f, 0.0f);
-        Eyes.localPosition = Head.localPosition - new Vector3(1 / 48f, 8 / 48f, 0);
-        Shadow.localPosition = Head.localPosition + new Vector3(12 / 48f, 0, 0);
+        Eyes.localPosition = Head.localPosition - new Vector3(1 / 50f, 8 / 50f, 0);
+        Shadow.localPosition = Head.localPosition + new Vector3(12 / 50f, 0, 0);
     }
     public void Start()
     {
@@ -48,6 +48,8 @@ public class PlayerDrawing : MonoBehaviour
         GetComponent<SpriteRenderer>().flipX = Player.MainPlayer.Direction == -1;
         RotateHeadToCursor();
         WalkAnimation();
+        Player.MainPlayer.LeftGun.transform.parent = ArmLeft.transform;
+        Player.MainPlayer.LeftGun.UpdatePosition(Player.MainPlayer.Direction == -1);
     }
     float walkSpeedMultiplier = 0.0f;
     float walkcounter = 0;
@@ -86,7 +88,7 @@ public class PlayerDrawing : MonoBehaviour
 
         float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkcounter * 2);
 
-        Head.localPosition = new Vector3(0.4f + bobbingMotion * 4 / 48f * walkSpeedMultiplier, 0);
+        Head.localPosition = new Vector3(0.4f + bobbingMotion * 4 / 50f * walkSpeedMultiplier, 0);
         Head.localRotation = (rotationToCursor + runningTilt).ToQuaternion();
         Body.localRotation = (Mathf.PI * 0.5f - runningTilt).ToQuaternion();
     }
