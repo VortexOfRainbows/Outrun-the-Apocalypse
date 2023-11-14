@@ -102,7 +102,6 @@ public class Player : MonoBehaviour
             }
         }
         RegisterControls(); 
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
     }
     void FixedUpdate()
     {
@@ -121,7 +120,7 @@ public class Player : MonoBehaviour
         LastDirection = Direction;
         LastPosition = Position;
 
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.06f);
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
