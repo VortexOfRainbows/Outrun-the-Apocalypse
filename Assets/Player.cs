@@ -12,6 +12,8 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    public Camera MainCamera;
     public static Player MainPlayer;
     public struct ControlDown
     {
@@ -100,7 +102,6 @@ public class Player : MonoBehaviour
             }
         }
         RegisterControls();
-        // mainCamera.transform.position = new Vector3(Position.x, Position.y, mainCamera.transform.position.z); // Now using Cinemachine for camera following
     }
     void FixedUpdate()
     {
@@ -112,6 +113,7 @@ public class Player : MonoBehaviour
         PrevVelocity = v;
         LastDirection = Direction;
         LastPosition = Position;
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y, MainCamera.transform.position.z), 0.05f);
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
@@ -186,10 +188,12 @@ public class Player : MonoBehaviour
     public void PostControlUpdate()
     {
         LastControl = Control;
-        if(Control.Right && !Control.Left)
+        if (Control.Right && !Control.Left)
             Direction = 1;
-        if(Control.Left && !Control.Right)
+        else if (Control.Left && !Control.Right)
             Direction = -1;
+        else if (Direction == 0)
+            Direction = 1;
         PlayerDrawing Drawing = GetComponentInChildren<PlayerDrawing>();
         Drawing.PerformUpdate();
     }
