@@ -40,6 +40,7 @@ public class PlayerDrawing : MonoBehaviour
     {
         InitLimbs();
     }
+    float rotationToCursor = 0f;
     public void PerformUpdate()
     {
         if (Player.MainPlayer == null)
@@ -56,13 +57,13 @@ public class PlayerDrawing : MonoBehaviour
         //if (Player.MainPlayer.Velocity.y < -0.0 && MathF.Abs(Player.MainPlayer.Velocity.y) > 0.001f && MathF.Abs(Player.MainPlayer.Velocity.x) < 0.001f)
         //    walkDirection = -1;
         float velocity = Player.MainPlayer.Velocity.magnitude;
-        walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 2f), 0, 1f);
-        walkcounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * 2f;
+        walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 4f), 0, 1f);
+        walkcounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * 2.2f;
         walkcounter = walkcounter.WrapAngle();
         //walkcounter *= walkSpeedMultiplier;
         Vector2 circularMotion = new Vector2(0.5f, 0).RotatedBy(-walkcounter) * walkSpeedMultiplier;
-        circularMotion.x *= 0.25f;
-        circularMotion.y *= 0.1f;
+        circularMotion.x *= 0.275f;
+        circularMotion.y *= 0.225f * walkSpeedMultiplier;
         Vector2 inverseCM = -circularMotion;
         if(circularMotion.x < 0)
         {
@@ -72,15 +73,22 @@ public class PlayerDrawing : MonoBehaviour
         {
             inverseCM.x *= 0.1f;
         }
+        float runningTilt = velocity * 0.015f * walkSpeedMultiplier;
         LegLeft.localPosition = new Vector2(-0.35f, 0.175f) + circularMotion;
-        LegLeft.localRotation = (Mathf.PI - circularMotion.y * 2.5f).ToQuaternion();
+        LegLeft.localRotation = (Mathf.PI - circularMotion.y * 3.5f + runningTilt).ToQuaternion();
         LegRight.localPosition = new Vector2(-0.35f, -0.175f) + inverseCM;
-        LegRight.localRotation = (Mathf.PI - inverseCM.y * 2.5f).ToQuaternion();
+        LegRight.localRotation = (Mathf.PI - inverseCM.y * 3.5f + runningTilt).ToQuaternion();
 
         ArmLeft.localPosition = new Vector2(0.2f, 0.4f) + inverseCM * 0.1f;
         ArmLeft.localRotation = (Mathf.PI - inverseCM.y * 10f).ToQuaternion();
         ArmRight.localPosition = new Vector2(0.2f, -0.35f) + circularMotion * 0.1f;
         ArmRight.localRotation = (Mathf.PI - circularMotion.y * 10f).ToQuaternion();
+
+        float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkcounter * 2);
+
+        Head.localPosition = new Vector3(0.4f + bobbingMotion * 4 / 48f * walkSpeedMultiplier, 0);
+        Head.localRotation = (rotationToCursor + runningTilt).ToQuaternion();
+        Body.localRotation = (Mathf.PI * 0.5f - runningTilt).ToQuaternion();
     }
     public void RotateHeadToCursor()
     {
@@ -102,10 +110,9 @@ public class PlayerDrawing : MonoBehaviour
             direction *= -1;
         }
         toMouse.y *= 0.4f;
-        float rotation = (toMouse.ToRotation()).WrapAngle();
+        rotationToCursor = (toMouse.ToRotation()).WrapAngle();
         if (direction == -1)
-            rotation -= Mathf.PI;
-        Head.localRotation = rotation.ToQuaternion();
+            rotationToCursor -= Mathf.PI;
         Head.transform.localScale = new Vector3(Player.MainPlayer.Direction, direction, transform.transform.localScale.z);
     }
 }

@@ -22,9 +22,10 @@ public class Player : MonoBehaviour
         public bool Up;
         public bool Down;
         public bool Jump;
+        public bool Shift;
         public ControlDown(bool defaultState = false)
         {
-            DashClick = DashTap = Left = Right = Up = Down = Jump = defaultState;
+            DashClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
         }
     }
     [SerializeField]
@@ -65,8 +66,8 @@ public class Player : MonoBehaviour
     public Vector2 Velocity;
     public const float MovementAcceleration = 0.65f;
     public const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
-    public const float BaseMaxMoveSpeed = 5f;
-    public float MaxMoveSpeed = 5f;
+    public const float BaseMaxMoveSpeed = 8f;
+    public float MaxMoveSpeed = 8f;
     public float RotationOffset;
     // Start is called before the first frame update
     void Awake()
@@ -118,13 +119,13 @@ public class Player : MonoBehaviour
     public void Physics()
     {
         float BonusMaxSpeedResolveFactor = 0.04f;
-        float SpeedClampResolveFactor = 0.5f;
         float SpinResolveFactor = 0.08f;
+
         MaxMoveSpeed = Mathf.Lerp(MaxMoveSpeed, BaseMaxMoveSpeed, BonusMaxSpeedResolveFactor);
-        float topSpeedX = Math.Clamp(Velocity.x, -MaxMoveSpeed, MaxMoveSpeed);
-        Velocity.x = Mathf.Lerp(Velocity.x, topSpeedX, SpeedClampResolveFactor);
-        float topSpeedY = Math.Clamp(Velocity.y, -MaxMoveSpeed, MaxMoveSpeed);
-        Velocity.y = Mathf.Lerp(Velocity.y, topSpeedY, SpeedClampResolveFactor);
+        float currentSpeed = Velocity.magnitude;
+        float topSpeed = Math.Clamp(currentSpeed, 0, MaxMoveSpeed);
+        Vector2 velo = Velocity.normalized * topSpeed;
+        Velocity = velo;
 
         RotationOffset = Mathf.Lerp(RotationOffset, 0, SpinResolveFactor);
         if (RotationOffset != 0)
@@ -175,6 +176,10 @@ public class Player : MonoBehaviour
         else
         {
             Velocity.y *= MovementDeacceleration;
+        }
+        if(Control.Shift)
+        {
+            MaxMoveSpeed = BaseMaxMoveSpeed / 4.0f;
         }
         PostControlUpdate();
     }
@@ -246,6 +251,15 @@ public class Player : MonoBehaviour
         {
             if (LastControl.Jump)
                 Control.Jump = false;
+        }
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            Control.Shift = true;
+        }
+        else
+        {
+            if (LastControl.Shift)
+                Control.Shift = false;
         }
     }
 }
