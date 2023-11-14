@@ -13,4 +13,5 @@ public abstract class InventoryItem
     public virtual Vector2 HandOffset { get; }
     public virtual bool ChangeHoldAnimation => false;
     public virtual float RotationOffset => 0f;
+    public virtual float Scale => 0.75f;
 }

@@ -101,8 +101,8 @@ public class Player : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        RegisterControls();
-        // mainCamera.transform.position = new Vector3(Position.x, Position.y, mainCamera.transform.position.z); // Now using Cinemachine for camera following
+        RegisterControls(); 
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
     }
     void FixedUpdate()
     {

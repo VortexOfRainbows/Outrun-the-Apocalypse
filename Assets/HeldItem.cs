@@ -15,6 +15,7 @@ public class HeldItem : MonoBehaviour
         item.UpdatePosition();
         transform.localPosition = item.LocalPosition;
         transform.localRotation = item.RotationOffset.ToQuaternion();
+        transform.localScale = new Vector3(1, 1, 1) * item.Scale;
         GetComponent<SpriteRenderer>().sprite = SpriteLib.Library.GetSprite("Item", item.SpriteName);
     }
 }
