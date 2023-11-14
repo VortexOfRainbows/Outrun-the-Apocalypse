@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
         if (LeftHeldItem == null)
             LeftHeldItem = new FarmerGun();
         if (RightHeldItem == null)
-            RightHeldItem = new NoItem();
+            RightHeldItem = new FarmerGun();
         //This should be moved somewhere where it would make more sense
         Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
         

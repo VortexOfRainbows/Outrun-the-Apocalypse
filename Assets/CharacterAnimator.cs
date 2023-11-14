@@ -47,8 +47,9 @@ public class CharacterAnimator : MonoBehaviour
         InitLimbs();
     }
     private float HeadRotationToCursor = 0f;
-    private float ArmRotationToCursor = 0f;
-    private Vector2 ToMouse => (Utils.MouseWorld() - (Vector2)transform.position);
+    private float LeftArmRotationToCursor = 0f;
+    private float RightArmRotationToCursor = 0f;
+    private Vector2 ToMouse => (Utils.MouseWorld() - (Vector2)Head.transform.position);
     public void FlipAll(bool flipX)
     {
         Body.transform.localScale = new Vector3(flipX ? -1.0f : 1.0f, 1.0f, 1.0f);
@@ -59,14 +60,15 @@ public class CharacterAnimator : MonoBehaviour
             return;
         FlipAll(Player.Direction == -1);
         RotateHeadToCursor();
-        RotateArmToCursor();
+        RotateLeftArmToCursor();
+        RotateRightArmToCursor();
         LeftItem.item = Player.LeftHeldItem;
         RightItem.item = Player.RightHeldItem;
         LeftItem.transform.parent = LeftArm.transform;
-        LeftItem.ItemUpdate();
         RightItem.transform.parent = RightArm.transform;
-        RightItem.ItemUpdate();
         Animate();
+        LeftItem.ItemUpdate();
+        RightItem.ItemUpdate();
     }
     float walkSpeedMultiplier = 0.0f;
     float walkcounter = 0;
@@ -100,11 +102,18 @@ public class CharacterAnimator : MonoBehaviour
 
         RightArm.transform.localPosition = new Vector2(4.5f * Player.Direction, 2.5f) + inverseCM * 0.1f;
         RightArm.transform.localRotation = (inverseCM.x * 0.5f).ToQuaternion();
+        float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkcounter * 2);
 
-        if(LeftItem.item.ChangeHoldAnimation)
+        Head.transform.localPosition = new Vector3(0, 6 - bobbingMotion * walkSpeedMultiplier);
+        Body.transform.localRotation = (-runningTilt).ToQuaternion();
+        Eyes.transform.localPosition = new Vector3(2, 5, 0);
+        Shadow.transform.localPosition = new Vector3(0.5f, 5.5f, 0);
+
+
+        if (LeftItem.item.ChangeHoldAnimation)
         {
             LeftArm.transform.position = Body.transform.position + new Vector3(-4.5f, 2.5f);
-            LeftArm.transform.localRotation = (ArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
+            LeftArm.transform.localRotation = (LeftArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
         }
         else
         {
@@ -115,7 +124,7 @@ public class CharacterAnimator : MonoBehaviour
         if (RightItem.item.ChangeHoldAnimation)
         {
             RightArm.transform.position = Body.transform.position + new Vector3(4.5f, 2.5f);
-            RightArm.transform.localRotation = (ArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
+            RightArm.transform.localRotation = (RightArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
         }
         else
         {
@@ -128,7 +137,7 @@ public class CharacterAnimator : MonoBehaviour
             RightArm.GetComponent<SpriteRenderer>().sortingOrder = 5;
             if (LeftItem.item.ChangeHoldAnimation)
             {
-                if(ToMouse.x < 0)
+                if ((Utils.MouseWorld() - (Vector2)LeftArm.transform.position).x < 0)
                 {
                     LeftArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     LeftItem.GetComponent<SpriteRenderer>().sortingOrder = -2;
@@ -147,7 +156,7 @@ public class CharacterAnimator : MonoBehaviour
             LeftArm.GetComponent<SpriteRenderer>().sortingOrder = 5;
             if (RightItem.item.ChangeHoldAnimation)
             {
-                if (ToMouse.x > 0)
+                if ((Utils.MouseWorld() - (Vector2)RightArm.transform.position).x > 0)
                 {
                     RightArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     RightItem.GetComponent<SpriteRenderer>().sortingOrder = -2;
@@ -160,12 +169,6 @@ public class CharacterAnimator : MonoBehaviour
             }
             LeftItem.GetComponent<SpriteRenderer>().sortingOrder = 4;
         }
-        float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkcounter * 2);
-
-        Head.transform.localPosition = new Vector3(0, 6 - bobbingMotion * walkSpeedMultiplier);
-        Body.transform.localRotation = (-runningTilt).ToQuaternion();
-        Eyes.transform.localPosition = new Vector3(2, 5, 0);
-        Shadow.transform.localPosition = new Vector3(0.5f, 5.5f, 0);
     }
     public void RotateHeadToCursor()
     {
@@ -190,10 +193,10 @@ public class CharacterAnimator : MonoBehaviour
         Head.transform.localScale = new Vector3(transform.localScale.x, direction, transform.localScale.z);
         Head.transform.rotation = (HeadRotationToCursor * Player.Direction).ToQuaternion();
     }
-    public void RotateArmToCursor()
+    public void RotateLeftArmToCursor()
     {
         int direction = Player.Direction;
-        Vector2 toMouse = ToMouse;
+        Vector2 toMouse = (Utils.MouseWorld() - (Vector2)Body.transform.position + new Vector2(4.5f, -2.5f));
         if (toMouse.x < 0)
         {
             direction *= -1;
@@ -208,8 +211,28 @@ public class CharacterAnimator : MonoBehaviour
             toMouse.x *= -1;
         }
         float rotation = Mathf.PI / 2 + toMouse.ToRotation();
-        ArmRotationToCursor = rotation.WrapAngle();
+        LeftArmRotationToCursor = rotation.WrapAngle();
         LeftArm.transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
+    }
+    public void RotateRightArmToCursor()
+    {
+        int direction = Player.Direction;
+        Vector2 toMouse = (Utils.MouseWorld() - (Vector2)Body.transform.position + new Vector2(-4.5f, -2.5f));
+        if (toMouse.x < 0)
+        {
+            direction *= -1;
+        }
+        else
+        {
+            direction *= 1;
+        }
+        toMouse = toMouse.normalized;
+        if (Player.Direction == -1)
+        {
+            toMouse.x *= -1;
+        }
+        float rotation = Mathf.PI / 2 + toMouse.ToRotation();
+        RightArmRotationToCursor = rotation.WrapAngle();
         RightArm.transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
     }
 }
