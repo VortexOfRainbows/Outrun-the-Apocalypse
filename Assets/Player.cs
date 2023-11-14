@@ -12,6 +12,8 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    public InventoryItem LeftHeldItem;
+    public InventoryItem RightHeldItem;
     [SerializeField]
     public Camera MainCamera;
     public static Player MainPlayer;
@@ -30,8 +32,6 @@ public class Player : MonoBehaviour
             DashClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
         }
     }
-    [SerializeField]
-    public GameObject Sprite;
     public ControlDown Control = new ControlDown();
     public ControlDown LastControl = new ControlDown();
     public readonly Vector2 ColliderSize = new Vector2(0.4f, 0.9f);
@@ -101,11 +101,18 @@ public class Player : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        RegisterControls();
+        RegisterControls(); 
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
     }
     void FixedUpdate()
     {
-        //TouchingCollider = false;
+        if (LeftHeldItem == null)
+            LeftHeldItem = new FarmerGun();
+        if (RightHeldItem == null)
+            RightHeldItem = new NoItem();
+        //This should be moved somewhere where it would make more sense
+        Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
+        
         Velocity = v;
         ControlUpdate();
         Physics();
@@ -113,7 +120,8 @@ public class Player : MonoBehaviour
         PrevVelocity = v;
         LastDirection = Direction;
         LastPosition = Position;
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y, MainCamera.transform.position.z), 0.05f);
+
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.05f);
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
@@ -188,13 +196,13 @@ public class Player : MonoBehaviour
     public void PostControlUpdate()
     {
         LastControl = Control;
-        if (Control.Right && !Control.Left)
+        if(Control.Right && !Control.Left)
             Direction = 1;
-        else if (Control.Left && !Control.Right)
+        if(Control.Left && !Control.Right)
             Direction = -1;
         else if (Direction == 0)
             Direction = 1;
-        PlayerDrawing Drawing = GetComponentInChildren<PlayerDrawing>();
+        CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
         Drawing.PerformUpdate();
     }
     private void RegisterControls()
