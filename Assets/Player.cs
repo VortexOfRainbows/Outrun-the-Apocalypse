@@ -12,14 +12,15 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    public InventoryItem LeftHeldItem;
-    public InventoryItem RightHeldItem;
+    public ItemData LeftHeldItem;
+    public ItemData RightHeldItem;
     [SerializeField]
     public Camera MainCamera;
     public static Player MainPlayer;
     public struct ControlDown
     {
-        public bool DashClick;
+        public bool LeftClick;
+        public bool RightClick;
         public bool DashTap;
         public bool Left;
         public bool Right;
@@ -29,7 +30,8 @@ public class Player : MonoBehaviour
         public bool Shift;
         public ControlDown(bool defaultState = false)
         {
-            DashClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
+            LeftClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
+            RightClick = defaultState;
         }
     }
     public ControlDown Control = new ControlDown();
@@ -113,8 +115,8 @@ public class Player : MonoBehaviour
         Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
         
         Velocity = v;
-        ControlUpdate();
         Physics();
+        ControlUpdate();
         v = Velocity;
         PrevVelocity = v;
         LastDirection = Direction;
@@ -190,23 +192,30 @@ public class Player : MonoBehaviour
         {
             MaxMoveSpeed = BaseMaxMoveSpeed / 4.0f;
         }
-        PostControlUpdate();
-    }
-    public void PostControlUpdate()
-    {
-        LastControl = Control;
-        if(Control.Right && !Control.Left)
+        if (Control.Right && !Control.Left)
             Direction = 1;
-        if(Control.Left && !Control.Right)
+        if (Control.Left && !Control.Right)
             Direction = -1;
         else if (Direction == 0)
             Direction = 1;
         CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
         Drawing.PerformUpdate();
+        if (Control.LeftClick)
+        {
+            if (!LastControl.LeftClick || LeftHeldItem.HoldClick)
+            {
+                LeftHeldItem.UseItem(this, Drawing.LeftItem);
+            }
+        }
+        PostControlUpdate();
+    }
+    public void PostControlUpdate()
+    {
+        LastControl = Control;
     }
     private void RegisterControls()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A))
         {
             if (!Control.Right)
                 Control.Left = true;
@@ -218,7 +227,7 @@ public class Player : MonoBehaviour
                 Control.Left = false;
             }
         }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
         {
             if (!Control.Left)
                 Control.Right = true;
@@ -230,7 +239,7 @@ public class Player : MonoBehaviour
                 Control.Right = false;
             }
         }
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.W))
         {
             if (!Control.Down)
                 Control.Up = true;
@@ -242,7 +251,7 @@ public class Player : MonoBehaviour
                 Control.Up = false;
             }
         }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S))
         {
             if (!Control.Up)
                 Control.Down = true;
@@ -254,7 +263,7 @@ public class Player : MonoBehaviour
                 Control.Down = false;
             }
         }
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.Space))
         {
             Control.Jump = true;
         }
@@ -271,6 +280,24 @@ public class Player : MonoBehaviour
         {
             if (LastControl.Shift)
                 Control.Shift = false;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            Control.LeftClick = true;
+        }
+        else
+        {
+            if (LastControl.LeftClick)
+                Control.LeftClick = false;
+        }
+        if (Input.GetMouseButton(1))
+        {
+            Control.RightClick = true;
+        }
+        else
+        {
+            if (LastControl.RightClick)
+                Control.RightClick = false;
         }
     }
 }

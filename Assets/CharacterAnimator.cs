@@ -15,9 +15,9 @@ public class CharacterAnimator : MonoBehaviour
     private static Vector2 EyeRelativePosition = new Vector2(2, 5);
     private static Vector2 ShadowRelativePosition = new Vector2(0.5f, 5.5f);
     [SerializeField]
-    private HeldItem LeftItem;
+    public HeldItem LeftItem;
     [SerializeField]
-    private HeldItem RightItem;
+    public HeldItem RightItem;
     Player Player => Player.MainPlayer;
     [SerializeField]
     List<GameObject> Limbs;
