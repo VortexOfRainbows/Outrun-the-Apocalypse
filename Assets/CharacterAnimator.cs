@@ -7,6 +7,13 @@ using UnityEngine.UIElements;
 
 public class CharacterAnimator : MonoBehaviour
 {
+    private static Vector2 LeftArmRelativePosition = new Vector2 (-4.5f, 2.5f);
+    private static Vector2 RightArmRelativePosition = new Vector2(4.5f, 2.5f);
+    private static Vector2 FrontLegRelativePosition = new Vector2(-2f, -4f);
+    private static Vector2 BackLegRelativePosition = new Vector2(2f, -4f);
+    private static Vector2 HeadRelativePosition = new Vector2(0, 6);
+    private static Vector2 EyeRelativePosition = new Vector2(2, 5);
+    private static Vector2 ShadowRelativePosition = new Vector2(0.5f, 5.5f);
     [SerializeField]
     private HeldItem LeftItem;
     [SerializeField]
@@ -60,8 +67,8 @@ public class CharacterAnimator : MonoBehaviour
             return;
         FlipAll(Player.Direction == -1);
         RotateHeadToCursor();
-        RotateLeftArmToCursor();
-        RotateRightArmToCursor();
+        RotateArmToCursor(ref LeftArm, ref LeftArmRotationToCursor, LeftArmRelativePosition);
+        RotateArmToCursor(ref RightArm, ref RightArmRotationToCursor, RightArmRelativePosition);
         LeftItem.item = Player.LeftHeldItem;
         RightItem.item = Player.RightHeldItem;
         LeftItem.transform.parent = LeftArm.transform;
@@ -70,104 +77,99 @@ public class CharacterAnimator : MonoBehaviour
         LeftItem.ItemUpdate();
         RightItem.ItemUpdate();
     }
-    float walkSpeedMultiplier = 0.0f;
-    float walkcounter = 0;
+    private const float WalkAnimCircleMagnitude = 7f; //How large is the walk animation?
+    private const float WalkAnimSpeedMult = 2.2f; //How fast is the walk animation?
+    private const float WalkAnimYMult = 0.25f; //How should the size of animation be modified, Y value?
+    private const float WalkAnimXMult = 0.15f; //How should the size of animation be modified, X value?
+    private float walkCounter = 0; //Counter for animation progress
     public void Animate()
     {
         float walkDirection = 1f;
         //if (Player.Velocity.y < -0.0 && MathF.Abs(Player.Velocity.y) > 0.001f && MathF.Abs(Player.Velocity.x) < 0.001f)
         //    walkDirection = -1;
         float velocity = Player.Velocity.magnitude;
-        walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 4f), 0, 1f);
-        walkcounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * 2.2f;
-        walkcounter = walkcounter.WrapAngle();
+        float walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 4f), 0, 1f);
+        walkCounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * WalkAnimSpeedMult;
+        walkCounter = walkCounter.WrapAngle();
         //walkcounter *= walkSpeedMultiplier;
-        Vector2 circularMotion = new Vector2(7f, 0).RotatedBy(-walkcounter) * walkSpeedMultiplier;
-        circularMotion.y *= 0.25f;
-        circularMotion.x *= 0.15f * walkSpeedMultiplier;
-        Vector2 inverseCM = -circularMotion;
+        Vector2 circularMotion = new Vector2(WalkAnimCircleMagnitude, 0).RotatedBy(-walkCounter) * walkSpeedMultiplier;
+        circularMotion.y *= WalkAnimYMult;
+        circularMotion.x *= WalkAnimXMult * walkSpeedMultiplier;
+        float runningTilt = velocity * 0.0125f * walkSpeedMultiplier * Player.Direction;
+        float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkCounter * 2);
+
+        Head.transform.localPosition = new Vector3(HeadRelativePosition.x, HeadRelativePosition.y - bobbingMotion * walkSpeedMultiplier);
+        Body.transform.localRotation = (-runningTilt).ToQuaternion();
+        Eyes.transform.localPosition = EyeRelativePosition;
+        Shadow.transform.localPosition = ShadowRelativePosition;
+
+        AnimateHalf(circularMotion, runningTilt, -1);
+        AnimateHalf(circularMotion, runningTilt, 1);
+    }
+    public void AnimateHalf(Vector2 circularMotion, float runningTilt, int side = -1)
+    {
+        GameObject Leg;
+        GameObject Arm;
+        GameObject OppositeArm;
+        Vector2 ArmPosition;
+        Vector2 LegPosition;
+        HeldItem HeldItem;
+        HeldItem OppositeHeldItem;
+        if (side == -1)
+        {
+            Leg = BackLeg;
+            LegPosition = BackLegRelativePosition;
+            Arm = LeftArm;
+            OppositeArm = RightArm;
+            ArmPosition = LeftArmRelativePosition;
+            HeldItem = LeftItem;
+            OppositeHeldItem = RightItem;
+        }
+        else
+        {
+            Leg = FrontLeg;
+            LegPosition = FrontLegRelativePosition;
+            Arm = RightArm;
+            OppositeArm = LeftArm;
+            ArmPosition = RightArmRelativePosition;
+            HeldItem = RightItem;
+            OppositeHeldItem = LeftItem;
+        }
+        circularMotion *= side;
         if (circularMotion.y < 0)
         {
             circularMotion.y *= 0.1f;
         }
-        if (inverseCM.y < 0)
+        Leg.transform.localPosition = LegPosition + circularMotion;
+        Leg.transform.localRotation = (circularMotion.x * 0.3f + runningTilt * 0.25f).ToQuaternion();
+        if (HeldItem.item.ChangeHoldAnimation)
         {
-            inverseCM.y *= 0.1f;
-        }
-        float runningTilt = velocity * 0.0125f * walkSpeedMultiplier * Player.Direction;
-        BackLeg.transform.localPosition = new Vector2(2f, -4f) + circularMotion;
-        BackLeg.transform.localRotation = (circularMotion.x * 0.3f + runningTilt * 0.25f).ToQuaternion();
-        FrontLeg.transform.localPosition = new Vector2(-2f, -4f) + inverseCM;
-        FrontLeg.transform.localRotation = (inverseCM.x * 0.3f + runningTilt * 0.25f).ToQuaternion();
-
-        RightArm.transform.localPosition = new Vector2(4.5f * Player.Direction, 2.5f) + inverseCM * 0.1f;
-        RightArm.transform.localRotation = (inverseCM.x * 0.5f).ToQuaternion();
-        float bobbingMotion = 0.5f + 0.5f * (float)MathF.Cos(walkcounter * 2);
-
-        Head.transform.localPosition = new Vector3(0, 6 - bobbingMotion * walkSpeedMultiplier);
-        Body.transform.localRotation = (-runningTilt).ToQuaternion();
-        Eyes.transform.localPosition = new Vector3(2, 5, 0);
-        Shadow.transform.localPosition = new Vector3(0.5f, 5.5f, 0);
-
-
-        if (LeftItem.item.ChangeHoldAnimation)
-        {
-            LeftArm.transform.position = Body.transform.position + new Vector3(-4.5f, 2.5f);
-            LeftArm.transform.localRotation = (LeftArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
+            Arm.transform.position = Body.transform.position + (Vector3)ArmPosition;
+            Arm.transform.localRotation = (LeftArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
         }
         else
         {
-            LeftArm.transform.localPosition = new Vector2(-4.5f * Player.Direction, 2.5f) + circularMotion * 0.1f;
-            LeftArm.transform.localRotation = (circularMotion.x * 0.5f).ToQuaternion();
+            Arm.transform.localPosition = new Vector2(ArmPosition.x * Player.Direction, ArmPosition.y) + circularMotion * 0.1f;
+            Arm.transform.localRotation = (circularMotion.x * 0.5f).ToQuaternion();
         }
-
-        if (RightItem.item.ChangeHoldAnimation)
+        if (Player.Direction == side)
         {
-            RightArm.transform.position = Body.transform.position + new Vector3(4.5f, 2.5f);
-            RightArm.transform.localRotation = (RightArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
-        }
-        else
-        {
-            RightArm.transform.localPosition = new Vector2(4.5f * Player.Direction, 2.5f) + circularMotion * 0.1f;
-            RightArm.transform.localRotation = (circularMotion.x * 0.5f).ToQuaternion();
-        }
-        if (Player.Direction == -1)
-        {
-            LeftArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
-            RightArm.GetComponent<SpriteRenderer>().sortingOrder = 5;
-            if (LeftItem.item.ChangeHoldAnimation)
+            Arm.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            OppositeArm.GetComponent<SpriteRenderer>().sortingOrder = 5;
+            if (HeldItem.item.ChangeHoldAnimation)
             {
-                if ((Utils.MouseWorld() - (Vector2)LeftArm.transform.position).x < 0)
+                if ((Utils.MouseWorld() - (Vector2)Arm.transform.position).x * side > 0)
                 {
-                    LeftArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                    LeftItem.GetComponent<SpriteRenderer>().sortingOrder = -2;
+                    Arm.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                    HeldItem.GetComponent<SpriteRenderer>().sortingOrder = -2;
                 }
                 else
                 {
-                    LeftArm.GetComponent<SpriteRenderer>().sortingOrder = 7;
-                    LeftItem.GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    Arm.GetComponent<SpriteRenderer>().sortingOrder = 7;
+                    HeldItem.GetComponent<SpriteRenderer>().sortingOrder = 6;
                 }
             }
-            RightItem.GetComponent<SpriteRenderer>().sortingOrder = 4;
-        }
-        else
-        {
-            RightArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
-            LeftArm.GetComponent<SpriteRenderer>().sortingOrder = 5;
-            if (RightItem.item.ChangeHoldAnimation)
-            {
-                if ((Utils.MouseWorld() - (Vector2)RightArm.transform.position).x > 0)
-                {
-                    RightArm.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                    RightItem.GetComponent<SpriteRenderer>().sortingOrder = -2;
-                }
-                else
-                {
-                    RightArm.GetComponent<SpriteRenderer>().sortingOrder = 7;
-                    RightItem.GetComponent<SpriteRenderer>().sortingOrder = 6;
-                }
-            }
-            LeftItem.GetComponent<SpriteRenderer>().sortingOrder = 4;
+            OppositeHeldItem.GetComponent<SpriteRenderer>().sortingOrder = 4;
         }
     }
     public void RotateHeadToCursor()
@@ -193,10 +195,10 @@ public class CharacterAnimator : MonoBehaviour
         Head.transform.localScale = new Vector3(transform.localScale.x, direction, transform.localScale.z);
         Head.transform.rotation = (HeadRotationToCursor * Player.Direction).ToQuaternion();
     }
-    public void RotateLeftArmToCursor()
+    public void RotateArmToCursor(ref GameObject Arm, ref float RotationToCursor, Vector2 ArmPosition)
     {
         int direction = Player.Direction;
-        Vector2 toMouse = (Utils.MouseWorld() - (Vector2)Body.transform.position + new Vector2(4.5f, -2.5f));
+        Vector2 toMouse = (Utils.MouseWorld() - (Vector2)Body.transform.position - ArmPosition);
         if (toMouse.x < 0)
         {
             direction *= -1;
@@ -211,28 +213,7 @@ public class CharacterAnimator : MonoBehaviour
             toMouse.x *= -1;
         }
         float rotation = Mathf.PI / 2 + toMouse.ToRotation();
-        LeftArmRotationToCursor = rotation.WrapAngle();
-        LeftArm.transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
-    }
-    public void RotateRightArmToCursor()
-    {
-        int direction = Player.Direction;
-        Vector2 toMouse = (Utils.MouseWorld() - (Vector2)Body.transform.position + new Vector2(-4.5f, -2.5f));
-        if (toMouse.x < 0)
-        {
-            direction *= -1;
-        }
-        else
-        {
-            direction *= 1;
-        }
-        toMouse = toMouse.normalized;
-        if (Player.Direction == -1)
-        {
-            toMouse.x *= -1;
-        }
-        float rotation = Mathf.PI / 2 + toMouse.ToRotation();
-        RightArmRotationToCursor = rotation.WrapAngle();
-        RightArm.transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
+        RotationToCursor = rotation.WrapAngle();
+        Arm.transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
     }
 }
