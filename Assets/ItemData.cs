@@ -26,7 +26,11 @@ public abstract class ItemData
         if (CanUseItem())
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
-            Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.rotation[2]);
+            Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.eulerAngles.z * Mathf.Deg2Rad);
+            ToMouse *= Mathf.Sign(heldItem.transform.parent.lossyScale.x);
+
+            shootingPosition += BarrelPosition.RotatedBy(ToMouse.ToRotation()) * 5;
+
             Vector2 shootVelocity = ToMouse.normalized * ShotVelocity;
             int shootDamage = Damage;
             OnUseItem();
