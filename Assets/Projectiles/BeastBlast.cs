@@ -9,4 +9,8 @@ public class BeastBlast : ProjectileData
     {
         Lifetime = 120;
     }
+    public override void OnUpdate(ProjectileObject obj)
+    {
+        obj.transform.rotation = (obj.Velocity.ToRotation() - 90 * Mathf.Deg2Rad).ToQuaternion();
+    }
 }

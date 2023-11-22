@@ -28,7 +28,7 @@ public abstract class ProjectileData
         GameObject projectileObj = GameObject.Instantiate(PrefabManager.GetPrefab(0));
         projectileObj.transform.position = position;
         ProjectileObject POBJ = projectileObj.GetComponent<ProjectileObject>();
-        POBJ.RB.velocity = velocity;
+        POBJ.Velocity = velocity;
         POBJ.Projectile = projectileData;
         projectileData.Damage = damage;
         projectileData.AI[0] = ai0;
@@ -72,7 +72,7 @@ public abstract class ProjectileData
     /// Velocity is part of ProjectileObject
     /// Position is part of the ProejctileObject
     /// </summary>
-    protected virtual void OnUpdate(ProjectileObject obj)
+    public virtual void OnUpdate(ProjectileObject obj)
     {
 
     }

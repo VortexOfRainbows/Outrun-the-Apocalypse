@@ -25,8 +25,8 @@ public abstract class ItemData
         //Debug.Log(this + " " + "item used");
         if (CanUseItem())
         {
-            Vector2 shootingPosition = heldItem.transform.position;
-            Vector2 ToMouse = Utils.MouseWorld() - shootingPosition;
+            Vector2 shootingPosition = (Vector2)heldItem.transform.position;
+            Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.rotation[2]);
             Vector2 shootVelocity = ToMouse.normalized * ShotVelocity;
             int shootDamage = Damage;
             OnUseItem();
@@ -42,8 +42,16 @@ public abstract class ItemData
     /// Defaults to:     SpriteLib.Library.GetSprite("Item", SpriteName)
     /// </summary>
     public virtual Sprite sprite => SpriteLib.Library.GetSprite("Item", SpriteName);
+
     public virtual string SpriteName { get; }
+    /// <summary>
+    /// Modifies the place where the gun sits in the players hand
+    /// </summary>
     public virtual Vector2 HandOffset { get; }
+    /// <summary>
+    /// Modifies the place where projectile spawns when a gun fires
+    /// </summary>
+    public virtual Vector2 BarrelPosition { get; }
     public virtual bool ChangeHoldAnimation => false;
     /// <summary>
     /// If true, item can be used by holding click instead of repeatedly clicking
