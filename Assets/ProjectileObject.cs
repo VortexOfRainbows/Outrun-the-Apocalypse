@@ -28,6 +28,11 @@ public class ProjectileObject : MonoBehaviour
     private void FixedUpdate()
     {
         RB.velocity = Velocity;
+        if(Projectile == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Projectile.Update(this);
     }
 }

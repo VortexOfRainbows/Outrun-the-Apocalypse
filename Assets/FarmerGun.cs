@@ -18,7 +18,7 @@ public class FarmerGun : ItemData
     }
     public override string SpriteName => "FarmerGun";
     public override Vector2 HandOffset => new Vector2(1.5f, -4.5f);
-    public override Vector2 BarrelPosition => new Vector2(7, 2);
+    public override Vector2 BarrelPosition => new Vector2(13.5f, 2.5f);
     public override bool ChangeHoldAnimation => true;
     public override float RotationOffset => -Mathf.PI / 2;
     public override bool HoldClick => false;
