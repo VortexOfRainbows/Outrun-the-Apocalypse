@@ -5,25 +5,37 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public abstract class ItemData
 {
-    public int UseCooldown;
+    private float CurrentCooldown; //Stores the current item cooldown time. Item can be not used when above 0
     public int Damage;
     public float ShotVelocity;
     public ItemData()
     {
+        CurrentCooldown = 0;
         Damage = -1;
-        UseCooldown = 30;
         ShotVelocity = 10;
         SetStats();
     }
     public Vector2 LocalPosition;
+    public bool CanUse()
+    {
+        return CanUseItem() && CurrentCooldown <= 0;
+    }
+    /// <summary>
+    /// Called by the character animator when it is updating (whose update is called in the player)
+    /// Performs basic Item update tasks
+    /// </summary>
     public void HoldingUpdate()
     {
         LocalPosition = HandOffset;
+        if(CurrentCooldown > 0)
+        {
+            CurrentCooldown--;
+        }
     }
     public void UseItem(Player player, HeldItem heldItem)
     {
         //Debug.Log(this + " " + "item used");
-        if (CanUseItem())
+        if (CanUse())
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
             Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.eulerAngles.z * Mathf.Deg2Rad);
@@ -43,6 +55,8 @@ public abstract class ItemData
             {
                 FireProjectileTowardsCursor(ShootType, shootingPosition, shootVelocity, shootDamage);
             }
+
+            CurrentCooldown = UseCooldown;
         }
     }
     /// <summary>
@@ -108,4 +122,8 @@ public abstract class ItemData
     {
         ProjectileData.NewProjectile(data, position, velocity, damage);
     }
+    /// <summary>
+    /// The amount of frame before this item is allowed to be used again after being used once
+    /// </summary>
+    public virtual float UseCooldown => 20f;
 }

@@ -117,6 +117,8 @@ public class Player : MonoBehaviour
         Velocity = v;
         Physics();
         ControlUpdate();
+        ItemUpdate();
+        FinalUpdate();
         v = Velocity;
         PrevVelocity = v;
         LastDirection = Direction;
@@ -198,6 +200,9 @@ public class Player : MonoBehaviour
             Direction = -1;
         else if (Direction == 0)
             Direction = 1;
+    }
+    public void ItemUpdate()
+    {
         CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
         Drawing.PerformUpdate();
         if (Control.LeftClick)
@@ -207,9 +212,15 @@ public class Player : MonoBehaviour
                 LeftHeldItem.UseItem(this, Drawing.LeftItem);
             }
         }
-        PostControlUpdate();
+        if (Control.RightClick)
+        {
+            if (!LastControl.RightClick || RightHeldItem.HoldClick)
+            {
+                RightHeldItem.UseItem(this, Drawing.RightItem);
+            }
+        }
     }
-    public void PostControlUpdate()
+    public void FinalUpdate()
     {
         LastControl = Control;
     }

@@ -88,7 +88,7 @@ public class CharacterAnimator : MonoBehaviour
         //if (Player.Velocity.y < -0.0 && MathF.Abs(Player.Velocity.y) > 0.001f && MathF.Abs(Player.Velocity.x) < 0.001f)
         //    walkDirection = -1;
         float velocity = Player.Velocity.magnitude;
-        float walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 4f), 0, 1f);
+        float walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 2f), 0, 1f);
         walkCounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * WalkAnimSpeedMult;
         walkCounter = walkCounter.WrapAngle();
         //walkcounter *= walkSpeedMultiplier;
