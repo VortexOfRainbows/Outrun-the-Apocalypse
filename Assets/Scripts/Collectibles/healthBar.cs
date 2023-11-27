@@ -9,30 +9,30 @@ public class healthBar : MonoBehaviour
     // Start is called before the first frame update
 
     public Slider healthSlider;
-    public int health = 100;
+    public characterState characterState;
 
     public void SetMaxHealth()
     {
-        healthSlider.maxValue = health; 
-        healthSlider.value = health;
+        healthSlider.maxValue = characterState.health; 
+        healthSlider.value = characterState.health;
     
     }
 
     public void setHealth() 
     {
 
-        healthSlider.value = health;
+        healthSlider.value = characterState.health;
 
     }
 
     private void Update()
     {
-        healthSlider.value = health;
+        healthSlider.value = characterState.health;
 
         if (Input.GetKeyDown(KeyCode.Space)) 
         { 
-            health -= 10;
-            Debug.Log(health);
+            characterState.health -= 10;
+            //Debug.Log(health);
         }
     }
 
