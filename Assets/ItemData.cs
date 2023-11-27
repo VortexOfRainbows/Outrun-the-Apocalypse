@@ -41,7 +41,7 @@ public abstract class ItemData
             bool UseDefaultShoot = Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
             if(UseDefaultShoot)
             {
-                FireProjectileTowardsCursor(player, shootingPosition, shootVelocity, shootDamage);
+                FireProjectileTowardsCursor(ShootType, shootingPosition, shootVelocity, shootDamage);
             }
         }
     }
@@ -91,6 +91,7 @@ public abstract class ItemData
     {
 
     }
+    public virtual ProjectileData ShootType => new Bullet();
     /// <summary>
     /// Allows you to make an item launch a projectile when used
     /// Return true to make a projectile fire towards the cursor
@@ -103,8 +104,8 @@ public abstract class ItemData
     {
         return false;
     }
-    public static void FireProjectileTowardsCursor(Player player, Vector2 position, Vector2 velocity, int damage)
+    public static void FireProjectileTowardsCursor(ProjectileData data, Vector2 position, Vector2 velocity, int damage)
     {
-        ProjectileData.NewProjectile(new BeastBlast(), position, velocity, damage);
+        ProjectileData.NewProjectile(data, position, velocity, damage);
     }
 }

@@ -4,11 +4,34 @@ using UnityEngine;
 
 public abstract class ProjectileData
 {
+    /// <summary>
+    /// the following fields are all public because they should be modifiable by other places in specific cases
+    /// For example, certain enemies may have effects that lower the damage of bullets
+    /// Some enemies may be able to multiple the size of other enemy bullets
+    /// Etc.
+    /// 
+    /// Some enemies may decrease the lifetime of your own projectiles (decreasing their range), when they pierce (slimes, for example, might do that)
+    /// </summary>
+    public float Width; //These values determines the size of the projectile (hitbox)
+    public float Height; //^^^^^
     public int Damage;
     public int Lifetime;
     public float[] AI; //These values can be used as general, all-purpose data storage for projectiles that desire unique update functionality. Though you can also designate your own variables too.
+    public Vector2 Size
+    {
+        get
+        {
+            return new Vector2(Width, Height);
+        }
+        set 
+        { 
+            Width = value.x;
+            Height = value.y;
+        }
+    }
     public ProjectileData()
     {
+        Size = new Vector2(32, 32);
         Lifetime = 3600;
         Damage = 0;
         AI = new float[] { 0f, 0f, 0f, 0f };
@@ -35,7 +58,7 @@ public abstract class ProjectileData
         projectileData.AI[1] = ai1;
         projectileData.AI[2] = ai2;
         projectileData.AI[3] = ai3;
-        projectileData.FinalSetStatsAfterSpawning();
+        projectileData.FinalSetStatsAfterSpawning(projectileObj);
         return projectileObj;
     }
     public void Update(ProjectileObject obj)
@@ -63,9 +86,9 @@ public abstract class ProjectileData
     /// Use this to choose what stats the projectile should have after being instantiated.
     /// In terms of run order, if damage is overriden here, then a projectile spawned with NewProjectile() will inherint the values in this method
     /// </summary>
-    public virtual void FinalSetStatsAfterSpawning()
+    public virtual void FinalSetStatsAfterSpawning(GameObject obj)
     {
-
+        
     }
     /// <summary>
     /// This method will run during the projectiles update cycle
@@ -74,7 +97,7 @@ public abstract class ProjectileData
     /// </summary>
     public virtual void OnUpdate(ProjectileObject obj)
     {
-
+        obj.transform.rotation = obj.Velocity.ToRotation().ToQuaternion();
     }
     /// <summary>
     /// This method will run right before the projectile is destroyed
@@ -82,6 +105,24 @@ public abstract class ProjectileData
     /// Position is part of the ProejctileObject
     /// </summary>
     public virtual void OnDeath(ProjectileObject obj)
+    {
+
+    }
+    /// <summary>
+    /// Called once after initializing the projectile
+    /// Use this for one-time modifications to the way the projectile is drawn
+    /// </summary>
+    /// <param name="Renderer"></param>
+    public virtual void ModifyRenderer(ref SpriteRenderer Renderer)
+    {
+
+    }
+    /// <summary>
+    /// Called once after initializing the projectile
+    /// Use this for one-time modifications to the way the projectile is drawn
+    /// </summary>
+    /// <param name="Renderer"></param>
+    public virtual void UpdateRenderer(ref SpriteRenderer Renderer)
     {
 
     }

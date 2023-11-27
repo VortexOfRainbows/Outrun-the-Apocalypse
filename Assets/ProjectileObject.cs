@@ -6,13 +6,15 @@ using static UnityEditor.Progress;
 public class ProjectileObject : MonoBehaviour
 {
     public Vector2 Velocity;
+    public ProjectileData Projectile; //Public. So that ProjectileData can access this for its general purpose projectile-spawning method
     private Rigidbody2D RB;
-    public SpriteRenderer Renderer;
-    public ProjectileData Projectile;
+    private SpriteRenderer Renderer;
+    private BoxCollider2D Hitbox;
     public void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
         Renderer = GetComponent<SpriteRenderer>();
+        Hitbox = GetComponent<BoxCollider2D>();
         Renderer.enabled = false;
     }
     public void Start()
@@ -23,7 +25,11 @@ public class ProjectileObject : MonoBehaviour
         }
         Renderer.sprite = Projectile.sprite;
         FixedUpdate();
-        Renderer.enabled = true;
+        if(!Renderer.enabled)
+        {
+            Renderer.enabled = true;
+            Projectile.ModifyRenderer(ref Renderer);
+        }
     }
     private void FixedUpdate()
     {
@@ -34,5 +40,7 @@ public class ProjectileObject : MonoBehaviour
             return;
         }
         Projectile.Update(this);
+        Projectile.UpdateRenderer(ref Renderer);
+        Hitbox.size = Projectile.Size;
     }
 }
