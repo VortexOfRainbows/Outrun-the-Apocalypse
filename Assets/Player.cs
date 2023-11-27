@@ -10,12 +10,12 @@ using UnityEngine.Tilemaps;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
-    public ItemData LeftHeldItem;
-    public ItemData RightHeldItem;
     [SerializeField]
-    public Camera MainCamera;
+    private CharacterAnimator CharacterAnimator;
+    [SerializeField]
+    private Camera MainCamera;
     public static Player MainPlayer;
     public struct ControlDown
     {
@@ -37,12 +37,8 @@ public class Player : MonoBehaviour
     public ControlDown Control = new ControlDown();
     public ControlDown LastControl = new ControlDown();
     public readonly Vector2 ColliderSize = new Vector2(0.4f, 0.9f);
-    public int Direction = 0;
-    public int LastDirection = 0;
     [SerializeField]
     public BoxCollider2D Collider2D;
-    [SerializeField]
-    public Rigidbody2D rb;
     public Vector2 Position
     {
         get
@@ -66,8 +62,6 @@ public class Player : MonoBehaviour
         }
     }
     public Vector2 LastPosition = Vector2.zero;
-    public Vector2 PrevVelocity = Vector2.zero;
-    public Vector2 Velocity;
     public const float MovementAcceleration = 0.65f;
     public const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
     public const float BaseMaxMoveSpeed = 8f;
@@ -203,20 +197,20 @@ public class Player : MonoBehaviour
     }
     public void ItemUpdate()
     {
-        CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
-        Drawing.PerformUpdate();
+        LookTarget = Utils.MouseWorld();
+        CharacterAnimator.PerformUpdate();
         if (Control.LeftClick)
         {
             if (!LastControl.LeftClick || LeftHeldItem.HoldClick)
             {
-                LeftHeldItem.UseItem(this, Drawing.LeftItem);
+                LeftHeldItem.UseItem(this, CharacterAnimator.LeftItem);
             }
         }
         if (Control.RightClick)
         {
             if (!LastControl.RightClick || RightHeldItem.HoldClick)
             {
-                RightHeldItem.UseItem(this, Drawing.RightItem);
+                RightHeldItem.UseItem(this, CharacterAnimator.RightItem);
             }
         }
     }

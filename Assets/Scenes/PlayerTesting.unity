@@ -98744,6 +98744,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4305411011562408092, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+      propertyPath: Entity
+      value: 
+      objectReference: {fileID: 8307331746032130903}
     - target: {fileID: 4569239222938944268, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: MainCamera
       value: 
@@ -98757,6 +98761,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+--- !u!114 &8307331746032130903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4569239222938944268, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+  m_PrefabInstance: {fileID: 8307331746032130902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66f218f94ead314bbf27f810e82179a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

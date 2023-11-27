@@ -55,7 +55,6 @@ public abstract class ItemData
             {
                 FireProjectileTowardsCursor(ShootType, shootingPosition, shootVelocity, shootDamage);
             }
-
             CurrentCooldown = UseCooldown;
         }
     }

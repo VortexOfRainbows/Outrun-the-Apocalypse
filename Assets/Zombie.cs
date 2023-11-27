@@ -2,39 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class Zombie : Entity
 {
-    [SerializeField] GameObject Player;
+    [SerializeField]
+    private CharacterAnimator CharacterAnimator;
+    [SerializeField]
+    private GameObject Player;
     // Start is called before the first frame update
+    public override int LayerDefaultPosition => -20;
     void Start()
     {
         
     }
-
     // Update is called once per frame
     void Update()
     {
         
     }
-
     private void FixedUpdate()
     {
+        if (LeftHeldItem == null)
+            LeftHeldItem = new FarmerGun();
+        if (RightHeldItem == null)
+            RightHeldItem = new FarmerGun();
+        Velocity *= 0.1f; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
         if (transform.position.x < Player.transform.position.x)
         {
-            transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
+            Velocity.x += 1; //Increase velocity by 1 to the right, since the player is right of the zombie
         }
         if (transform.position.x > Player.transform.position.x)
         {
-            transform.position = new Vector3(transform.position.x - 1, transform.position.y, transform.position.z);
+            Velocity.x -= 1;
         }
         if (transform.position.y < Player.transform.position.y)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            Velocity.y += 1;
         }
         if (transform.position.y > Player.transform.position.y)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+            Velocity.y -= 1;
         }
 
+        if (Velocity.x > 0)
+            Direction = 1;
+        else
+            Direction = -1;
+        rb.velocity = Velocity;
+
+        LookTarget = Player.transform.position;
+        CharacterAnimator.PerformUpdate();
+
+        LastDirection = Direction;
     }
 }
