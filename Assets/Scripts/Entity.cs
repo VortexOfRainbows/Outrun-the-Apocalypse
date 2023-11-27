@@ -1,3 +1,4 @@
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -11,5 +12,6 @@ public class Entity : MonoBehaviour
     public Vector2 PrevVelocity = Vector2.zero;
     public Vector2 Velocity = Vector2.zero;
     public virtual int LayerDefaultPosition => 0;
+    public virtual float ArmDegreesOffset => 0f;
     public Vector2 LookTarget;
 }

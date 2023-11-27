@@ -10,6 +10,7 @@ public class Zombie : Entity
     private GameObject Player;
     // Start is called before the first frame update
     public override int LayerDefaultPosition => -20;
+    public override float ArmDegreesOffset => 90;
     void Start()
     {
         
@@ -24,7 +25,7 @@ public class Zombie : Entity
         if (LeftHeldItem == null)
             LeftHeldItem = new FarmerGun();
         if (RightHeldItem == null)
-            RightHeldItem = new FarmerGun();
+            RightHeldItem = new NoItem();
         Velocity *= 0.1f; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
         if (transform.position.x < Player.transform.position.x)
         {

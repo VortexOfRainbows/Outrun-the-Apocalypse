@@ -93,7 +93,7 @@ public class CharacterAnimator : MonoBehaviour
             RightItem.ItemUpdate();
     }
     private const float WalkAnimCircleMagnitude = 7f; //How large is the walk animation?
-    private const float WalkAnimSpeedMult = 2.2f; //How fast is the walk animation?
+    private const float WalkAnimSpeedMult = 2.5f; //How fast is the walk animation?
     private const float WalkAnimYMult = 0.25f; //How should the size of animation be modified, Y value?
     private const float WalkAnimXMult = 0.15f; //How should the size of animation be modified, X value?
     private float walkCounter = 0; //Counter for animation progress
@@ -104,7 +104,7 @@ public class CharacterAnimator : MonoBehaviour
         //    walkDirection = -1;
         float velocity = Entity.Velocity.magnitude;
         float walkSpeedMultiplier = Mathf.Clamp(Math.Abs(velocity / 2f), 0, 1f);
-        walkCounter += walkDirection * velocity * Mathf.Deg2Rad * walkSpeedMultiplier * WalkAnimSpeedMult;
+        walkCounter += walkDirection * velocity * Mathf.Deg2Rad * Mathf.Clamp(walkSpeedMultiplier * 8, 0, 1) * WalkAnimSpeedMult;
         walkCounter = walkCounter.WrapAngle();
         //walkcounter *= walkSpeedMultiplier;
         Vector2 circularMotion = new Vector2(WalkAnimCircleMagnitude, 0).RotatedBy(-walkCounter) * walkSpeedMultiplier;
@@ -165,7 +165,7 @@ public class CharacterAnimator : MonoBehaviour
         else
         {
             Arm.transform.localPosition = new Vector2(ArmPosition.x * Entity.Direction, ArmPosition.y) + circularMotion * 0.1f;
-            Arm.transform.localRotation = (circularMotion.x * 0.5f).ToQuaternion();
+            Arm.transform.localRotation = (circularMotion.x * 0.5f + Entity.ArmDegreesOffset * Mathf.Deg2Rad).ToQuaternion();
         }
         if (Entity.Direction == side)
         {

@@ -64,8 +64,8 @@ public class Player : Entity
     public Vector2 LastPosition = Vector2.zero;
     public const float MovementAcceleration = 0.65f;
     public const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
-    public const float BaseMaxMoveSpeed = 8f;
-    public float MaxMoveSpeed = 8f;
+    public const float BaseMaxMoveSpeed = 6f;
+    public float MaxMoveSpeed = 6f;
     public float RotationOffset;
     // Start is called before the first frame update
     void Awake()

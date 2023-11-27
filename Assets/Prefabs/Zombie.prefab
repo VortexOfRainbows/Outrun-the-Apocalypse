@@ -125,6 +125,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3418515227116727446}
     m_Modifications:
+    - target: {fileID: 25099114018646433, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1443770121, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
+    - target: {fileID: 129640653906765036, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840840037617947014, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -818098443, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
+    - target: {fileID: 5373059935369282347, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -62490439, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
+    - target: {fileID: 6003408195046397396, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6495737881775111033, guid: dca6ad931495afa40847ba321ef63601, type: 3}
       propertyPath: m_Name
       value: Character
@@ -169,6 +189,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7102315208185079990, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1794451381, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
+    - target: {fileID: 7232101076237101505, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1887438369, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
+    - target: {fileID: 8445756353770176169, guid: dca6ad931495afa40847ba321ef63601, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1179234484, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
     - target: {fileID: 9144050944390956660, guid: dca6ad931495afa40847ba321ef63601, type: 3}
       propertyPath: Entity
       value: 
