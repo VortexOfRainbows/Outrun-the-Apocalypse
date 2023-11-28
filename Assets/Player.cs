@@ -87,6 +87,7 @@ public class Player : EntityWithCharDrawing
     {
         MaxLife = 100;
         Life = 100;
+        DefaultImmunityOnHit = 30;
         Friendly = true;
     }
     void Update()
@@ -105,7 +106,7 @@ public class Player : EntityWithCharDrawing
         }
         RegisterControls(); 
     }
-    void FixedUpdate()
+    public override void OnFixedUpdate()
     {
         if (LeftHeldItem == null)
             LeftHeldItem = new FarmerGun();

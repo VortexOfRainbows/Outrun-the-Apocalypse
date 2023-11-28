@@ -75,7 +75,7 @@ public abstract class ProjectileData
             Death(obj);
         }
     }
-    public void OnHit(ProjectileObject obj, GameObject target)
+    public void OnHit(ProjectileObject obj, GameObject target, ref int ImmunityFrames)
     {
         Pierce--;
         OnHitTarget(obj, target);

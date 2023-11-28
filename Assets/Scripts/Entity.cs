@@ -17,10 +17,18 @@ public abstract class Entity : MonoBehaviour
 
     public bool Friendly;
     public bool Hostile => !Friendly;
-    public float Life { get; set; }
-    public float MaxLife { get; set; } //The max life of an enemy/player will may need adjustment outside of spawning, particularly for player, thus public set
+
+    [SerializeField] public float Life;
+    [SerializeField] public float MaxLife;
+
+    protected int DefaultImmunityOnHit;
+    //Contact damage may be changed elsewhere, such as through environmental buffs, thus it is public. Immunity might be triggered by certain projectiles, thus it is also public
+    public float ContactDamage;
+    public int ImmunityFrames;
+    public bool Immune => ImmunityFrames > 0;
     private void Start()
     {
+        ContactDamage = DefaultImmunityOnHit = ImmunityFrames = 0;
         Friendly = false;
         MaxLife = 10;
         Life = MaxLife;
@@ -35,17 +43,43 @@ public abstract class Entity : MonoBehaviour
             HealthBar.fillAmount = Life / MaxLife;
         }
     }
+    private void FixedUpdate()
+    {
+        OnFixedUpdate();
+        if (ImmunityFrames > 0)
+        {
+            ImmunityFrames--;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;
-        ProjectileObject projectileObject = collider.GetComponent<ProjectileObject>();
-        Debug.Log(collision);
-        if (projectileObject != null)
+        if(collider.tag == "Projectile")
         {
-            if((Friendly && projectileObject.Projectile.Hostile) || (Hostile && projectileObject.Projectile.Friendly))
+            ProjectileObject projectileObject = collider.GetComponent<ProjectileObject>();
+            if (projectileObject != null && !Immune)
             {
-                Hurt(projectileObject.Projectile.Damage);
-                projectileObject.Projectile.OnHit(projectileObject, this.gameObject);
+                if ((Friendly && projectileObject.Projectile.Hostile) || (Hostile && projectileObject.Projectile.Friendly))
+                {
+                    int ImmunityFramesToTriggerOnDefault = DefaultImmunityOnHit;
+                    projectileObject.Projectile.OnHit(projectileObject, this.gameObject, ref ImmunityFramesToTriggerOnDefault);
+                    Hurt(projectileObject.Projectile.Damage, ImmunityFramesToTriggerOnDefault);
+                }
+            }
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        GameObject collider = collision.gameObject;
+        if(collider.tag == "Player")
+        {
+            Entity entity = collider.GetComponent<Entity>();
+            if (entity != null && ContactDamage > 0)
+            {
+                if(entity.Friendly && Hostile && !entity.Immune)
+                {
+                    entity.Hurt(ContactDamage, entity.DefaultImmunityOnHit);
+                }
             }
         }
     }
@@ -53,18 +87,27 @@ public abstract class Entity : MonoBehaviour
     /// Call this to deal damage to an enemy/player
     /// </summary>
     /// <param name="damage"></param>
-    public void Hurt(int damage) //This method is public as there may be some situations where damage should be done through other classes
+    public void Hurt(float damage, int setImmuneFrames) //This method is public as there may be some situations where damage should be done through other classes
     {
         Life -= damage;
         if(Life <= 0)
         {
             Death();
         }
+        ImmunityFrames = setImmuneFrames;
     }
     private void Death()
     {
         OnDeath();
         Destroy(this.gameObject);
+    }
+    /// <summary>
+    /// For entities, avoid running the normal fixed update method as it might override entity functiosn
+    /// use this method instead, as it runs after the normal entity methods
+    /// </summary>
+    public virtual void OnFixedUpdate()
+    {
+
     }
     /// <summary>
     /// Called when an enemy or player dies. Put stuff here to make the enemy do special stuff upon death

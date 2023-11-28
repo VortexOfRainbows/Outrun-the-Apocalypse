@@ -14,9 +14,10 @@ public class Zombie : EntityWithCharDrawing
     {
         MaxLife = 25;
         Life = 25;
+        ContactDamage = 15;
         Friendly = false;
     }
-    private void FixedUpdate()
+    public override void OnFixedUpdate()
     {
         if (player == null) 
             player = Player.MainPlayer.gameObject;
