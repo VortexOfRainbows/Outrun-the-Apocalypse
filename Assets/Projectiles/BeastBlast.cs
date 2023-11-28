@@ -9,6 +9,7 @@ public class Bullet : ProjectileData
     {
         Size = new Vector2(40, 1); //Size of the hitbox in pixels
         Lifetime = 60;
+        Friendly = true;
     }
     public override void ModifyRenderer(ref SpriteRenderer Renderer)
     {
@@ -25,6 +26,7 @@ public class BeastBlast : ProjectileData
     public override void SetStats()
     {
         Lifetime = 120;
+        Hostile = true;
     }
     public override void OnUpdate(ProjectileObject obj)
     {

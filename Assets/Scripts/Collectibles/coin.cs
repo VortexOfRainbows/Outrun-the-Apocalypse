@@ -23,7 +23,10 @@ public class coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
-        coinCounter.instance.increaseCoins();
+        if (collision.tag == "Player")
+        {
+            Destroy(gameObject);
+            coinCounter.instance.increaseCoins();
+        }
     }
 }

@@ -1,45 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Zombie : Entity
+public class Zombie : EntityWithCharDrawing
 {
     [SerializeField]
     private CharacterAnimator CharacterAnimator;
-    [SerializeField]
-    private GameObject Player;
-    // Start is called before the first frame update
+    private GameObject player;
     public override int LayerDefaultPosition => -20;
     public override float ArmDegreesOffset => 90;
-    void Start()
+    public override void SetStats()
     {
-        
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MaxLife = 25;
+        Life = 25;
+        Friendly = false;
     }
     private void FixedUpdate()
     {
+        if (player == null) 
+            player = Player.MainPlayer.gameObject;
         if (LeftHeldItem == null)
-            LeftHeldItem = new FarmerGun();
+            LeftHeldItem = new NoItem();
         if (RightHeldItem == null)
             RightHeldItem = new NoItem();
         Velocity *= 0.1f; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
-        if (transform.position.x < Player.transform.position.x)
+        if (transform.position.x < player.transform.position.x)
         {
             Velocity.x += 1; //Increase velocity by 1 to the right, since the player is right of the zombie
         }
-        if (transform.position.x > Player.transform.position.x)
+        if (transform.position.x > player.transform.position.x)
         {
             Velocity.x -= 1;
         }
-        if (transform.position.y < Player.transform.position.y)
+        if (transform.position.y < player.transform.position.y)
         {
             Velocity.y += 1;
         }
-        if (transform.position.y > Player.transform.position.y)
+        if (transform.position.y > player.transform.position.y)
         {
             Velocity.y -= 1;
         }
@@ -50,9 +48,13 @@ public class Zombie : Entity
             Direction = -1;
         rb.velocity = Velocity;
 
-        LookTarget = Player.transform.position;
+        LookTarget = player.transform.position;
         CharacterAnimator.PerformUpdate();
 
         LastDirection = Direction;
+    }
+    public override void OnDeath()
+    {
+        Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
     }
 }

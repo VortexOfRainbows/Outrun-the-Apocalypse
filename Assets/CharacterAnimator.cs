@@ -17,7 +17,7 @@ public class CharacterAnimator : MonoBehaviour
     private static Vector2 EyeRelativePosition = new Vector2(2, 5);
     private static Vector2 ShadowRelativePosition = new Vector2(0.5f, 5.5f);
     [SerializeField]
-    public Entity Entity;
+    public EntityWithCharDrawing Entity;
     [SerializeField]
     public HeldItem LeftItem;
     [SerializeField]

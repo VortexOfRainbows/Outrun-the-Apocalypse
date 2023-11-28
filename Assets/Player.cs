@@ -10,7 +10,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UIElements;
 
-public class Player : Entity
+public class Player : EntityWithCharDrawing
 {
     [SerializeField]
     private CharacterAnimator CharacterAnimator;
@@ -82,6 +82,12 @@ public class Player : Entity
                 Destroy(gameObject);
             }
         }
+    }
+    public override void SetStats()
+    {
+        MaxLife = 100;
+        Life = 100;
+        Friendly = true;
     }
     void Update()
     {

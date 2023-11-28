@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &778040170
+--- !u!1001 &738402616
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -180,11 +180,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
---- !u!20 &778040171 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8017141364135882468, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
-  m_PrefabInstance: {fileID: 778040170}
+--- !u!114 &915595865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2531231414762500740, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
+  m_PrefabInstance: {fileID: 2037149070155824007}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &953537331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,7 +242,11 @@ PrefabInstance:
     - target: {fileID: 4569239222938944268, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: MainCamera
       value: 
-      objectReference: {fileID: 778040171}
+      objectReference: {fileID: 1689114080}
+    - target: {fileID: 4580503390578427558, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6149223335012024283, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: m_Name
       value: Player
@@ -246,11 +256,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
---- !u!1 &1161711958 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6149223335012024283, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
-  m_PrefabInstance: {fileID: 953537331}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1202582050
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +329,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 7.5, y: 7.5, z: 0}
   m_MaxChunkCount: 16
@@ -98679,6 +98684,16 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1599973027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1817893066652668590, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
+  m_PrefabInstance: {fileID: 2037149070155824007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1689114080 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8017141364135882468, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
+  m_PrefabInstance: {fileID: 738402616}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1898953229
 GameObject:
   m_ObjectHideFlags: 0
@@ -98732,22 +98747,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1066590302140591372, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105900635170709569, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1443770121, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
-    - target: {fileID: 1624149118826862694, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -818098443, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
     - target: {fileID: 2767525435448574298, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: Player
+      propertyPath: HealthUI
       value: 
-      objectReference: {fileID: 1161711958}
+      objectReference: {fileID: 1599973027}
+    - target: {fileID: 2767525435448574298, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
+      propertyPath: HealthBar
+      value: 
+      objectReference: {fileID: 915595865}
     - target: {fileID: 3418515227116727446, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -40.9
@@ -98788,30 +98795,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5012832722514168523, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -62490439, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
     - target: {fileID: 5618483985035375901, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
-    - target: {fileID: 6652303407934626868, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7736142762989166625, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1887438369, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
-    - target: {fileID: 7895275563156332886, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1794451381, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
-    - target: {fileID: 8805808176332060489, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1179234484, guid: 31cbb2310c3959146b4691e80d2daab0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -98821,7 +98808,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 778040170}
+  - {fileID: 738402616}
   - {fileID: 953537331}
   - {fileID: 2037149070155824007}
   - {fileID: 1898953231}

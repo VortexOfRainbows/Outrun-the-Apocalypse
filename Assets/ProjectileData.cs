@@ -5,39 +5,6 @@ using UnityEngine;
 public abstract class ProjectileData
 {
     /// <summary>
-    /// the following fields are all public because they should be modifiable by other places in specific cases
-    /// For example, certain enemies may have effects that lower the damage of bullets
-    /// Some enemies may be able to multiple the size of other enemy bullets
-    /// Etc.
-    /// 
-    /// Some enemies may decrease the lifetime of your own projectiles (decreasing their range), when they pierce (slimes, for example, might do that)
-    /// </summary>
-    public float Width; //These values determines the size of the projectile (hitbox)
-    public float Height; //^^^^^
-    public int Damage;
-    public int Lifetime;
-    public float[] AI; //These values can be used as general, all-purpose data storage for projectiles that desire unique update functionality. Though you can also designate your own variables too.
-    public Vector2 Size
-    {
-        get
-        {
-            return new Vector2(Width, Height);
-        }
-        set 
-        { 
-            Width = value.x;
-            Height = value.y;
-        }
-    }
-    public ProjectileData()
-    {
-        Size = new Vector2(32, 32);
-        Lifetime = 3600;
-        Damage = 0;
-        AI = new float[] { 0f, 0f, 0f, 0f };
-        SetStats();
-    }
-    /// <summary>
     /// Instantiates a new projectile with the projectile data assigned. The projectile data is stored as a reference, so make sure to call *new ("projectiletype")*
     /// If you use the same reference for multiple instantiates, they will share the same projectile data (which I guess could be vaguely useful, but mostly should be avoided)
     /// </summary>
@@ -61,15 +28,66 @@ public abstract class ProjectileData
         projectileData.FinalSetStatsAfterSpawning(projectileObj);
         return projectileObj;
     }
+    /// <summary>
+    /// the following fields are all public because they should be modifiable by other places in specific cases
+    /// For example, certain enemies may have effects that lower the damage of bullets
+    /// Some enemies may be able to multiple the size of other enemy bullets
+    /// Etc.
+    /// 
+    /// Some enemies may decrease the lifetime of your own projectiles (decreasing their range), when they pierce (slimes, for example, might do that)
+    /// </summary>
+    public float Width; //These values determines the size of the projectile (hitbox)
+    public float Height; //^^^^^
+    public int Damage;
+    public int Lifetime;
+    public float[] AI; //These values can be used as general, all-purpose data storage for projectiles that desire unique update functionality. Though you can also designate your own variables too.
+    public bool Hostile; //Whether or not this projectile should hurt friendly entities
+    public bool Friendly; //Whether or not this projectile should hurt hostile entities
+    public int Pierce; //can this projectile travel through enemies? How many time? Set to -1 in order to grant infinite pierce
+    public Vector2 Size
+    {
+        get
+        {
+            return new Vector2(Width, Height);
+        }
+        set 
+        { 
+            Width = value.x;
+            Height = value.y;
+        }
+    }
+    public ProjectileData()
+    {
+        Pierce = 1;
+        Size = new Vector2(32, 32);
+        Lifetime = 3600;
+        Damage = 0;
+        AI = new float[] { 0f, 0f, 0f, 0f };
+        Friendly = Hostile = false;
+        SetStats();
+    }
     public void Update(ProjectileObject obj)
     {
         OnUpdate(obj);
         Lifetime--;
         if(Lifetime < 0)
         {
-            OnDeath(obj);
-            GameObject.Destroy(obj.gameObject);
+            Death(obj);
         }
+    }
+    public void OnHit(ProjectileObject obj, GameObject target)
+    {
+        Pierce--;
+        OnHitTarget(obj, target);
+        if(Pierce == 0)
+        {
+            Death(obj);
+        }
+    }
+    private void Death(ProjectileObject obj)
+    {
+        OnDeath(obj);
+        GameObject.Destroy(obj.gameObject);
     }
     public virtual Sprite sprite => SpriteLib.Library.GetSprite("Projectile", SpriteName);
     public virtual string SpriteName { get; }
@@ -123,6 +141,16 @@ public abstract class ProjectileData
     /// </summary>
     /// <param name="Renderer"></param>
     public virtual void UpdateRenderer(ref SpriteRenderer Renderer)
+    {
+
+    }
+    /// <summary>
+    /// Called after hitting an enemy/player
+    /// use this to give additional effects (besides damage) when a target is hit
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="target"></param>
+    public virtual void OnHitTarget(ProjectileObject obj, GameObject target)
     {
 
     }

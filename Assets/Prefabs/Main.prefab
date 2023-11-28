@@ -48,6 +48,8 @@ MonoBehaviour:
     items:
     - _string: projectile
       _gameObject: {fileID: 5674819811888432618, guid: 57042053b3528bb4a8ea750b09de35ff, type: 3}
+    - _string: coin
+      _gameObject: {fileID: 8891870082688169584, guid: 04e24a8ff9b02de4f8cf4a265153292c, type: 3}
 --- !u!1 &2575733483676270995
 GameObject:
   m_ObjectHideFlags: 0
