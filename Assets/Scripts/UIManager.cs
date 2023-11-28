@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static bool GameEnd => instance._GameOver;
     // Start is called before the first frame update
     public GameObject InGameUI;
     public GameObject GameOverUI;
+    private bool _GameOver = false;
     public static UIManager instance;
     private void Start()
     {
@@ -29,12 +31,14 @@ public class UIManager : MonoBehaviour
         GameOverUI.SetActive(false);
     }
     public void GameOver() 
-    { 
+    {
+        _GameOver = true;
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
     }
     public void PlayGame()
     {
+        _GameOver = false;
         InGameUI.SetActive(true);
         GameOverUI.SetActive(false);
     }

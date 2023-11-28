@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 
 public class Player : EntityWithCharDrawing
 {
+    public bool Dead => UIManager.GameEnd;
     [SerializeField]
     private CharacterAnimator CharacterAnimator;
     [SerializeField]
@@ -120,8 +121,11 @@ public class Player : EntityWithCharDrawing
         
         Velocity = v;
         Physics();
-        ControlUpdate();
-        ItemUpdate();
+        if(!Dead)
+        {
+            ControlUpdate();
+            ItemUpdate();
+        }
         FinalUpdate();
         v = Velocity;
         PrevVelocity = v;
