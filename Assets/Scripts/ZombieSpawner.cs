@@ -17,7 +17,7 @@ public class ZombieSpawner : MonoBehaviour
     {
         nextSpawnTime = Random.Range(spawnMinTime, spawnMaxTime) * Second;
     }
-    private const float spawnRange = 480; //16 units in a tile = 30 blocks radius
+    private const float spawnRange = 320; //16 units in a tile = 20 blocks radius
     private void FixedUpdate()
     {
         if ((Player.MainPlayer.Position - (Vector2)transform.position).magnitude < spawnRange)

@@ -1,12 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    void Update()
+    [SerializeField] SpriteRenderer Renderer;
+    public const float DespawnTime = 600;
+    public float DespawnCounter; //-1 means never will despawn. 0 means it will take 600 more ticks to despawn. 200 = 400 to despawn. etc
+    private void Awake()
     {
-        //transform.position += new Vector3(-5f * Time.deltaTime, 0f, 0f);
+        DespawnCounter = -1;
+    }
+    void FixedUpdate()
+    {
+        if (DespawnCounter >= 0)
+        {
+            Renderer.color = Color.white * Mathf.Sqrt(1 - DespawnCounter / DespawnTime);
+            DespawnCounter++;
+            if (DespawnCounter >= DespawnTime)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

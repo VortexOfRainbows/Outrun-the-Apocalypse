@@ -10,8 +10,12 @@ public class Zombie : EntityWithCharDrawing
     private GameObject player;
     public override int LayerDefaultPosition => -20;
     public override float ArmDegreesOffset => 90;
+    public Vector2 DrunkVelocity; //A random velocity offset that is constantly added to the zombie in order to tilt it
+    public bool FollowDirect; //Whether the zombies follows directly, or follows with a square pattern
     public override void SetStats()
     {
+        FollowDirect = Random.Range(0.0f, 1.0f) < 0.5;
+        DrunkVelocity = new Vector2(0.1f, 0.0f).RotatedBy(Random.Range(0, Mathf.PI * 2));
         MaxLife = 18;
         Life = 18;
         ContactDamage = 15;
@@ -26,22 +30,31 @@ public class Zombie : EntityWithCharDrawing
         if (RightHeldItem == null)
             RightHeldItem = new NoItem();
         Velocity *= 0.1f; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
-        if (transform.position.x < player.transform.position.x)
+        if(FollowDirect)
         {
-            Velocity.x += 1; //Increase velocity by 1 to the right, since the player is right of the zombie
+            Vector2 toPlayer = player.transform.position - transform.position;
+            Velocity += toPlayer.normalized;
         }
-        if (transform.position.x > player.transform.position.x)
+        else
         {
-            Velocity.x -= 1;
+            if (transform.position.x < player.transform.position.x)
+            {
+                Velocity.x += 1; //Increase velocity by 1 to the right, since the player is right of the zombie
+            }
+            if (transform.position.x > player.transform.position.x)
+            {
+                Velocity.x -= 1;
+            }
+            if (transform.position.y < player.transform.position.y)
+            {
+                Velocity.y += 1;
+            }
+            if (transform.position.y > player.transform.position.y)
+            {
+                Velocity.y -= 1;
+            }
         }
-        if (transform.position.y < player.transform.position.y)
-        {
-            Velocity.y += 1;
-        }
-        if (transform.position.y > player.transform.position.y)
-        {
-            Velocity.y -= 1;
-        }
+        Velocity += DrunkVelocity;
         Velocity *= EnemyScalingFactor;
         if (Velocity.x > 0)
             Direction = 1;
@@ -57,6 +70,7 @@ public class Zombie : EntityWithCharDrawing
     public override void OnDeath()
     {
         AudioManager.instance.Play("ZombieDeath");
-        Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
+        GameObject coiny = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
+        coiny.GetComponent<Coin>().DespawnCounter = 0;
     }
 }

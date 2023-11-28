@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
-    public static float EnemyScalingFactor => 1 + CoinCounter.instance.CoinCount / 60f; //Increases the difficulty of enemies as you gather more coins
+    public static float EnemyScalingFactor => 1 + CoinCounter.instance.CoinCount / 100f; //Increases the difficulty of enemies as you gather more coins
     [SerializeField] protected GameObject HealthUI;
     [SerializeField] private Image HealthBar;
     //These field are public because they often need to be accessed by the character animator
