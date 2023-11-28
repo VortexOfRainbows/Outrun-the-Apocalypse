@@ -8,20 +8,26 @@ public class characterState : MonoBehaviour
 
     public GameObject character;
     public GameStateManager GameStateManager;
+    public UIManager UIManager;
     public int health;
+    public int maxhealth;
 
     void Start()
     {
-        
+        UIManager.PlayGame();
+        health = maxhealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (health <= 0) 
+        if (health <= 0)
         {
-            Destroy(gameObject);
-            GameStateManager.GameOver();
+            //Destroy(gameObject);
+            UIManager.GameOver();
+        }
+        else {
+            UIManager.PlayGame();
         }
     }
 }
