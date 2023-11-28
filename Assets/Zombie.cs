@@ -56,6 +56,7 @@ public class Zombie : EntityWithCharDrawing
     }
     public override void OnDeath()
     {
+        AudioManager.instance.Play("ZombieDeath");
         Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
     }
 }
