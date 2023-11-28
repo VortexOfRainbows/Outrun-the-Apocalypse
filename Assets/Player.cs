@@ -112,9 +112,9 @@ public class Player : EntityWithCharDrawing
     {
         //this.HealthUI.SetActive(true);
         if (LeftHeldItem == null)
-            LeftHeldItem = new FarmerGun();
+            LeftHeldItem = new NoItem();
         if (RightHeldItem == null)
-            RightHeldItem = new FarmerGun();
+            RightHeldItem = new NoItem();
         //This should be moved somewhere where it would make more sense
         Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
         
@@ -313,6 +313,21 @@ public class Player : EntityWithCharDrawing
         {
             if (LastControl.RightClick)
                 Control.RightClick = false;
+        }
+    }
+    public void AddItemToInventory(ItemData item)
+    {
+        if(LeftHeldItem is NoItem)
+        {
+            LeftHeldItem = item;
+        }
+        else if(RightHeldItem is NoItem)
+        {
+            RightHeldItem = item;
+        }
+        else
+        {
+            //This is where the code for adding it to the rest of inventory would be
         }
     }
 }

@@ -771,10 +771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7fdff12f6a6294283e55e21c2fd210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  prefab: {fileID: 0}
-  itemSlot: {fileID: 0}
-  weaponCount: 0
 --- !u!1 &4921610623341187291
 GameObject:
   m_ObjectHideFlags: 0
