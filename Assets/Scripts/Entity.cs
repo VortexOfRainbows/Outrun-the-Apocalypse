@@ -21,6 +21,9 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] public float Life;
     [SerializeField] public float MaxLife;
 
+    public const int TimeToDespawn = 600;
+    protected int DespawnRange;
+    private int Despawn;
     protected int DefaultImmunityOnHit;
     //Contact damage may be changed elsewhere, such as through environmental buffs, thus it is public. Immunity might be triggered by certain projectiles, thus it is also public
     public float ContactDamage;
@@ -28,10 +31,13 @@ public abstract class Entity : MonoBehaviour
     public bool Immune => ImmunityFrames > 0;
     private void Start()
     {
+        DespawnRange = 480; //480 is 16 pixels * 30 tiles away, some enemies may have differeing ranges
+        Despawn = TimeToDespawn; //600 is the time to despawn
         ContactDamage = DefaultImmunityOnHit = ImmunityFrames = 0;
         Friendly = false;
         MaxLife = 10;
         Life = MaxLife;
+        ImmunityFrames = 30;
         SetStats();
     }
     private void Update()
@@ -51,6 +57,20 @@ public abstract class Entity : MonoBehaviour
         {
             ImmunityFrames--;
         }
+        if (!(this is Player))
+        {
+            if ((Player.MainPlayer.Position - (Vector2)transform.position).magnitude > DespawnRange)
+            {
+                Despawn--;
+            }
+            else
+                Despawn++;
+            Despawn = Mathf.Clamp(Despawn, 0, TimeToDespawn);
+            if(Despawn <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -67,6 +87,14 @@ public abstract class Entity : MonoBehaviour
                     Hurt(projectileObject.Projectile.Damage, ImmunityFramesToTriggerOnDefault);
                 }
             }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        GameObject collider = collision.gameObject;
+        if (collider.tag == "Water")
+        {
+            rb.velocity *= 0.8f;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -90,6 +118,7 @@ public abstract class Entity : MonoBehaviour
     /// <param name="damage"></param>
     public void Hurt(float damage, int setImmuneFrames) //This method is public as there may be some situations where damage should be done through other classes
     {
+        DamageTextBehavior.SpawnDamageText(Mathf.CeilToInt(damage), transform.position + new Vector3(0, 12)); //Should spawn twelve pixels above center hit
         Life -= damage;
         if(Life <= 0)
         {

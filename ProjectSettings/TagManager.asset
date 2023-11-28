@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Projectile
   - NPC
+  - Water
   layers:
   - Default
   - TransparentFX
