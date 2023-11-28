@@ -13,7 +13,7 @@ public class healthBar : MonoBehaviour
 
     public void SetMaxHealth()
     {
-        healthSlider.maxValue = characterState.health; 
+        healthSlider.maxValue = characterState.maxhealth; 
         healthSlider.value = characterState.health;
     
     }
