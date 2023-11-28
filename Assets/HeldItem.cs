@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.U2D.Animation;
 
 public class HeldItem : MonoBehaviour
 {

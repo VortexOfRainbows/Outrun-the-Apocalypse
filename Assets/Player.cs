@@ -1,14 +1,5 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.U2D.Animation;
-using UnityEngine.UIElements;
 
 public class Player : EntityWithCharDrawing
 {

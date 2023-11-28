@@ -5,7 +5,6 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CharacterAnimator : MonoBehaviour
 {
