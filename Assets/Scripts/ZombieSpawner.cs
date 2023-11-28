@@ -27,7 +27,7 @@ public class ZombieSpawner : MonoBehaviour
                 Instantiate(prefab, new Vector2(transform.position.x, transform.position.y), new Quaternion());
                 nextSpawnTime = Random.Range(spawnMinTime, spawnMaxTime) * Second; // Redefines and reandomizes the next spawn time
             }
-            nextSpawnTime--;
+            nextSpawnTime -= Entity.EnemyScalingFactor;
         }
         else
             nextSpawnTime -= 0.1f; //Spawn speed is reduced to 1/10 if outside range

@@ -12,8 +12,8 @@ public class Zombie : EntityWithCharDrawing
     public override float ArmDegreesOffset => 90;
     public override void SetStats()
     {
-        MaxLife = 25;
-        Life = 25;
+        MaxLife = 18;
+        Life = 18;
         ContactDamage = 15;
         Friendly = false;
     }
@@ -42,7 +42,7 @@ public class Zombie : EntityWithCharDrawing
         {
             Velocity.y -= 1;
         }
-
+        Velocity *= EnemyScalingFactor;
         if (Velocity.x > 0)
             Direction = 1;
         else

@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
+    public static float EnemyScalingFactor => 1 + CoinCounter.instance.CoinCount / 60f; //Increases the difficulty of enemies as you gather more coins
     [SerializeField] protected GameObject HealthUI;
     [SerializeField] private Image HealthBar;
     //These field are public because they often need to be accessed by the character animator
@@ -36,9 +38,11 @@ public abstract class Entity : MonoBehaviour
         ContactDamage = DefaultImmunityOnHit = ImmunityFrames = 0;
         Friendly = false;
         MaxLife = 10;
-        Life = MaxLife;
         ImmunityFrames = 30;
         SetStats();
+        MaxLife *= EnemyScalingFactor;
+        ContactDamage *= EnemyScalingFactor;
+        Life = MaxLife;
     }
     private void Update()
     {
@@ -78,7 +82,7 @@ public abstract class Entity : MonoBehaviour
         if(collider.tag == "Projectile")
         {
             ProjectileObject projectileObject = collider.GetComponent<ProjectileObject>();
-            if (projectileObject != null && !Immune)
+            if (projectileObject != null && !Immune && projectileObject.Projectile.Pierce > 0)
             {
                 if ((Friendly && projectileObject.Projectile.Hostile) || (Hostile && projectileObject.Projectile.Friendly))
                 {
