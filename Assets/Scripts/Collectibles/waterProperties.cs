@@ -10,7 +10,7 @@ public class waterProperties : MonoBehaviour
     
     private void OnTriggerStayt2D(Collider2D collision)
     {
-        player.Velocity = Vector3.zero;
+        //player.
     }
 
 }

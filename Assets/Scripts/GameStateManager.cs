@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
 
     public void PlayGame() 
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
 
     }
 
