@@ -17,7 +17,7 @@ public abstract class Entity : MonoBehaviour
     public virtual int LayerDefaultPosition => 0;
     public Vector2 LookTarget;
 
-    public bool Friendly;
+    public bool Friendly = true;
     public bool Hostile => !Friendly;
 
     [SerializeField] public float Life;

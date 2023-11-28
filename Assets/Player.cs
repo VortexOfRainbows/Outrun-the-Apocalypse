@@ -331,7 +331,18 @@ public class Player : EntityWithCharDrawing
         }
         else
         {
-            //This is where the code for adding it to the rest of inventory would be
+            if(item is MortarCannon) //This is a temporary fix for a lack of inventory space. Mortar will repalce main guns
+            {
+                if (LeftHeldItem is not MortarCannon)
+                {
+                    LeftHeldItem = item;
+                }
+                else if (RightHeldItem is not MortarCannon)
+                {
+                    RightHeldItem = item;
+                }
+            }
+            //This is where items should be brought into the inventory
         }
     }
 }

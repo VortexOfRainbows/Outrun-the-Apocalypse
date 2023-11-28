@@ -2587,11 +2587,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3497287180800829893, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.7
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3497287180800829893, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.6
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 3497287180800829893, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2672,33 +2672,33 @@ PrefabInstance:
       value: SpriteLibrary
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.data[1].m_Name
-      value: Projectile
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[1].m_CategoryList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[0].m_Name
-      value: BeastShot
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[1].m_Name
+      value: MortarCannon
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[1].m_Name
-      value: Bullet
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[2].m_Name
+      value: None
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[0].m_Sprite
+      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[2].m_Name
+      value: MortarShell
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[1].m_Sprite
       value: 
-      objectReference: {fileID: -1942091547, guid: 33f1de57e54b81443a540a230cb4b5fa, type: 3}
+      objectReference: {fileID: 21300000, guid: 9603df626c8ad1447bb676acf149b9e6, type: 3}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
-      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[1].m_Sprite
+      propertyPath: m_Library.Array.data[1].m_CategoryList.Array.data[2].m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5eef50c23ecabf74c8dd927030fffeaa, type: 3}
+      objectReference: {fileID: 21300000, guid: d7a6b300ab19b4f47b11d548ab2874e3, type: 3}
     - target: {fileID: 5342157364069492831, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2988,11 +2988,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7224102272139834536, guid: 137193aa0f827d54887f8df44e281c34, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.9
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7224102272139834536, guid: 137193aa0f827d54887f8df44e281c34, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 7224102272139834536, guid: 137193aa0f827d54887f8df44e281c34, type: 3}
       propertyPath: m_LocalPosition.z

@@ -15,7 +15,7 @@ public class Zombie : EntityWithCharDrawing
     public override void SetStats()
     {
         FollowDirect = Random.Range(0.0f, 1.0f) < 0.5;
-        DrunkVelocity = new Vector2(0.1f, 0.0f).RotatedBy(Random.Range(0, Mathf.PI * 2));
+        DrunkVelocity = new Vector2(0.3f, 0.0f).RotatedBy(Random.Range(0, Mathf.PI * 2));
         MaxLife = 18;
         Life = 18;
         ContactDamage = 15;
