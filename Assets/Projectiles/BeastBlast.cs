@@ -10,6 +10,7 @@ public class Bullet : ProjectileData
         Size = new Vector2(40, 1); //Size of the hitbox in pixels
         Lifetime = 60;
         Friendly = true;
+        AudioManager.instance.Play("Shoot");
     }
     public override void ModifyRenderer(ref SpriteRenderer Renderer)
     {

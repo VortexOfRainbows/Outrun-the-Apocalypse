@@ -14,7 +14,7 @@ public class coin : MonoBehaviour
 
     private void Start()
     {
-
+        AudioManager.instance.Play("CoinDrop");
     }
     void Update()
     {
@@ -27,6 +27,7 @@ public class coin : MonoBehaviour
         {
             Destroy(gameObject);
             coinCounter.instance.increaseCoins();
+            AudioManager.instance.Play("CoinPickup");
         }
     }
 }
