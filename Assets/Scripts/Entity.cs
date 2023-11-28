@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
-    [SerializeField] private GameObject HealthUI;
+    [SerializeField] protected GameObject HealthUI;
     [SerializeField] private Image HealthBar;
     //These field are public because they often need to be accessed by the character animator
     [SerializeField] public Rigidbody2D rb;
@@ -36,7 +36,8 @@ public abstract class Entity : MonoBehaviour
     }
     private void Update()
     {
-        if(HealthBar != null && HealthUI != null)
+        OnUpdate();
+        if (HealthBar != null && HealthUI != null)
         {
             if (HealthBar.fillAmount != 1)
                 HealthUI.SetActive(true);
@@ -99,7 +100,20 @@ public abstract class Entity : MonoBehaviour
     private void Death()
     {
         OnDeath();
-        Destroy(this.gameObject);
+        if (this is Player) 
+        {
+            UIManager.instance.GameOver();
+        }
+        else
+            Destroy(this.gameObject);
+    }
+    /// <summary>
+    /// For entities, avoid running the normal update method as it might override entity functiosn
+    /// use this method instead, as it runs after the normal entity methods
+    /// </summary>
+    public virtual void OnUpdate()
+    {
+
     }
     /// <summary>
     /// For entities, avoid running the normal fixed update method as it might override entity functiosn

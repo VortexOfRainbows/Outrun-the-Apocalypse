@@ -8,19 +8,18 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     public GameObject InGameUI;
     public GameObject GameOverUI;
-    private static UIManager _instance;
-
+    public static UIManager instance;
     private void Start()
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
 
-            DontDestroyOnLoad(_instance);
+            DontDestroyOnLoad(instance);
         }
         else
         {
-            if (_instance != this)
+            if (instance != this)
             {
                 Destroy(gameObject);
             }
@@ -34,11 +33,9 @@ public class UIManager : MonoBehaviour
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
     }
-
     public void PlayGame()
     {
         InGameUI.SetActive(true);
         GameOverUI.SetActive(false);
     }
-
 }

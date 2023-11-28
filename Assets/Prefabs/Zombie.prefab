@@ -119,6 +119,10 @@ MonoBehaviour:
   Velocity: {x: 0, y: 0}
   LookTarget: {x: 0, y: 0}
   Friendly: 0
+  Life: 0
+  MaxLife: 0
+  ContactDamage: 0
+  ImmunityFrames: 0
   CharacterAnimator: {fileID: 8207784639512121236}
 --- !u!1001 &1081384282019629536
 PrefabInstance:

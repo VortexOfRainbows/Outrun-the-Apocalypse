@@ -47,12 +47,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66f218f94ead314bbf27f810e82179a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthUI: {fileID: 0}
+  HealthBar: {fileID: 0}
   rb: {fileID: 4580503390578427558}
   Direction: 0
   LastDirection: 0
   PrevVelocity: {x: 0, y: 0}
   Velocity: {x: 0, y: 0}
   LookTarget: {x: 0, y: 0}
+  Friendly: 0
+  Life: 0
+  MaxLife: 0
+  ContactDamage: 0
+  ImmunityFrames: 0
   CharacterAnimator: {fileID: 4305411011562408092}
   MainCamera: {fileID: 0}
   Collider2D: {fileID: 6487987689985946999}

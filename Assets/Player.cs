@@ -90,7 +90,7 @@ public class Player : EntityWithCharDrawing
         DefaultImmunityOnHit = 30;
         Friendly = true;
     }
-    void Update()
+    public override void OnUpdate()
     {
         if (MainPlayer == null)
         {
@@ -104,10 +104,13 @@ public class Player : EntityWithCharDrawing
                 Destroy(gameObject);
             }
         }
-        RegisterControls(); 
+        RegisterControls();
+        if (Life > 0)
+            UIManager.instance.PlayGame();
     }
     public override void OnFixedUpdate()
     {
+        //this.HealthUI.SetActive(true);
         if (LeftHeldItem == null)
             LeftHeldItem = new FarmerGun();
         if (RightHeldItem == null)
