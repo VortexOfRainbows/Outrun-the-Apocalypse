@@ -27,8 +27,9 @@ public abstract class Entity : MonoBehaviour
     protected int DefaultImmunityOnHit;
     //Contact damage may be changed elsewhere, such as through environmental buffs, thus it is public. Immunity might be triggered by certain projectiles, thus it is also public
     public float ContactDamage;
-    public int ImmunityFrames;
-    public bool Immune => ImmunityFrames > 0;
+    public int ImmunityFrames = 30;
+    public bool JustSpawnedIn = true;
+    public bool Immune => ImmunityFrames > 0 || JustSpawnedIn;
     private void Start()
     {
         DespawnRange = 480; //480 is 16 pixels * 30 tiles away, some enemies may have differeing ranges
@@ -41,6 +42,7 @@ public abstract class Entity : MonoBehaviour
         MaxLife *= EnemyScalingFactor;
         ContactDamage *= EnemyScalingFactor;
         Life = MaxLife;
+        JustSpawnedIn = false;
     }
     private void Update()
     {
