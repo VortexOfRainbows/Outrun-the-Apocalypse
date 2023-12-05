@@ -30,6 +30,13 @@ public class UIManager : MonoBehaviour
         InGameUI.SetActive(false);
         GameOverUI.SetActive(false);
     }
+    public void Update()
+    {
+        if (instance == null || instance != this)
+        {
+            instance = this;
+        }
+    }
     public void GameOver() 
     {
         _GameOver = true;

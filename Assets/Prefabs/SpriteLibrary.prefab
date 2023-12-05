@@ -67,6 +67,9 @@ MonoBehaviour:
     - m_Name: PotatoGun
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 358df828d238a364eb8a44899fe4f7da, type: 3}
+    - m_Name: Wheel
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 00d5c04af2ecf6b43ba1c9470d9fefd8, type: 3}
   - m_Name: Projectile
     m_Hash: 0
     m_CategoryList:

@@ -211,14 +211,20 @@ public class Player : EntityWithCharDrawing
         {
             if (!LastControl.LeftClick || LeftHeldItem.HoldClick)
             {
-                LeftHeldItem.UseItem(this, CharacterAnimator.LeftItem);
+                if(LeftHeldItem.UseItem(this, CharacterAnimator.LeftItem))
+                {
+                    Inventory.Slot[LeftHandSlotNum].UpdateItem(new NoItem());
+                }
             }
         }
         if (Control.RightClick)
         {
             if (!LastControl.RightClick || RightHeldItem.HoldClick)
             {
-                RightHeldItem.UseItem(this, CharacterAnimator.RightItem);
+                if (RightHeldItem.UseItem(this, CharacterAnimator.RightItem))
+                {
+                    Inventory.Slot[RightHandSlotNum].UpdateItem(new NoItem());
+                }
             }
         }
     }

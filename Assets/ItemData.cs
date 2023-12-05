@@ -3,6 +3,11 @@ using UnityEngine;
 
 public abstract class ItemData
 {
+    public static void DropItem(ItemData itemData)
+    {
+        Vector2 toMouse = Utils.MouseWorld() - Player.MainPlayer.Position;
+        NewItem(itemData, Player.MainPlayer.Position, toMouse.normalized * 8.5f);
+    }
     public static GameObject NewItem(ItemData itemData, Vector2 position, Vector2 velocity)
     {
         GameObject itemObj = GameObject.Instantiate(PrefabManager.GetPrefab("item"));
@@ -38,6 +43,7 @@ public abstract class ItemData
         SetStats();
     }
     public Vector2 LocalPosition;
+    public virtual bool ConsumeAfterUsing => false;
     public bool CanUse()
     {
         return CanUseItem() && CurrentCooldown <= 0;
@@ -54,10 +60,18 @@ public abstract class ItemData
             CurrentCooldown--;
         }
     }
-    public void UseItem(Player player, HeldItem heldItem)
+    /// <summary>
+    /// Performs all the item related use actions
+    /// Returns true if the item should be consumed after being used
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="player"></param>
+    /// <param name="heldItem"></param>
+    /// <returns></returns>
+    public bool UseItem(Player player, HeldItem heldItem)
     {
         //Debug.Log(this + " " + "item used");
-        if (CanUse())
+        if (this.CanUse())
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
             Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.eulerAngles.z * Mathf.Deg2Rad);
@@ -69,16 +83,18 @@ public abstract class ItemData
             barrelOffset.y *= flippage;
             shootingPosition += barrelOffset.RotatedBy(ToMouse.ToRotation());
 
-            Vector2 shootVelocity = ToMouse.normalized * ShotVelocity;
-            int shootDamage = Damage;
-            OnUseItem();
-            bool UseDefaultShoot = Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
+            Vector2 shootVelocity = ToMouse.normalized * this.ShotVelocity;
+            int shootDamage = this.Damage;
+            this.OnUseItem();
+            bool UseDefaultShoot = this.Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
             if(UseDefaultShoot)
             {
-                FireProjectileTowardsCursor(ShootType, shootingPosition, shootVelocity, shootDamage);
+                FireProjectileTowardsCursor(this.ShootType, shootingPosition, shootVelocity, shootDamage);
             }
-            CurrentCooldown = UseCooldown;
+            this.CurrentCooldown = this.UseCooldown;
+            return this.ConsumeAfterUsing;
         }
+        return false;
     }
     /// <summary>
     /// Fetches the sprite of the item. Only override this for specific purposes, such as when you want an item to be capable of having different sprites depending on the situation
@@ -124,7 +140,7 @@ public abstract class ItemData
     /// <returns></returns>
     public virtual void OnUseItem()
     {
-
+        
     }
     public virtual ProjectileData ShootType => new Bullet();
     /// <summary>
@@ -166,7 +182,7 @@ public abstract class ItemData
 
     }
     /// <summary>
-    /// The factor at which the item slows down when in world
+    /// The factor at which the item slows down when in world. Defaults to 0.94f
     /// </summary>
     public virtual float DeaccelerationRate => 0.94f;
     public void Update(DroppedItem obj)

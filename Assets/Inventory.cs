@@ -29,8 +29,8 @@ public class Inventory : MonoBehaviour
     {
         if(!SlotEmpty(CursorSlot))
         {
-            Vector2 toMouse = Utils.MouseWorld() - Player.MainPlayer.Position;
-            ItemData.NewItem(CursorSlot.Item, Player.MainPlayer.Position, toMouse.normalized * 8.5f);
+            ItemData drop = CursorSlot.Item;
+            ItemData.DropItem(drop);
             CursorSlot.UpdateItem(new NoItem());
         }
     }
