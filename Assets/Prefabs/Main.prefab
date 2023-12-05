@@ -512,6 +512,8 @@ MonoBehaviour:
       _gameObject: {fileID: 8891870082688169584, guid: 04e24a8ff9b02de4f8cf4a265153292c, type: 3}
     - _string: damageText
       _gameObject: {fileID: 6154566563577682251, guid: 06ce33bcee9a3b14ea1f7d5385457751, type: 3}
+    - _string: item
+      _gameObject: {fileID: 5608224365155138006, guid: 04d2f5706d9dcbd45ac0e020bb0645ce, type: 3}
 --- !u!1 &2575733483676270995
 GameObject:
   m_ObjectHideFlags: 0

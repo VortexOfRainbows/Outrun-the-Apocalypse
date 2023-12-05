@@ -16,6 +16,7 @@ public class FarmerGun : ItemData
     {
         Damage = 5;
         ShotVelocity = 12.5f;
+        Size = new Vector2(17, 8);
     }
     public override string SpriteName => "FarmerGun";
     public override Vector2 HandOffset => new Vector2(1.5f, -4.5f);
