@@ -60,12 +60,14 @@ MonoBehaviour:
   MaxLife: 0
   ContactDamage: 0
   ImmunityFrames: 0
+  JustSpawnedIn: 1
   CharacterAnimator: {fileID: 4305411011562408092}
   MainCamera: {fileID: 0}
   Collider2D: {fileID: 6487987689985946999}
   LastPosition: {x: 0, y: 0}
   MaxMoveSpeed: 5
   RotationOffset: 0
+  Inventory: {fileID: 0}
 --- !u!50 &4580503390578427558
 Rigidbody2D:
   serializedVersion: 4
