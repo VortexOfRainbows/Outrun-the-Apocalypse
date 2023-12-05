@@ -7,11 +7,12 @@ TagManager:
   - Projectile
   - NPC
   - Water
+  - UI
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Tiles
   - Water
   - UI
   - 

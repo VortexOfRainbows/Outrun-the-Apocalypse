@@ -19,11 +19,11 @@ public class Player : EntityWithCharDrawing
         public bool Right;
         public bool Up;
         public bool Down;
-        public bool Jump;
+        public bool SwapItem;
         public bool Shift;
         public ControlDown(bool defaultState = false)
         {
-            LeftClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
+            LeftClick = DashTap = Left = Right = Up = Down = SwapItem = Shift = defaultState;
             RightClick = defaultState;
         }
     }
@@ -119,13 +119,14 @@ public class Player : EntityWithCharDrawing
             InventoryUpdate();
             ItemUpdate();
         }
-        FinalUpdate();
         v = Velocity;
         PrevVelocity = v;
         LastDirection = Direction;
         LastPosition = Position;
 
         MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.06f);
+        Inventory.PerformUpdate(); //Anything reliant on the Player Control system should be called before the previous controls are updated.
+        AssignPreviousControls();
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
@@ -221,7 +222,7 @@ public class Player : EntityWithCharDrawing
             }
         }
     }
-    public void FinalUpdate()
+    public void AssignPreviousControls()
     {
         LastControl = Control;
     }
@@ -259,7 +260,7 @@ public class Player : EntityWithCharDrawing
         else if (LastControl.Down)
             Control.Down = false;
 
-        UpdateKey(Input.GetKey(KeyCode.Space), LastControl.Jump, ref Control.Jump);
+        UpdateKey(Input.GetKey(KeyCode.Space), LastControl.SwapItem, ref Control.SwapItem);
         UpdateKey(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift), LastControl.Shift, ref Control.Shift);
         UpdateKey(Input.GetMouseButton(0), LastControl.LeftClick, ref Control.LeftClick);
         UpdateKey(Input.GetMouseButton(1), LastControl.RightClick, ref Control.RightClick);

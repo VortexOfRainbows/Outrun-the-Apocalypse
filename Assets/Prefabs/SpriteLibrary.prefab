@@ -52,6 +52,9 @@ MonoBehaviour:
     - m_Name: FarmerGun
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 226e33b1075e2484fa8c4412d27150c1, type: 3}
+    - m_Name: MortarCannon
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 9603df626c8ad1447bb676acf149b9e6, type: 3}
     - m_Name: None
       m_Hash: 0
       m_Sprite: {fileID: 0}
@@ -64,6 +67,9 @@ MonoBehaviour:
     - m_Name: Bullet
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 5eef50c23ecabf74c8dd927030fffeaa, type: 3}
+    - m_Name: MortarShell
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: d7a6b300ab19b4f47b11d548ab2874e3, type: 3}
   m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &3637121601041525587
 MonoBehaviour:
