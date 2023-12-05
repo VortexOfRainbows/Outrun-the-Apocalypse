@@ -5,22 +5,23 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static bool GameEnd => instance._GameOver;
     // Start is called before the first frame update
     public GameObject InGameUI;
     public GameObject GameOverUI;
-    private static UIManager _instance;
-
+    private bool _GameOver = false;
+    public static UIManager instance;
     private void Start()
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
 
-            DontDestroyOnLoad(_instance);
+            DontDestroyOnLoad(instance);
         }
         else
         {
-            if (_instance != this)
+            if (instance != this)
             {
                 Destroy(gameObject);
             }
@@ -30,15 +31,15 @@ public class UIManager : MonoBehaviour
         GameOverUI.SetActive(false);
     }
     public void GameOver() 
-    { 
+    {
+        _GameOver = true;
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
     }
-
     public void PlayGame()
     {
+        _GameOver = false;
         InGameUI.SetActive(true);
         GameOverUI.SetActive(false);
     }
-
 }

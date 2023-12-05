@@ -1,29 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class coin : MonoBehaviour
+public class Coin : MonoBehaviour
 {
-    [SerializeField]
-    private Rigidbody2D rb;
-
-    [SerializeField]
-    private GameObject prefab;
-
-    // Update is called once per frame
-
-    private void Start()
+    [SerializeField] SpriteRenderer Renderer;
+    public const float DespawnTime = 600;
+    public float DespawnCounter; //-1 means never will despawn. 0 means it will take 600 more ticks to despawn. 200 = 400 to despawn. etc
+    private void Awake()
     {
-
+        DespawnCounter = -1;
     }
-    void Update()
+    void FixedUpdate()
     {
-        //transform.position += new Vector3(-5f * Time.deltaTime, 0f, 0f);
+        if (DespawnCounter >= 0)
+        {
+            Renderer.color = Color.white * Mathf.Sqrt(1 - DespawnCounter / DespawnTime);
+            DespawnCounter++;
+            if (DespawnCounter >= DespawnTime)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
-        coinCounter.instance.increaseCoins();
+        if (collision.tag == "Player")
+        {
+            Destroy(gameObject);
+            CoinCounter.instance.increaseCoins();
+            AudioManager.instance.Play("CoinPickup");
+        }
     }
 }

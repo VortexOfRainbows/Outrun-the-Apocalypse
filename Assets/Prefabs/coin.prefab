@@ -183,5 +183,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae31783661ab0f4790cfad99b7d7789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 3613731140109510007}
-  prefab: {fileID: 8891870082688169584}
+  Renderer: {fileID: 2239010602962262883}
+  DespawnCounter: -1

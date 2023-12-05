@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: d8c31de3e6169dc49b84bf4173e9f94d
   - enabled: 1
     path: Assets/Scenes/Collectibles.unity
     guid: 9f8a666caf00c0649a63596e4582a867
+  - enabled: 1
+    path: Assets/Scenes/Another Tilemap.unity
+    guid: 8c2b31ed997ab32438a0f14d20745c2c
   m_configObjects: {}

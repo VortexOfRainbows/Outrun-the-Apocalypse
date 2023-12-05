@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785708085026838422}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -52,9 +52,24 @@ MonoBehaviour:
     - m_Name: FarmerGun
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 226e33b1075e2484fa8c4412d27150c1, type: 3}
+    - m_Name: MortarCannon
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 9603df626c8ad1447bb676acf149b9e6, type: 3}
     - m_Name: None
       m_Hash: 0
       m_Sprite: {fileID: 0}
+  - m_Name: Projectile
+    m_Hash: 0
+    m_CategoryList:
+    - m_Name: BeastShot
+      m_Hash: 0
+      m_Sprite: {fileID: -1942091547, guid: 33f1de57e54b81443a540a230cb4b5fa, type: 3}
+    - m_Name: Bullet
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 5eef50c23ecabf74c8dd927030fffeaa, type: 3}
+    - m_Name: MortarShell
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: d7a6b300ab19b4f47b11d548ab2874e3, type: 3}
   m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &3637121601041525587
 MonoBehaviour:

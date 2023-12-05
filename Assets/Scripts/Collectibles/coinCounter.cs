@@ -4,34 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class coinCounter : MonoBehaviour
+public class CoinCounter : MonoBehaviour
 {
-    
-    public static coinCounter instance;
+    public static CoinCounter instance;
     public TMP_Text coinText; 
-    public int coinIndex;
-    
-    // Start is called before the first frame update
+    public int CoinCount;
     void Awake()
     {
         instance = this;
     }
-
     private void Start()
     {
-        coinText.text = "Coins:  " + coinIndex.ToString();
+        coinText.text = "Coins:  " + CoinCount.ToString();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void increaseCoins()
     {
-        coinIndex += 1;
-        coinText.text = "Coins:  " + coinIndex.ToString();
-
+        CoinCount += 1;
+        coinText.text = "Coins:  " + CoinCount.ToString();
     }
 }

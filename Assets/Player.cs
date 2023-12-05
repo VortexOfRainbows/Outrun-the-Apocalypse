@@ -1,46 +1,37 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.U2D.Animation;
-using UnityEngine.UIElements;
+using UnityEngine.Rendering.VirtualTexturing;
 
-public class Player : MonoBehaviour
+public class Player : EntityWithCharDrawing
 {
-    public InventoryItem LeftHeldItem;
-    public InventoryItem RightHeldItem;
+    public bool Dead => UIManager.GameEnd;
     [SerializeField]
-    public Camera MainCamera;
+    private CharacterAnimator CharacterAnimator;
+    [SerializeField]
+    private Camera MainCamera;
     public static Player MainPlayer;
     public struct ControlDown
     {
-        public bool DashClick;
+        public bool LeftClick;
+        public bool RightClick;
         public bool DashTap;
         public bool Left;
         public bool Right;
         public bool Up;
         public bool Down;
-        public bool Jump;
+        public bool SwapItem;
         public bool Shift;
         public ControlDown(bool defaultState = false)
         {
-            DashClick = DashTap = Left = Right = Up = Down = Jump = Shift = defaultState;
+            LeftClick = DashTap = Left = Right = Up = Down = SwapItem = Shift = defaultState;
+            RightClick = defaultState;
         }
     }
     public ControlDown Control = new ControlDown();
     public ControlDown LastControl = new ControlDown();
     public readonly Vector2 ColliderSize = new Vector2(0.4f, 0.9f);
-    public int Direction = 0;
-    public int LastDirection = 0;
     [SerializeField]
     public BoxCollider2D Collider2D;
-    [SerializeField]
-    public Rigidbody2D rb;
     public Vector2 Position
     {
         get
@@ -64,12 +55,10 @@ public class Player : MonoBehaviour
         }
     }
     public Vector2 LastPosition = Vector2.zero;
-    public Vector2 PrevVelocity = Vector2.zero;
-    public Vector2 Velocity;
     public const float MovementAcceleration = 0.65f;
     public const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
-    public const float BaseMaxMoveSpeed = 8f;
-    public float MaxMoveSpeed = 8f;
+    public const float BaseMaxMoveSpeed = 6f;
+    public float MaxMoveSpeed = 6f;
     public float RotationOffset;
     // Start is called before the first frame update
     void Awake()
@@ -87,7 +76,14 @@ public class Player : MonoBehaviour
             }
         }
     }
-    void Update()
+    public override void SetStats()
+    {
+        MaxLife = 100;
+        Life = 100;
+        DefaultImmunityOnHit = 30;
+        Friendly = true;
+    }
+    public override void OnUpdate()
     {
         if (MainPlayer == null)
         {
@@ -101,26 +97,36 @@ public class Player : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        RegisterControls(); 
+        RegisterControls();
+        if (Life > 0)
+            UIManager.instance.PlayGame();
     }
-    void FixedUpdate()
+    public override void OnFixedUpdate()
     {
+        //this.HealthUI.SetActive(true);
         if (LeftHeldItem == null)
-            LeftHeldItem = new FarmerGun();
+            LeftHeldItem = new NoItem();
         if (RightHeldItem == null)
-            RightHeldItem = new FarmerGun();
+            RightHeldItem = new NoItem();
         //This should be moved somewhere where it would make more sense
         Physics2D.Simulate(0.25f); //Timestep is 0.25f because one unit is 4 pixels. Therefore this will move convert our movement to 1 velocity per update = 1 pixel per update
         
         Velocity = v;
-        ControlUpdate();
         Physics();
+        if(!Dead)
+        {
+            ControlUpdate();
+            InventoryUpdate();
+            ItemUpdate();
+        }
         v = Velocity;
         PrevVelocity = v;
         LastDirection = Direction;
         LastPosition = Position;
 
         MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.06f);
+        Inventory.PerformUpdate(); //Anything reliant on the Player Control system should be called before the previous controls are updated.
+        AssignPreviousControls();
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
@@ -190,87 +196,111 @@ public class Player : MonoBehaviour
         {
             MaxMoveSpeed = BaseMaxMoveSpeed / 4.0f;
         }
-        PostControlUpdate();
-    }
-    public void PostControlUpdate()
-    {
-        LastControl = Control;
-        if(Control.Right && !Control.Left)
+        if (Control.Right && !Control.Left)
             Direction = 1;
-        if(Control.Left && !Control.Right)
+        if (Control.Left && !Control.Right)
             Direction = -1;
         else if (Direction == 0)
             Direction = 1;
-        CharacterAnimator Drawing = GetComponentInChildren<CharacterAnimator>();
-        Drawing.PerformUpdate();
+    }
+    public void ItemUpdate()
+    {
+        LookTarget = Utils.MouseWorld();
+        CharacterAnimator.PerformUpdate();
+        if (Control.LeftClick)
+        {
+            if (!LastControl.LeftClick || LeftHeldItem.HoldClick)
+            {
+                LeftHeldItem.UseItem(this, CharacterAnimator.LeftItem);
+            }
+        }
+        if (Control.RightClick)
+        {
+            if (!LastControl.RightClick || RightHeldItem.HoldClick)
+            {
+                RightHeldItem.UseItem(this, CharacterAnimator.RightItem);
+            }
+        }
+    }
+    public void AssignPreviousControls()
+    {
+        LastControl = Control;
     }
     private void RegisterControls()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A))
         {
             if (!Control.Right)
                 Control.Left = true;
         }
-        else
-        {
-            if (LastControl.Left)
-            {
+        else if (LastControl.Left)
                 Control.Left = false;
-            }
-        }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+
+        if (Input.GetKey(KeyCode.D))
         {
             if (!Control.Left)
                 Control.Right = true;
         }
-        else
-        {
-            if (LastControl.Right)
-            {
-                Control.Right = false;
-            }
-        }
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        else if (LastControl.Right)
+            Control.Right = false;
+
+        if (Input.GetKey(KeyCode.W))
         {
             if (!Control.Down)
                 Control.Up = true;
         }
-        else
-        {
-            if (LastControl.Up)
-            {
-                Control.Up = false;
-            }
-        }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (LastControl.Up)
+            Control.Up = false;
+
+        if (Input.GetKey(KeyCode.S))
         {
             if (!Control.Up)
                 Control.Down = true;
         }
-        else
+        else if (LastControl.Down)
+            Control.Down = false;
+
+        UpdateKey(Input.GetKey(KeyCode.Space), LastControl.SwapItem, ref Control.SwapItem);
+        UpdateKey(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift), LastControl.Shift, ref Control.Shift);
+        UpdateKey(Input.GetMouseButton(0), LastControl.LeftClick, ref Control.LeftClick);
+        UpdateKey(Input.GetMouseButton(1), LastControl.RightClick, ref Control.RightClick);
+    }
+    public void UpdateKey(bool AssociatedInput, bool LastControl, ref bool ControlToUpdate)
+    {
+        if (AssociatedInput)
         {
-            if (LastControl.Down)
-            {
-                Control.Down = false;
-            }
-        }
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            Control.Jump = true;
-        }
-        else
-        {
-            if (LastControl.Jump)
-                Control.Jump = false;
-        }
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
-            Control.Shift = true;
+            ControlToUpdate = true;
         }
         else
         {
-            if (LastControl.Shift)
-                Control.Shift = false;
+            if (LastControl)
+                ControlToUpdate = false;
         }
+    }
+    [SerializeField] public Inventory Inventory;
+    private const int LeftHandSlotNum = 4;
+    public const int RightHandSlotNum = 5;
+    public void InventoryUpdate()
+    {
+        LeftHeldItem = Inventory.Slot[LeftHandSlotNum].Item;
+        RightHeldItem = Inventory.Slot[RightHandSlotNum].Item;
+    }
+    /// <summary>
+    /// Adds an item to the inventory. Returns false if there is no room in the inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool AddItemToInventory(ItemData item)
+    {
+        if (Inventory.Slot[LeftHandSlotNum].TryAddingItem(item))
+            return true;
+        if (Inventory.Slot[RightHandSlotNum].TryAddingItem(item))
+            return true;
+        for (int i = 0; i < Inventory.Slot.Count; i++)
+        {
+            if (Inventory.Slot[i].TryAddingItem(item))
+                return true;
+        }
+        return false;
     }
 }
