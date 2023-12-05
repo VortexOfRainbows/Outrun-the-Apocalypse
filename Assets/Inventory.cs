@@ -14,9 +14,10 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public void PerformUpdate()
     {
-        foreach(SlotButton SB in Buttons)
+        for(int i = 0; i < Buttons.Count; i++)
         {
-            SB.PerformUpdate();
+            SlotButton SB = Buttons[i];
+            SB.PerformUpdate(i);
         }
         CursorButton.transform.position = Utils.MouseWorld();
         if((Player.MainPlayer.Control.LeftClick && !Player.MainPlayer.LastControl.LeftClick)

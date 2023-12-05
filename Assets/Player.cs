@@ -4,6 +4,10 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class Player : EntityWithCharDrawing
 {
+    public void ActivateAnimator(bool Enable)
+    {
+        CharacterAnimator.gameObject.SetActive(Enable);
+    }
     public bool Dead => UIManager.GameEnd;
     [SerializeField]
     private CharacterAnimator CharacterAnimator;
@@ -21,10 +25,22 @@ public class Player : EntityWithCharDrawing
         public bool Down;
         public bool SwapItem;
         public bool Shift;
+
+        public bool Hotkey1; //Structs cannot store an array without a reference. Doing these seperately is sadly easier than using an array, as the system im using would need to establish a reference to a new array every frame.
+        public bool Hotkey2;
+        public bool Hotkey3;
+        public bool Hotkey4;
+        public bool Hotkey5;
+        public bool Hotkey6;
+        public bool Hotkey7;
+        public bool Hotkey8;
+        public bool Hotkey9;
+        public bool Hotkey0;
         public ControlDown(bool defaultState = false)
         {
             LeftClick = DashTap = Left = Right = Up = Down = SwapItem = Shift = defaultState;
             RightClick = defaultState;
+            Hotkey1 = Hotkey2 = Hotkey3 = Hotkey4 = Hotkey5 = Hotkey6 = Hotkey7 = Hotkey8 = Hotkey9 = Hotkey0 = defaultState;
         }
     }
     public ControlDown Control = new ControlDown();
@@ -98,7 +114,7 @@ public class Player : EntityWithCharDrawing
             }
         }
         RegisterControls();
-        if (Life > 0)
+        if (Life > 0 && !UIManager.GameEnd)
             UIManager.instance.PlayGame();
     }
     public override void OnFixedUpdate()
@@ -270,6 +286,16 @@ public class Player : EntityWithCharDrawing
         UpdateKey(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift), LastControl.Shift, ref Control.Shift);
         UpdateKey(Input.GetMouseButton(0), LastControl.LeftClick, ref Control.LeftClick);
         UpdateKey(Input.GetMouseButton(1), LastControl.RightClick, ref Control.RightClick);
+        UpdateKey(Input.GetKey(KeyCode.Alpha1), LastControl.Hotkey1, ref Control.Hotkey1);
+        UpdateKey(Input.GetKey(KeyCode.Alpha2), LastControl.Hotkey2, ref Control.Hotkey2);
+        UpdateKey(Input.GetKey(KeyCode.Alpha3), LastControl.Hotkey3, ref Control.Hotkey3);
+        UpdateKey(Input.GetKey(KeyCode.Alpha4), LastControl.Hotkey4, ref Control.Hotkey4);
+        UpdateKey(Input.GetKey(KeyCode.Alpha5), LastControl.Hotkey5, ref Control.Hotkey5);
+        UpdateKey(Input.GetKey(KeyCode.Alpha6), LastControl.Hotkey6, ref Control.Hotkey6);
+        UpdateKey(Input.GetKey(KeyCode.Alpha7), LastControl.Hotkey7, ref Control.Hotkey7);
+        UpdateKey(Input.GetKey(KeyCode.Alpha8), LastControl.Hotkey8, ref Control.Hotkey8);
+        UpdateKey(Input.GetKey(KeyCode.Alpha9), LastControl.Hotkey9, ref Control.Hotkey9);
+        UpdateKey(Input.GetKey(KeyCode.Alpha0), LastControl.Hotkey0, ref Control.Hotkey0);
     }
     public void UpdateKey(bool AssociatedInput, bool LastControl, ref bool ControlToUpdate)
     {

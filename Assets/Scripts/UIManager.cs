@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ public class UIManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-
             DontDestroyOnLoad(instance);
         }
         else
@@ -36,6 +36,13 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+    public void GameWon()
+    {
+        _GameOver = true;
+        GameOverUI.GetComponentInChildren<TextMeshProUGUI>().text = "ESCAPE SUCCESSFUL";
+        InGameUI.SetActive(false);
+        GameOverUI.SetActive(true);
     }
     public void GameOver() 
     {
