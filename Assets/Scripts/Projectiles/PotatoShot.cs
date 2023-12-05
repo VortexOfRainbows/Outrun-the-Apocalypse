@@ -11,14 +11,14 @@ public class PotatoShot : ProjectileData
         Lifetime = 50;
         Pierce = 3;
         Friendly = true;
-        AudioManager.instance.Play("Shoot");
     }
     public override void ModifyRenderer(ref SpriteRenderer Renderer)
     {
         Renderer.flipX = true;
     }
-    public override void FinalSetStatsAfterSpawning(GameObject obj)
+    public override void AfterSpawning(GameObject obj)
     {
+        AudioManager.instance.Play("Shoot");
         obj.transform.localScale = new Vector3(1f, 0.90f, 1.0f);
     }
 }

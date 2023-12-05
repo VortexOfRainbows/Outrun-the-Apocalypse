@@ -25,7 +25,7 @@ public abstract class ProjectileData
         projectileData.AI[1] = ai1;
         projectileData.AI[2] = ai2;
         projectileData.AI[3] = ai3;
-        projectileData.FinalSetStatsAfterSpawning(projectileObj);
+        projectileData.AfterSpawning(projectileObj);
         return projectileObj;
     }
     /// <summary>
@@ -104,7 +104,7 @@ public abstract class ProjectileData
     /// Use this to choose what stats the projectile should have after being instantiated.
     /// In terms of run order, if damage is overriden here, then a projectile spawned with NewProjectile() will inherint the values in this method
     /// </summary>
-    public virtual void FinalSetStatsAfterSpawning(GameObject obj)
+    public virtual void AfterSpawning(GameObject obj)
     {
         
     }

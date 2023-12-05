@@ -15,13 +15,13 @@ public class EscapeTruck : MonoBehaviour
     }
     private int EndScreenPopupCounter = 0;
     private int EscapeCounter = 0;
-    private const float EscapeEscalationFactor = 20f;
-    private const float BeginDrivingAt = 8f;
-    private const float MaxEscalation = 10f;
-    private const float WobbleMult = 0.036f;
-    private const float SpeedMult = 2.5f;
-    private const float TimeUntilPopup = 300;
-    private const float WobbleDisplacementMax = 0.5f;
+    [SerializeField] private float EscapeEscalationFactor = 20f;
+    [SerializeField] private float BeginDrivingAt = 8f;
+    [SerializeField] private float MaxEscalation = 10f;
+    [SerializeField] private float WobbleMult = 0.036f;
+    [SerializeField] private float SpeedMult = 2.5f;
+    [SerializeField] private float TimeUntilPopup = 300;
+    [SerializeField] private float WobbleDisplacementMax = 0.5f;
     private void FixedUpdate()
     {
         int numWheels = WheelCount;

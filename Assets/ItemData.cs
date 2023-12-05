@@ -17,18 +17,48 @@ public abstract class ItemData
         IOBJ.Item = itemData;
         return itemObj;
     }
+    //This value is not serialized, because it is only used as a timer. It is not a value that needs to be changed
     private float CurrentCooldown; //Stores the current item cooldown time. Item can be not used when above 0
-    public int Damage;
-    public float ShotVelocity;
-    public float Width; //These values determines the size of the item (hitbox)
-    public float Height; //Used when picking up an item from the floor
+    ///
+    /// The statistical values for this class are protected. This is so the child classes can modify them (but external classes cannot)
+    /// 
+    /// <summary>
+    /// Whether the item is held out in the hand of the player
+    /// </summary>
+    public bool ChangeHoldAnimation { get; protected set; }
+    /// <summary>
+    /// If true, item can be used by holding click instead of repeatedly clicking
+    /// </summary>
+    public bool HoldClick { get; protected set; } 
+    /// <summary>
+    /// Rotation of the item when held by the player
+    /// </summary>
+    /// <summary>
+    /// The amount of frame before this item is allowed to be used again after being used once
+    /// </summary>
+    protected float UseCooldown;
+    public float RotationOffset { get; protected set; }
+    public float Scale { get; protected set; }
+    protected int Damage;
+    protected float ShotVelocity;
+    protected float Width; //These values determines the size of the item (hitbox)
+    protected float Height; //Used when picking up an item from the floor
+    /// <summary>
+    /// The factor at which the item slows down when in world. Defaults to 0.94f
+    /// </summary>
+    protected float DeaccelerationRate;
+    /// <summary>
+    /// The projectile shot by the weapon on default. 
+    /// This is perposefully a function rather than a field, as a new instance of the projectile type needs to be instantiated when a projectile is generated.
+    /// </summary>
+    protected virtual ProjectileData ShootType => new Bullet();
     public Vector2 Size
     {
         get
         {
             return new Vector2(Width, Height);
         }
-        set
+        protected set
         {
             Width = value.x;
             Height = value.y;
@@ -36,14 +66,27 @@ public abstract class ItemData
     }
     public ItemData()
     {
+        DeaccelerationRate = 0.94f;
+        UseCooldown = 20;
+        ChangeHoldAnimation = false;
+        HoldClick = true;
+        RotationOffset = 0f;
+        Scale = 0.75f;
         CurrentCooldown = 0;
         Damage = -1;
         ShotVelocity = 10;
         Size = new Vector2(32, 32);
         SetStats();
     }
-    public Vector2 LocalPosition;
-    public virtual bool ConsumeAfterUsing => false;
+    /// <summary>
+    /// Whether or not the item should be consumed after being used. Defaults to False
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public virtual bool ConsumeAfterUsing(Player player)
+    {
+        return false;
+    }
     public bool CanUse()
     {
         return CanUseItem() && CurrentCooldown <= 0;
@@ -54,7 +97,6 @@ public abstract class ItemData
     /// </summary>
     public void HoldingUpdate()
     {
-        LocalPosition = HandOffset;
         if(CurrentCooldown > 0)
         {
             CurrentCooldown--;
@@ -89,35 +131,45 @@ public abstract class ItemData
             bool UseDefaultShoot = this.Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
             if(UseDefaultShoot)
             {
-                FireProjectileTowardsCursor(this.ShootType, shootingPosition, shootVelocity, shootDamage);
+                ProjectileData shootType = this.ShootType;
+                FireProjectileTowardsCursor(shootType, shootingPosition, shootVelocity, shootDamage);
             }
             this.CurrentCooldown = this.UseCooldown;
-            return this.ConsumeAfterUsing;
+            return this.ConsumeAfterUsing(player);
         }
         return false;
     }
+    ///
+    /// PLEASE READ THIS:
+    /// WHY AM I USING LAMBDA FUNCTIONS?
+    /// 
+    /// Basically, these are functions instead of fields for future-proofing purposes.
+    /// Some items may come with multiple sprites (but be within the same item)
+    /// Having these work as functions allows for that functionality.
+    /// An item could be programmed with an alternate state, and would simply change the sprite or SpriteName, then change the HandOffset/BarrelPosition according to the new sprite 
+    /// 
+    /// Here is an example of the utility of using these functions:
+    /// 
+    /// public override SpriteName => AlternateStateBool ? "AlternateSpriteName" : "DefaultSpriteName";
+    /// 
+    /// public override HandOffset => AlternateStateBool ? AlternateHandOffset : DefaultHandOffset;
+    /// 
+    /// public override BarrelPosition => AlternateStateBool ? AlternateBarrelVector: DefaultBarrelVector;
+    /// 
     /// <summary>
     /// Fetches the sprite of the item. Only override this for specific purposes, such as when you want an item to be capable of having different sprites depending on the situation
     /// Defaults to:     SpriteLib.Library.GetSprite("Item", SpriteName)
     /// </summary>
     public virtual Sprite sprite => SpriteLib.Library.GetSprite("Item", SpriteName);
-
-    public virtual string SpriteName { get; }
+    public virtual string SpriteName { get; } //get functions work the same as lambda functions. And can be overriden in the same way
     /// <summary>
     /// Modifies the place where the gun sits in the players hand
     /// </summary>
-    public virtual Vector2 HandOffset { get; }
+    public virtual Vector2 HandOffset { get { return Vector2.zero; } }
     /// <summary>
     /// Modifies the place where projectile spawns when a gun fires
     /// </summary>
-    public virtual Vector2 BarrelPosition { get; }
-    public virtual bool ChangeHoldAnimation => false;
-    /// <summary>
-    /// If true, item can be used by holding click instead of repeatedly clicking
-    /// </summary>
-    public virtual bool HoldClick => false;
-    public virtual float RotationOffset => 0f;
-    public virtual float Scale => 0.75f;
+    public virtual Vector2 BarrelPosition { get { return Vector2.zero; } }
     /// <summary>
     /// This method is run when an item is spawned in
     /// Use this to set stats
@@ -142,7 +194,6 @@ public abstract class ItemData
     {
         
     }
-    public virtual ProjectileData ShootType => new Bullet();
     /// <summary>
     /// Allows you to make an item launch a projectile when used
     /// Return true to make a projectile fire towards the cursor
@@ -159,10 +210,6 @@ public abstract class ItemData
     {
         ProjectileData.NewProjectile(data, position, velocity, damage);
     }
-    /// <summary>
-    /// The amount of frame before this item is allowed to be used again after being used once
-    /// </summary>
-    public virtual float UseCooldown => 20f;
     /// <summary>
     /// Called once after initializing the item on the floor
     /// Use this for one-time modifications to the way the item is drawn on the floor
@@ -181,10 +228,6 @@ public abstract class ItemData
     {
 
     }
-    /// <summary>
-    /// The factor at which the item slows down when in world. Defaults to 0.94f
-    /// </summary>
-    public virtual float DeaccelerationRate => 0.94f;
     public void Update(DroppedItem obj)
     {
         OnUpdate(obj);
