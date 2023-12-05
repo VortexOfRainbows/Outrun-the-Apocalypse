@@ -1741,6 +1741,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2371040968404180300, guid: ebf5c9ddaf7b651459f3178102f08e0c, type: 3}
   m_PrefabInstance: {fileID: 3350160590527870597}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3751078039006134748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1905208273369823065, guid: ebf5c9ddaf7b651459f3178102f08e0c, type: 3}
+  m_PrefabInstance: {fileID: 3350160590527870597}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0ef4d8b741ac44688467f241221bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5316454717169834323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1797,6 +1808,10 @@ PrefabInstance:
       propertyPath: HealthBar
       value: 
       objectReference: {fileID: 950068708162709488}
+    - target: {fileID: 4569239222938944268, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+      propertyPath: Inventory
+      value: 
+      objectReference: {fileID: 3751078039006134748}
     - target: {fileID: 4569239222938944268, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
       propertyPath: MainCamera
       value: 

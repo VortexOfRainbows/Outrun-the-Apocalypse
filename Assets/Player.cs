@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class Player : EntityWithCharDrawing
 {
@@ -115,6 +116,7 @@ public class Player : EntityWithCharDrawing
         if(!Dead)
         {
             ControlUpdate();
+            InventoryUpdate();
             ItemUpdate();
         }
         FinalUpdate();
@@ -230,110 +232,74 @@ public class Player : EntityWithCharDrawing
             if (!Control.Right)
                 Control.Left = true;
         }
-        else
-        {
-            if (LastControl.Left)
-            {
+        else if (LastControl.Left)
                 Control.Left = false;
-            }
-        }
+
         if (Input.GetKey(KeyCode.D))
         {
             if (!Control.Left)
                 Control.Right = true;
         }
-        else
-        {
-            if (LastControl.Right)
-            {
-                Control.Right = false;
-            }
-        }
+        else if (LastControl.Right)
+            Control.Right = false;
+
         if (Input.GetKey(KeyCode.W))
         {
             if (!Control.Down)
                 Control.Up = true;
         }
-        else
-        {
-            if (LastControl.Up)
-            {
-                Control.Up = false;
-            }
-        }
+        else if (LastControl.Up)
+            Control.Up = false;
+
         if (Input.GetKey(KeyCode.S))
         {
             if (!Control.Up)
                 Control.Down = true;
         }
-        else
+        else if (LastControl.Down)
+            Control.Down = false;
+
+        UpdateKey(Input.GetKey(KeyCode.Space), LastControl.Jump, ref Control.Jump);
+        UpdateKey(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift), LastControl.Shift, ref Control.Shift);
+        UpdateKey(Input.GetMouseButton(0), LastControl.LeftClick, ref Control.LeftClick);
+        UpdateKey(Input.GetMouseButton(1), LastControl.RightClick, ref Control.RightClick);
+    }
+    public void UpdateKey(bool AssociatedInput, bool LastControl, ref bool ControlToUpdate)
+    {
+        if (AssociatedInput)
         {
-            if (LastControl.Down)
-            {
-                Control.Down = false;
-            }
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Control.Jump = true;
-        }
-        else
-        {
-            if (LastControl.Jump)
-                Control.Jump = false;
-        }
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
-            Control.Shift = true;
+            ControlToUpdate = true;
         }
         else
         {
-            if (LastControl.Shift)
-                Control.Shift = false;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            Control.LeftClick = true;
-        }
-        else
-        {
-            if (LastControl.LeftClick)
-                Control.LeftClick = false;
-        }
-        if (Input.GetMouseButton(1))
-        {
-            Control.RightClick = true;
-        }
-        else
-        {
-            if (LastControl.RightClick)
-                Control.RightClick = false;
+            if (LastControl)
+                ControlToUpdate = false;
         }
     }
-    public void AddItemToInventory(ItemData item)
+    [SerializeField] public Inventory Inventory;
+    private const int LeftHandSlotNum = 4;
+    public const int RightHandSlotNum = 5;
+    public void InventoryUpdate()
     {
-        if(LeftHeldItem is NoItem)
+        LeftHeldItem = Inventory.Slot[LeftHandSlotNum].Item;
+        RightHeldItem = Inventory.Slot[RightHandSlotNum].Item;
+    }
+    /// <summary>
+    /// Adds an item to the inventory. Returns false if there is no room in the inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool AddItemToInventory(ItemData item)
+    {
+        if (Inventory.Slot[LeftHandSlotNum].TryAddingItem(item))
+            return true;
+        if (Inventory.Slot[RightHandSlotNum].TryAddingItem(item))
+            return true;
+        for (int i = 0; i < Inventory.Slot.Count; i++)
         {
-            LeftHeldItem = item;
+            if (Inventory.Slot[i].TryAddingItem(item))
+                return true;
         }
-        else if(RightHeldItem is NoItem)
-        {
-            RightHeldItem = item;
-        }
-        else
-        {
-            if(item is MortarCannon) //This is a temporary fix for a lack of inventory space. Mortar will repalce main guns
-            {
-                if (LeftHeldItem is not MortarCannon)
-                {
-                    LeftHeldItem = item;
-                }
-                else if (RightHeldItem is not MortarCannon)
-                {
-                    RightHeldItem = item;
-                }
-            }
-            //This is where items should be brought into the inventory
-        }
+        return false;
     }
 }
