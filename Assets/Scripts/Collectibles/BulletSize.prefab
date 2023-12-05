@@ -99,3 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consumable: {fileID: 11400000, guid: d44d768e4f37db24d8a2ddd130f5653c, type: 2}
   playerBuffState: {fileID: 3265897059392574825, guid: 4717b6a0d54a8794bb9dbf2baa46f696, type: 3}
+  bulletBuffState: {fileID: 0}
