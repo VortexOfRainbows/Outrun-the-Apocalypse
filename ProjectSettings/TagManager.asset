@@ -4,6 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags: []
+  tags:
+  - Projectile
+  - NPC
+  - Water
+  - Healing
+  - Buff
   layers:
   - Default
   - TransparentFX
