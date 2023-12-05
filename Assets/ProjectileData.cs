@@ -115,7 +115,8 @@ public abstract class ProjectileData
     /// </summary>
     public virtual void OnUpdate(ProjectileObject obj)
     {
-        obj.transform.rotation = obj.Velocity.ToRotation().ToQuaternion();
+        if (obj.Velocity != Vector2.zero)
+            obj.transform.rotation = obj.Velocity.ToRotation().ToQuaternion();
     }
     /// <summary>
     /// This method will run right before the projectile is destroyed
@@ -136,8 +137,8 @@ public abstract class ProjectileData
 
     }
     /// <summary>
-    /// Called once after initializing the projectile
-    /// Use this for one-time modifications to the way the projectile is drawn
+    /// Called continually after initializing the projectile
+    /// Use this for modifications to the way the projectile is drawn
     /// </summary>
     /// <param name="Renderer"></param>
     public virtual void UpdateRenderer(ref SpriteRenderer Renderer)

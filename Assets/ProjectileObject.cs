@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileObject : MonoBehaviour
 {
-    public Vector2 Velocity;
+    public Vector2 Velocity; //Public. so it can be modified in ProjectileData
     public ProjectileData Projectile; //Public. So that ProjectileData can access this for its general purpose projectile-spawning method
     private Rigidbody2D RB;
     private SpriteRenderer Renderer;

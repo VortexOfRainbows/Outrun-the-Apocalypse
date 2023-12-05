@@ -19,6 +19,20 @@ public class Inventory : MonoBehaviour
             SB.PerformUpdate();
         }
         CursorButton.transform.position = Utils.MouseWorld();
+        if((Player.MainPlayer.Control.LeftClick && !Player.MainPlayer.LastControl.LeftClick)
+            || (Player.MainPlayer.Control.RightClick && !Player.MainPlayer.LastControl.RightClick))
+        {
+            DropCursorItem();
+        }
+    }
+    public void DropCursorItem()
+    {
+        if(!SlotEmpty(CursorSlot))
+        {
+            Vector2 toMouse = Utils.MouseWorld() - Player.MainPlayer.Position;
+            ItemData.NewItem(CursorSlot.Item, Player.MainPlayer.Position, toMouse.normalized * 8.5f);
+            CursorSlot.UpdateItem(new NoItem());
+        }
     }
     public static bool SlotEmpty(InventorySlot slot)
     {
