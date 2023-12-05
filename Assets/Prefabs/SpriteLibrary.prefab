@@ -58,6 +58,15 @@ MonoBehaviour:
     - m_Name: None
       m_Hash: 0
       m_Sprite: {fileID: 0}
+    - m_Name: Spectre
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: c8c3a3e17e9c7ff45871ec99b874a71d, type: 3}
+    - m_Name: Odin
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 919977887c58d654ba51eb4360dd0ef2, type: 3}
+    - m_Name: PotatoGun
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 358df828d238a364eb8a44899fe4f7da, type: 3}
   - m_Name: Projectile
     m_Hash: 0
     m_CategoryList:
@@ -70,6 +79,15 @@ MonoBehaviour:
     - m_Name: MortarShell
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: d7a6b300ab19b4f47b11d548ab2874e3, type: 3}
+    - m_Name: Potato
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: fb1f2eca49bd2564d9276e6378c53a3f, type: 3}
+  - m_Name: UI
+    m_Hash: 0
+    m_CategoryList:
+    - m_Name: SwapItemSlot
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 421c01628a3559e4191996cfad3089e9, type: 3}
   m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &3637121601041525587
 MonoBehaviour:
