@@ -23,4 +23,12 @@ public class GameStateManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+    public void Pause()
+    {
+
+    }
+    public void Resume()
+    {
+
+    }
 }
