@@ -150,10 +150,11 @@ public abstract class ItemData
         if (this.CanUse())
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
-            Vector2 ToMouse = new Vector2(1, 0).RotatedBy(heldItem.transform.eulerAngles.z * Mathf.Deg2Rad);
-
+            float itemAngle = heldItem.transform.eulerAngles.z * Mathf.Deg2Rad;
             float flippage = Mathf.Sign(heldItem.transform.parent.lossyScale.x);
+            Vector2 ToMouse = new Vector2(0, -1 * flippage).RotatedBy(itemAngle);
             ToMouse *= flippage;
+            ToMouse = ToMouse.RotatedBy(-heldItem.item.RotationOffset * flippage);
 
             Vector2 barrelOffset = this.BarrelPosition;
             barrelOffset.y *= flippage;

@@ -63,3 +63,9 @@ MonoBehaviour:
     pitch: 1.6
     loop: 0
     source: {fileID: 0}
+  - name: Slash
+    clip: {fileID: 8300000, guid: 171f667fc8ed15e47820c34ee60fb1f8, type: 3}
+    volume: 0.3
+    pitch: 1.6
+    loop: 0
+    source: {fileID: 0}
