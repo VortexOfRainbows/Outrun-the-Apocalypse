@@ -225,7 +225,7 @@ public class Player : EntityWithCharDrawing
         CharacterAnimator.PerformUpdate();
         if (Control.LeftClick)
         {
-            if (!LastControl.LeftClick || LeftHeldItem.HoldClick)
+            if (!LastControl.LeftClick || LeftHeldItem.CanHoldClickUse)
             {
                 if(LeftHeldItem.UseItem(this, CharacterAnimator.LeftItem))
                 {
@@ -235,7 +235,7 @@ public class Player : EntityWithCharDrawing
         }
         if (Control.RightClick)
         {
-            if (!LastControl.RightClick || RightHeldItem.HoldClick)
+            if (!LastControl.RightClick || RightHeldItem.CanHoldClickUse)
             {
                 if (RightHeldItem.UseItem(this, CharacterAnimator.RightItem))
                 {

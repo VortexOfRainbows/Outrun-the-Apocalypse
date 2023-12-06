@@ -6,5 +6,5 @@ using UnityEngine;
 
 public class NoItem : ItemData
 {
-    public override string SpriteName => "None";
+    public override string SpriteName => "NoItem";
 }

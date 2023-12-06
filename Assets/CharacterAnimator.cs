@@ -156,7 +156,7 @@ public class CharacterAnimator : MonoBehaviour
         }
         Leg.transform.localPosition = LegPosition + circularMotion;
         Leg.transform.localRotation = (circularMotion.x * 0.3f + runningTilt * 0.25f).ToQuaternion();
-        if (HeldItem.item.ChangeHoldAnimation)
+        if (HeldItem.item.ChangesHoldAnimation)
         {
             Arm.transform.position = Body.transform.position + (Vector3)ArmPosition;
             Arm.transform.localRotation = (LeftArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
@@ -174,7 +174,7 @@ public class CharacterAnimator : MonoBehaviour
 
             ArmRenderer.sortingOrder = Layer -1;
             OppositeArmRenderer.sortingOrder = Layer + 5;
-            if (HeldItem.item.ChangeHoldAnimation)
+            if (HeldItem.item.ChangesHoldAnimation)
             {
                 SpriteRenderer HeldItemRenderer = HeldItem.GetComponent<SpriteRenderer>();
                 if ((Entity.LookTarget - (Vector2)Arm.transform.position).x * side > 0)

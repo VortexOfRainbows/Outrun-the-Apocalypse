@@ -514,6 +514,22 @@ MonoBehaviour:
       _gameObject: {fileID: 6154566563577682251, guid: 06ce33bcee9a3b14ea1f7d5385457751, type: 3}
     - _string: item
       _gameObject: {fileID: 5608224365155138006, guid: 04d2f5706d9dcbd45ac0e020bb0645ce, type: 3}
+  _scriptableObject:
+    items:
+    - _string: FarmerGun
+      _scriptedObject: {fileID: 11400000, guid: 890bf7c2fe3dbcf449cb6604c0600990, type: 2}
+    - _string: MortarCannon
+      _scriptedObject: {fileID: 11400000, guid: 5510ad327471d894d81e318354ee6615, type: 2}
+    - _string: NoItem
+      _scriptedObject: {fileID: 11400000, guid: ed582cac2ea0021419948c99f1929f73, type: 2}
+    - _string: Odin
+      _scriptedObject: {fileID: 11400000, guid: 51c9ac740b4807d409db05174abf56c4, type: 2}
+    - _string: PotatoGun
+      _scriptedObject: {fileID: 11400000, guid: fc74027bc7fc71d4ebadfa201c3dd783, type: 2}
+    - _string: Spectre
+      _scriptedObject: {fileID: 11400000, guid: 68e786aed2810314693f962e6aebcf29, type: 2}
+    - _string: Wheel
+      _scriptedObject: {fileID: 11400000, guid: 36f875291d3454a4e929c36f4df708eb, type: 2}
 --- !u!1 &2575733483676270995
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,10 +560,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7403053980705625942}
+  - {fileID: 2193360964363215135}
   - {fileID: 3106827290825301919}
   - {fileID: 8741217825352495254}
   - {fileID: 187993659358325640}
-  - {fileID: 2193360964363215135}
   - {fileID: 4009248958871315047}
   - {fileID: 1907710447728992527}
   m_Father: {fileID: 0}

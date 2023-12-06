@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class Spectre : ItemData
 {
-    public override void SetStats()
-    {
-        Size = new Vector2(34, 12);
-        Damage = 1;
-        ShotVelocity = 30.5f;
-        RotationOffset = -Mathf.PI / 2;
-        ChangeHoldAnimation = true;
-        HoldClick = true;
-        UseCooldown = 9;
-    }
+    public override string StatObjName => "Spectre";
     public override string SpriteName => "Spectre";
     public override Vector2 HandOffset => new Vector2(1.5f, -4.5f);
     public override Vector2 BarrelPosition => new Vector2(13.5f, 2.5f);

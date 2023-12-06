@@ -45,7 +45,7 @@ public class DroppedItem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Item.Update(this);
+        Item.DoUpdate(this);
         Item.UpdateRenderer(ref Renderer);
         if (Velocity.x != 0)
             Renderer.flipY = Mathf.Sign(Velocity.x) < 0;

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class ItemData
+public abstract class ItemData 
 {
     public static void DropItem(ItemData itemData)
     {
@@ -17,7 +17,44 @@ public abstract class ItemData
         IOBJ.Item = itemData;
         return itemObj;
     }
-    //This value is not serialized, because it is only used as a timer. It is not a value that needs to be changed
+    /// <summary>
+    /// The name of the scriptable object within the prefab manager dictionary
+    /// Defaults to NoItem, fetching the states of the NoItem Scriptable Object
+    /// </summary>
+    /// <returns></returns>
+    public virtual string StatObjName { get { return "NoItem"; } }
+    private void AssignScriptedStats()
+    {
+        ItemStats stat = MyStats;
+        ChangeHoldAnimation = stat.ChangeHoldAnimation;
+        HoldClick = stat.HoldClick;
+        UseCooldown = stat.UseCooldown;
+        RotationOffset = stat.RotationOffset;
+        Scale = stat.Scale;
+        Damage = stat.Damage;
+        ShotVelocity = stat.ShotVelocity;
+        Width = stat.Width;
+        Width = stat.Height;
+        DeaccelerationRate = stat.DeaccelerationRate;
+        if (Width < 0 || Height < 0)
+        {
+            if(SpriteName != "NoItem")
+            {
+                Vector2 spriteSize = sprite.rect.size;
+                Size = spriteSize / Utils.PixelsPerUnit;
+            }
+            else
+            {
+                Width = 32;
+                Height = 32;
+            }
+        }
+    }
+    public bool ChangesHoldAnimation => ChangeHoldAnimation; //This functions as a getter method for external classes to use
+    public float GetScale => Scale;
+    public bool CanHoldClickUse => HoldClick;
+    public float GetHoldOutRotation => RotationOffset;
+    //This value is not serialized, because it is only used as a timer. It is not a value that needs to be changed externally
     private float CurrentCooldown; //Stores the current item cooldown time. Item can be not used when above 0
     ///
     /// The statistical values for this class are protected. This is so the child classes can modify them (but external classes cannot)
@@ -25,28 +62,28 @@ public abstract class ItemData
     /// <summary>
     /// Whether the item is held out in the hand of the player
     /// </summary>
-    public bool ChangeHoldAnimation { get; protected set; }
+    private bool ChangeHoldAnimation;
     /// <summary>
     /// If true, item can be used by holding click instead of repeatedly clicking
     /// </summary>
-    public bool HoldClick { get; protected set; } 
+    private bool HoldClick;
     /// <summary>
     /// Rotation of the item when held by the player
     /// </summary>
     /// <summary>
     /// The amount of frame before this item is allowed to be used again after being used once
     /// </summary>
-    protected float UseCooldown;
-    public float RotationOffset { get; protected set; }
-    public float Scale { get; protected set; }
-    protected int Damage;
-    protected float ShotVelocity;
-    protected float Width; //These values determines the size of the item (hitbox)
-    protected float Height; //Used when picking up an item from the floor
+    private float UseCooldown;
+    private float RotationOffset;
+    private float Scale;
+    private int Damage;
+    private float ShotVelocity;
+    private float Width; //These values determines the size of the item (hitbox)
+    private float Height; //Used when picking up an item from the floor
     /// <summary>
     /// The factor at which the item slows down when in world. Defaults to 0.94f
     /// </summary>
-    protected float DeaccelerationRate;
+    private float DeaccelerationRate;
     /// <summary>
     /// The projectile shot by the weapon on default. 
     /// This is perposefully a function rather than a field, as a new instance of the projectile type needs to be instantiated when a projectile is generated.
@@ -64,19 +101,16 @@ public abstract class ItemData
             Height = value.y;
         }
     }
-    public ItemData()
+    private ItemStats MyStats { get; set; }
+    public ItemData() //These below can all be considered default values. They are technically not magic numbers, as they are always initiated before anything else takes place (making them no different from a variable initiated in the class)
     {
-        DeaccelerationRate = 0.94f;
-        UseCooldown = 20;
-        ChangeHoldAnimation = false;
-        HoldClick = true;
-        RotationOffset = 0f;
-        Scale = 0.75f;
-        CurrentCooldown = 0;
-        Damage = -1;
-        ShotVelocity = 10;
-        Size = new Vector2(32, 32);
+        SetDefaults();
+    }
+    private void SetDefaults()
+    {
         SetStats();
+        MyStats = (ItemStats)PrefabManager.GetScriptableObject(StatObjName);
+        AssignScriptedStats();
     }
     /// <summary>
     /// Whether or not the item should be consumed after being used. Defaults to False
@@ -112,7 +146,7 @@ public abstract class ItemData
     /// <returns></returns>
     public bool UseItem(Player player, HeldItem heldItem)
     {
-        //Debug.Log(this + " " + "item used");
+        SetDefaults();
         if (this.CanUse())
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
@@ -228,7 +262,7 @@ public abstract class ItemData
     {
 
     }
-    public void Update(DroppedItem obj)
+    public void DoUpdate(DroppedItem obj)
     {
         OnUpdate(obj);
         obj.Velocity *= DeaccelerationRate;
