@@ -6,6 +6,8 @@ public class PrefabManager : MonoBehaviour
 {
     [SerializeField]
     private GameObjectDictionary _prefab;
+    [SerializeField]
+    private ScriptedObjectDictionary _scriptableObject;
     /// <summary>
     /// Returns the prefab with the given index in the prefab array
     /// </summary>
@@ -24,7 +26,17 @@ public class PrefabManager : MonoBehaviour
     {
         return Prefab.GetValueOrDefault(prefabName);
     }
+    public static ScriptableObject GetScriptableObject(int index)
+    {
+        return instance._scriptableObject.items[index]._scriptedObject;
+    }
+    public static ScriptableObject GetScriptableObject(string objName)
+    {
+        return ScriptedObject.GetValueOrDefault(objName);
+    }
+
     public static Dictionary<string, GameObject> Prefab;
+    public static Dictionary<string, ScriptableObject> ScriptedObject;
     public static PrefabManager instance;
     private void Awake()
     {
@@ -38,6 +50,7 @@ public class PrefabManager : MonoBehaviour
             Destroy(gameObject);
         }
         Prefab = _prefab.ToDictionary();
+        ScriptedObject = _scriptableObject.ToDictionary();
     }
     private void Update()
     {
@@ -50,7 +63,9 @@ public class PrefabManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(Prefab == null)
+        if (Prefab == null)
             Prefab = _prefab.ToDictionary();
+        if (ScriptedObject == null)
+            ScriptedObject = _scriptableObject.ToDictionary();
     }
 }

@@ -156,7 +156,7 @@ public class CharacterAnimator : MonoBehaviour
         }
         Leg.transform.localPosition = LegPosition + circularMotion;
         Leg.transform.localRotation = (circularMotion.x * 0.3f + runningTilt * 0.25f).ToQuaternion();
-        if (HeldItem.item.ChangeHoldAnimation)
+        if (HeldItem.item.ChangesHoldAnimation)
         {
             Arm.transform.position = Body.transform.position + (Vector3)ArmPosition;
             Arm.transform.localRotation = (LeftArmRotationToCursor + Math.Abs(runningTilt)).ToQuaternion();
@@ -168,22 +168,27 @@ public class CharacterAnimator : MonoBehaviour
         }
         if (Entity.Direction == side)
         {
-            Arm.GetComponent<SpriteRenderer>().sortingOrder = Layer -1;
-            OppositeArm.GetComponent<SpriteRenderer>().sortingOrder = Layer + 5;
-            if (HeldItem.item.ChangeHoldAnimation)
+            SpriteRenderer ArmRenderer = Arm.GetComponent<SpriteRenderer>();
+            SpriteRenderer OppositeHeldItemRenderer = OppositeHeldItem.GetComponent<SpriteRenderer>();
+            SpriteRenderer OppositeArmRenderer = OppositeArm.GetComponent<SpriteRenderer>();
+
+            ArmRenderer.sortingOrder = Layer -1;
+            OppositeArmRenderer.sortingOrder = Layer + 5;
+            if (HeldItem.item.ChangesHoldAnimation)
             {
+                SpriteRenderer HeldItemRenderer = HeldItem.GetComponent<SpriteRenderer>();
                 if ((Entity.LookTarget - (Vector2)Arm.transform.position).x * side > 0)
                 {
-                    Arm.GetComponent<SpriteRenderer>().sortingOrder = Layer - 1;
-                    HeldItem.GetComponent<SpriteRenderer>().sortingOrder = Layer - 2;
+                    ArmRenderer.sortingOrder = Layer - 1;
+                    HeldItemRenderer.sortingOrder = Layer - 2;
                 }
                 else
                 {
-                    Arm.GetComponent<SpriteRenderer>().sortingOrder = Layer + 7;
-                    HeldItem.GetComponent<SpriteRenderer>().sortingOrder = Layer + 6;
+                    ArmRenderer.sortingOrder = Layer + 7;
+                    HeldItemRenderer.sortingOrder = Layer + 6;
                 }
             }
-            OppositeHeldItem.GetComponent<SpriteRenderer>().sortingOrder = Layer + 4;
+            OppositeHeldItemRenderer.sortingOrder = Layer + 4;
         }
     }
     public void RotateHeadToCursor()

@@ -14,9 +14,10 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public void PerformUpdate()
     {
-        foreach(SlotButton SB in Buttons)
+        for(int i = 0; i < Buttons.Count; i++)
         {
-            SB.PerformUpdate();
+            SlotButton SB = Buttons[i];
+            SB.PerformUpdate(i);
         }
         CursorButton.transform.position = Utils.MouseWorld();
         if((Player.MainPlayer.Control.LeftClick && !Player.MainPlayer.LastControl.LeftClick)
@@ -29,8 +30,8 @@ public class Inventory : MonoBehaviour
     {
         if(!SlotEmpty(CursorSlot))
         {
-            Vector2 toMouse = Utils.MouseWorld() - Player.MainPlayer.Position;
-            ItemData.NewItem(CursorSlot.Item, Player.MainPlayer.Position, toMouse.normalized * 8.5f);
+            ItemData drop = CursorSlot.Item;
+            ItemData.DropItem(drop);
             CursorSlot.UpdateItem(new NoItem());
         }
     }

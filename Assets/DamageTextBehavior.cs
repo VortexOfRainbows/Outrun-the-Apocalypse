@@ -44,7 +44,8 @@ public class DamageTextBehavior : MonoBehaviour
     }
     private void DisplayText()
     {
-        GetComponent<TextMeshPro>().color = Color.red * (Duration / MaxDuration);
-        GetComponent<TextMeshPro>().text = Number.ToString();
+        TextMeshPro textComponent = GetComponent<TextMeshPro>();
+        textComponent.color = Color.red * (Duration / MaxDuration);
+        textComponent.text = Number.ToString();
     }
 }

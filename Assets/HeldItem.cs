@@ -19,9 +19,9 @@ public class HeldItem : MonoBehaviour
             Init();
         }
         item.HoldingUpdate();
-        transform.localPosition = item.LocalPosition;
-        transform.localRotation = item.RotationOffset.ToQuaternion();
-        transform.localScale = new Vector3(1, 1, 1) * item.Scale;
+        transform.localPosition = item.HandOffset;
+        transform.localRotation = item.GetHoldOutRotation.ToQuaternion();
+        transform.localScale = new Vector3(1, 1, 1) * item.GetScale;
         lastItem = item;
     }
 }
