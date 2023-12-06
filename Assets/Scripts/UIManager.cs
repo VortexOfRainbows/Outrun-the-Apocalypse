@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     public GameObject InGameUI;
     public GameObject GameOverUI;
+
     private bool _GameOver = false;
+
     public static UIManager instance;
     private void Start()
     {
