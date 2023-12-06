@@ -12,13 +12,13 @@ public class HeldItem : MonoBehaviour
         }
         GetComponent<SpriteRenderer>().sprite = item.sprite;
     }
-    public void ItemUpdate()
+    public void ItemUpdate(Entity holdingEntity)
     {
         if(item != lastItem)
         {
             Init();
         }
-        item.HoldingUpdate();
+        item.HoldingUpdate(holdingEntity);
         transform.localPosition = item.HandOffset;
         transform.localRotation = item.GetHoldOutRotation.ToQuaternion();
         transform.localScale = new Vector3(1, 1, 1) * item.GetScale;

@@ -17,4 +17,8 @@ public class Key : ItemData
         position += velocity.normalized * 2f;
         return true;
     }
+    public override void OnHeldUpdate(Player player)
+    {
+        player.HasKeyInHand = true;
+    }
 }

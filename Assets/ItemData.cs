@@ -129,12 +129,23 @@ public abstract class ItemData
     /// Called by the character animator when it is updating (whose update is called in the player)
     /// Performs basic Item update tasks
     /// </summary>
-    public void HoldingUpdate()
+    public void HoldingUpdate(Entity entity)
     {
         if(CurrentCooldown > 0)
         {
             CurrentCooldown--;
         }
+        if(entity is Player player)
+            OnHeldUpdate(player);
+    }
+    /// <summary>
+    /// Called every frame while the item is in the players hand
+    /// Useful for giving the player additional effects while held
+    /// </summary>
+    /// <param name="player"></param>
+    public virtual void OnHeldUpdate(Player player)
+    {
+
     }
     /// <summary>
     /// Performs all the item related use actions

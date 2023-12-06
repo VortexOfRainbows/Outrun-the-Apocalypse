@@ -87,9 +87,9 @@ public class CharacterAnimator : MonoBehaviour
         RightItem.transform.parent = RightArm.transform;
         Animate();
         if(LeftItem.item != null)
-            LeftItem.ItemUpdate();
+            LeftItem.ItemUpdate(Entity);
         if(RightItem.item != null)
-            RightItem.ItemUpdate();
+            RightItem.ItemUpdate(Entity);
     }
     private const float WalkAnimCircleMagnitude = 7f; //How large is the walk animation?
     private const float WalkAnimSpeedMult = 2.5f; //How fast is the walk animation?

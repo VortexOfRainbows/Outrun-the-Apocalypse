@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
@@ -8,6 +9,7 @@ public class Player : EntityWithCharDrawing
     {
         CharacterAnimator.gameObject.SetActive(Enable);
     }
+    public bool HasKeyInHand { get; set; }
     public bool Dead => UIManager.GameEnd;
     [SerializeField]
     private CharacterAnimator CharacterAnimator;
@@ -47,7 +49,7 @@ public class Player : EntityWithCharDrawing
     public ControlDown LastControl = new ControlDown();
     public readonly Vector2 ColliderSize = new Vector2(0.4f, 0.9f);
     [SerializeField]
-    public BoxCollider2D Collider2D;
+    private BoxCollider2D Collider2D;
     public Vector2 Position
     {
         get
@@ -71,11 +73,11 @@ public class Player : EntityWithCharDrawing
         }
     }
     public Vector2 LastPosition = Vector2.zero;
-    public const float MovementAcceleration = 0.65f;
-    public const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
-    public const float BaseMaxMoveSpeed = 6f;
+    private const float MovementAcceleration = 0.65f;
+    private const float MovementDeacceleration = 0.5f; //Could seperate this into more variables later. Such as for Air based acceleration. Really just depends on what we want to change
+    private const float BaseMaxMoveSpeed = 6f;
     public float MaxMoveSpeed = 6f;
-    public float RotationOffset;
+    private float RotationOffset;
     // Start is called before the first frame update
     void Awake()
     {
@@ -131,6 +133,7 @@ public class Player : EntityWithCharDrawing
         Physics();
         if(!Dead)
         {
+            ResetFieldsToDefaults();
             ControlUpdate();
             InventoryUpdate();
             ItemUpdate();
@@ -143,6 +146,10 @@ public class Player : EntityWithCharDrawing
         MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(Position.x, Position.y + 4, MainCamera.transform.position.z), 0.06f);
         Inventory.PerformUpdate(); //Anything reliant on the Player Control system should be called before the previous controls are updated.
         AssignPreviousControls();
+    }
+    private void ResetFieldsToDefaults()
+    {
+        HasKeyInHand = false; //This resets the value to false every frame. The value is only set to true in ItemUpdate() if the player is holding a key in either hand.
     }
     /// <summary>
     /// Performs calculations for acceleration, deacceleration, rotation, etc. Velocity is applied to the local property, which is then applied to the rigid body to perform the movement.
