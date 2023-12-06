@@ -148,6 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc3a21c8572cf99459c27d1c7a7feb26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EscapeEscalationFactor: 20
+  BeginDrivingAt: 8
+  MaxEscalation: 10
+  WobbleMult: 0.036
+  SpeedMult: 2.5
+  TimeUntilPopup: 300
+  WobbleDisplacementMax: 0.5
 --- !u!61 &9157501994805803222
 BoxCollider2D:
   m_ObjectHideFlags: 0

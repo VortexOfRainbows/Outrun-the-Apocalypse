@@ -85,6 +85,9 @@ MonoBehaviour:
     - m_Name: Potato
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: fb1f2eca49bd2564d9276e6378c53a3f, type: 3}
+    - m_Name: Stab
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: 0416ec86091349f498ec5476ac8108fc, type: 3}
   - m_Name: UI
     m_Hash: 0
     m_CategoryList:

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9774685b1c5cff4191db527d4589f43, type: 3}
+  m_Name: Key
+  m_EditorClassIdentifier: 
+  ChangeHoldAnimation: 1
+  HoldClick: 1
+  UseCooldown: 15
+  RotationOffset: 0
+  Scale: 0.5
+  Damage: 4
+  ShotVelocity: 5
+  Width: -1
+  Height: -1
+  DeaccelerationRate: 0.96

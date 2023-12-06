@@ -71,7 +71,7 @@ public class EscapeTruck : MonoBehaviour
         if (collision.collider.tag == "Player")
         {
             Player player = collision.gameObject.GetComponent<Player>();
-            if(player != null)
+            if(player != null && (player.HasKeyInHand || BeginEscape))
             {
                 if (WheelCount >= 4)
                 {
