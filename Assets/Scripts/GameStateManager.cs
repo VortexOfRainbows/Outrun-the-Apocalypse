@@ -31,4 +31,8 @@ public class GameStateManager : MonoBehaviour
     {
 
     }
+    public void ClearRecord() 
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

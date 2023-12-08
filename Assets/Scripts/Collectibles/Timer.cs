@@ -25,22 +25,18 @@ public class Timer : MonoBehaviour
 
     private void Start() 
     {
+        time = 0;
+        PlayerPrefs.GetFloat("FastestHighScore", 9999f);
         timeText.text = "Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
         bestTimeText.text = "Longest Survival Time:  " + PlayerPrefs.GetFloat("HighScoreMin", 0).ToString() + ":" + PlayerPrefs.GetFloat("HighScoreSec", 0).ToString("00");
-        fastestTimeText.text = "Fastest Clear Time:  " + PlayerPrefs.GetFloat("FastestHighScoreMin", 0).ToString() + ":" + PlayerPrefs.GetFloat("FastestHighScoreSec", 0).ToString("00");
+        fastestTimeText.text = "Fastest Clear Time:  " + PlayerPrefs.GetFloat("FastestHighScoreMin").ToString() + ":" + PlayerPrefs.GetFloat("FastestHighScoreSec").ToString("00");
     }
     private void Update()
     {
         //if (instance != this || instance == null)
         //    instance = this;
 
-        time += Time.deltaTime;
-        seconds += Time.deltaTime;
-
-        //if (time < 58f)
-        //{
-        //   time = 58f;
-        //}
+        time = time + (Time.deltaTime * Time.timeScale);
 
             seconds = time % 60;
             minutes =  Mathf.FloorToInt(time / 60);
@@ -60,13 +56,19 @@ public class Timer : MonoBehaviour
             bestTimeText.text = "Longest Survival Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
         }
 
-        if (time < PlayerPrefs.GetFloat("FastestHighScore", 99999999999999f) && Manager.win == true) 
+        if (time < PlayerPrefs.GetFloat("FastestHighScore", 9999f) && Manager.win) 
         {
             PlayerPrefs.SetFloat("FastestHighScore", time);
             PlayerPrefs.SetFloat("FastestHighScoreMin", minutes);
             PlayerPrefs.SetFloat("FastestHighScoreSec", seconds);
 
+            Debug.Log(PlayerPrefs.GetFloat("FastestHighScore"));
             fastestTimeText.text = "Fastest Clear Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
         }
+
+        //Debug.Log(time < PlayerPrefs.GetFloat("FastestHighScore", 9999f));
+        Debug.Log(PlayerPrefs.GetFloat("FastestHighScore", 9999f));
+        //Debug.Log(time);
+
     }
 }

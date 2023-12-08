@@ -14,8 +14,8 @@ public class UIManager : MonoBehaviour
     public GameObject GameOverUI;
     public GameObject PauseUI;
 
-    private bool _GameOver = false;
-    public bool win = false;
+    public bool _GameOver = false;
+    public bool win;
 
     public static UIManager instance;
     private void Start()
@@ -58,12 +58,13 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        Debug.Log(_GameOver);
+
     }
     public void GameWon()
     {
         _GameOver = true;
         win = true;
+        Time.timeScale = 0f;
         GameOverUI.GetComponentInChildren<TextMeshProUGUI>().text = "ESCAPE SUCCESSFUL";
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
@@ -73,10 +74,12 @@ public class UIManager : MonoBehaviour
         _GameOver = true;
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
+        Time.timeScale = 0f;
     }
     public void PlayGame()
     {
         _GameOver = false;
+        win = false;
         InGameUI.SetActive(true);
         GameOverUI.SetActive(false);
     }
