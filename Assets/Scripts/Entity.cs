@@ -3,8 +3,21 @@ using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
-    public const float SecondsUntilEnemyStatsDouble = 900;
-    public static float EnemyScalingFactor => 1 + Timer.RawSeconds / SecondsUntilEnemyStatsDouble; //Increases the difficulty of enemies as you gather more coins
+    public const float SecondsUntilEnemyStatsDouble = 600;
+    public static float EnemyScalingFactor {
+        get
+        {
+            float bonus = Timer.RawSeconds / SecondsUntilEnemyStatsDouble;
+            if(bonus > 1)
+            {
+                bonus -= 1;
+                bonus *= 0.5f; //any bonus to enemy difficulty after double becomes slower to acquire
+                bonus += 1;
+            }
+            float num = 1 + bonus;
+            return num;
+        }
+    }//Increases the difficulty of enemies as you gather more coins
     [SerializeField] protected GameObject HealthUI;
     [SerializeField] private Image HealthBar;
     //These field are public because they often need to be accessed by the character animator

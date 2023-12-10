@@ -44,6 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c4286e66862954886b2af2581ba882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnTimerCounter: 0
+  MaximumSpawnTime: 300
+  MinimumSpawnTime: 30
+  LocationAttemptsPerCycle: 50
+  SecondsUntilMaxSpawns: 600
+  MinimumDistanceY: 160
+  MaximumDistanceY: 260
+  MinimumDistanceX: 250
+  MaximumDistanceX: 350
+  SpawnTimeVariance: 0.1
 --- !u!1 &6149223335012024283
 GameObject:
   m_ObjectHideFlags: 0

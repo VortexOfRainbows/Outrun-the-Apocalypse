@@ -11,14 +11,15 @@ public class Key : ItemData
     public override Vector2 HandOffset => new Vector2(0f, -7.5f);
     protected override ProjectileData ShootType => new Stab();
     public float RandomSpread = 0.1f;
-    public override bool Shoot(Player player, ref Vector2 position, ref Vector2 velocity, ref int damage)
+    public override bool Shoot(Entity player, ref Vector2 position, ref Vector2 velocity, ref int damage)
     {
         velocity = velocity.RotatedBy(Random.Range(-RandomSpread, RandomSpread));
         position += velocity.normalized * 2f;
         return true;
     }
-    public override void OnHeldUpdate(Player player)
+    public override void OnHeldUpdate(Entity entity)
     {
-        player.HasKeyInHand = true;
+        if(entity is Player player)
+            player.HasKeyInHand = true;
     }
 }

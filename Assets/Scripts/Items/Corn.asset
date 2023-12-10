@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Corn
   m_EditorClassIdentifier: 
   ChangeHoldAnimation: 1
-  HoldClick: 1
+  HoldClick: 0
   UseCooldown: 0
   RotationOffset: -1.5707964
-  Scale: 1
+  Scale: 0.75
   Damage: 20
   ShotVelocity: 0
   Width: -1

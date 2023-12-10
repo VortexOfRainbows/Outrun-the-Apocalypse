@@ -73,10 +73,10 @@ public abstract class ItemData
     /// <summary>
     /// The amount of frame before this item is allowed to be used again after being used once
     /// </summary>
-    protected float UseCooldown;
+    public float UseCooldown { get; protected set; }
     protected float RotationOffset;
     protected float Scale;
-    protected int Damage;
+    public int Damage { get; protected set; }
     protected float ShotVelocity;
     protected float Width; //These values determines the size of the item (hitbox)
     protected float Height; //Used when picking up an item from the floor
@@ -117,11 +117,11 @@ public abstract class ItemData
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public virtual bool ConsumeAfterUsing(Player player)
+    public virtual bool ConsumeAfterUsing(Entity player)
     {
         return false;
     }
-    public bool CanUse(Player player)
+    public bool CanUse(Entity player)
     {
         return CanUseItem(player) && CurrentCooldown <= 0;
     }
@@ -135,15 +135,14 @@ public abstract class ItemData
         {
             CurrentCooldown--;
         }
-        if(entity is Player player)
-            OnHeldUpdate(player);
+        OnHeldUpdate(entity);
     }
     /// <summary>
     /// Called every frame while the item is in the players hand
     /// Useful for giving the player additional effects while held
     /// </summary>
     /// <param name="player"></param>
-    public virtual void OnHeldUpdate(Player player)
+    public virtual void OnHeldUpdate(Entity entity)
     {
 
     }
@@ -152,13 +151,13 @@ public abstract class ItemData
     /// Returns true if the item should be consumed after being used
     /// </summary>
     /// <param name="item"></param>
-    /// <param name="player"></param>
+    /// <param name="entity"></param>
     /// <param name="heldItem"></param>
     /// <returns></returns>
-    public bool UseItem(Player player, HeldItem heldItem)
+    public bool UseItem(Entity entity, HeldItem heldItem)
     {
         SetDefaults();
-        if (this.CanUse(player))
+        if (this.CanUse(entity))
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
             float itemAngle = heldItem.transform.eulerAngles.z * Mathf.Deg2Rad;
@@ -173,15 +172,15 @@ public abstract class ItemData
 
             Vector2 shootVelocity = ToMouse.normalized * this.ShotVelocity;
             int shootDamage = this.Damage;
-            this.OnUseItem(player);
-            bool UseDefaultShoot = this.Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
+            this.OnUseItem(entity);
+            bool UseDefaultShoot = this.Shoot(entity, ref shootingPosition, ref shootVelocity, ref shootDamage);
             if(UseDefaultShoot)
             {
                 ProjectileData shootType = this.ShootType;
-                FireProjectileTowardsCursor(shootType, shootingPosition, shootVelocity, shootDamage);
+                FireProjectileTowardsCursor(entity, shootType, shootingPosition, shootVelocity, shootDamage);
             }
             this.CurrentCooldown = this.UseCooldown;
-            return this.ConsumeAfterUsing(player);
+            return this.ConsumeAfterUsing(entity);
         }
         return false;
     }
@@ -228,7 +227,7 @@ public abstract class ItemData
     /// Return false to prevent an item from being useable
     /// </summary>
     /// <returns></returns>
-    public virtual bool CanUseItem(Player player)
+    public virtual bool CanUseItem(Entity entity)
     {
         return true;
     }
@@ -236,7 +235,7 @@ public abstract class ItemData
     /// Allows you to make things happen when the item is used
     /// </summary>
     /// <returns></returns>
-    public virtual void OnUseItem(Player player)
+    public virtual void OnUseItem(Entity entity)
     {
         
     }
@@ -248,13 +247,13 @@ public abstract class ItemData
     /// Returns false by default.
     /// </summary>
     /// <returns></returns>
-    public virtual bool Shoot(Player player, ref Vector2 position, ref Vector2 velocity, ref int damage)
+    public virtual bool Shoot(Entity entity, ref Vector2 position, ref Vector2 velocity, ref int damage)
     {
         return false;
     }
-    public static void FireProjectileTowardsCursor(ProjectileData data, Vector2 position, Vector2 velocity, int damage)
+    public static void FireProjectileTowardsCursor(Entity entity, ProjectileData data, Vector2 position, Vector2 velocity, int damage)
     {
-        ProjectileData.NewProjectile(data, position, velocity, damage);
+        ProjectileData.NewProjectile(entity, data, position, velocity, damage);
     }
     /// <summary>
     /// Called once after initializing the item on the floor

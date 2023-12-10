@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,6 +54,7 @@ public class DroppedItem : MonoBehaviour
     }
     private void AdjustHitbox()
     {
+        transform.localScale = Vector3.one * Item.GetScale;
         Hitbox.size = Item.Size;
         Vector2 size = Item.sprite.rect.size;
         Vector2 pivot = Item.sprite.pivot;
@@ -62,7 +64,7 @@ public class DroppedItem : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && TimeInWorld >= 30)
+        if (collision.tag == "Player" && (TimeInWorld >= 30 || TimeInWorld < 0)) //can be picked up after 30 frames in world. To prevent dropping items from resulting in immediate pickup of the item.
         {
             if (Player.MainPlayer.AddItemToInventory(Item))
             {

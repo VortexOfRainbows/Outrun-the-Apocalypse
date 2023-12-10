@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ProjectileData
@@ -8,24 +9,39 @@ public abstract class ProjectileData
     /// Instantiates a new projectile with the projectile data assigned. The projectile data is stored as a reference, so make sure to call *new ("projectiletype")*
     /// If you use the same reference for multiple instantiates, they will share the same projectile data (which I guess could be vaguely useful, but mostly should be avoided)
     /// </summary>
-    /// <param name="projectileData"></param>
+    /// <param name="projectile"></param>
     /// <param name="position"></param>
     /// <param name="velocity"></param>
     /// <param name="damage"></param>
     /// <returns></returns>
-    public static GameObject NewProjectile(ProjectileData projectileData, Vector2 position, Vector2 velocity, int damage, float ai0 = 0, float ai1 = 0, float ai2 = 0, float ai3 = 0)
+    public static GameObject NewProjectile(Entity owner, ProjectileData projectile, Vector2 position, Vector2 velocity, int damage, float ai0 = 0, float ai1 = 0, float ai2 = 0, float ai3 = 0)
     {
         GameObject projectileObj = GameObject.Instantiate(PrefabManager.GetPrefab(0));
         projectileObj.transform.position = position;
         ProjectileObject POBJ = projectileObj.GetComponent<ProjectileObject>();
         POBJ.Velocity = velocity;
-        POBJ.Projectile = projectileData;
-        projectileData.Damage = damage;
-        projectileData.AI[0] = ai0;
-        projectileData.AI[1] = ai1;
-        projectileData.AI[2] = ai2;
-        projectileData.AI[3] = ai3;
-        projectileData.AfterSpawning(projectileObj);
+        POBJ.Projectile = projectile;
+        projectile.Damage = damage;
+        projectile.AI[0] = ai0;
+        projectile.AI[1] = ai1;
+        projectile.AI[2] = ai2;
+        projectile.AI[3] = ai3;
+        projectile.AfterSpawning(projectileObj);
+        if(owner is Zombie z)
+        {
+            POBJ.Velocity *= z.projectileSpeedMultiplier;
+            if(z.projectileSpeedMultiplier != 0)
+            {
+                projectile.Lifetime = (int)(projectile.Lifetime / z.projectileSpeedMultiplier);
+            }
+            if(projectile.Friendly)
+            {
+                projectile.Damage = (int)(projectile.Damage * Entity.EnemyScalingFactor); //damage should scale with the enemy scaling factor if it is a hostile projectile
+                projectile.Friendly = false;
+                projectile.Hostile = true;
+                POBJ.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+        }
         return projectileObj;
     }
     /// <summary>

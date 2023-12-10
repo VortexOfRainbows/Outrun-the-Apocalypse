@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -14,13 +15,15 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public void PerformUpdate()
     {
-        for(int i = 0; i < Buttons.Count; i++)
+        bool hasPerformedAnUpdate = false;
+        for (int i = 0; i < Buttons.Count; i++)
         {
             SlotButton SB = Buttons[i];
-            SB.PerformUpdate(i);
+            if (SB.PerformUpdate(i))
+                hasPerformedAnUpdate = true;
         }
         CursorButton.transform.position = Utils.MouseWorld();
-        if(Player.MainPlayer.Control.SwapItem && !Player.MainPlayer.LastControl.SwapItem)
+        if (!hasPerformedAnUpdate && Player.MainPlayer.Control.SwapItem && !Player.MainPlayer.LastControl.SwapItem)
         {
             DropCursorItem();
         }
