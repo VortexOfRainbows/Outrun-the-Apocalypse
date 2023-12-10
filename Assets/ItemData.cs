@@ -55,35 +55,35 @@ public abstract class ItemData
     public bool CanHoldClickUse => HoldClick;
     public float GetHoldOutRotation => RotationOffset;
     //This value is not serialized, because it is only used as a timer. It is not a value that needs to be changed externally
-    private float CurrentCooldown; //Stores the current item cooldown time. Item can be not used when above 0
+    protected float CurrentCooldown; //Stores the current item cooldown time. Item can be not used when above 0
     ///
     /// The statistical values for this class are protected. This is so the child classes can modify them (but external classes cannot)
     /// 
     /// <summary>
     /// Whether the item is held out in the hand of the player
     /// </summary>
-    private bool ChangeHoldAnimation;
+    protected bool ChangeHoldAnimation;
     /// <summary>
     /// If true, item can be used by holding click instead of repeatedly clicking
     /// </summary>
-    private bool HoldClick;
+    protected bool HoldClick;
     /// <summary>
     /// Rotation of the item when held by the player
     /// </summary>
     /// <summary>
     /// The amount of frame before this item is allowed to be used again after being used once
     /// </summary>
-    private float UseCooldown;
-    private float RotationOffset;
-    private float Scale;
-    private int Damage;
-    private float ShotVelocity;
-    private float Width; //These values determines the size of the item (hitbox)
-    private float Height; //Used when picking up an item from the floor
+    protected float UseCooldown;
+    protected float RotationOffset;
+    protected float Scale;
+    protected int Damage;
+    protected float ShotVelocity;
+    protected float Width; //These values determines the size of the item (hitbox)
+    protected float Height; //Used when picking up an item from the floor
     /// <summary>
     /// The factor at which the item slows down when in world. Defaults to 0.94f
     /// </summary>
-    private float DeaccelerationRate;
+    protected float DeaccelerationRate;
     /// <summary>
     /// The projectile shot by the weapon on default. 
     /// This is perposefully a function rather than a field, as a new instance of the projectile type needs to be instantiated when a projectile is generated.
@@ -121,9 +121,9 @@ public abstract class ItemData
     {
         return false;
     }
-    public bool CanUse()
+    public bool CanUse(Player player)
     {
-        return CanUseItem() && CurrentCooldown <= 0;
+        return CanUseItem(player) && CurrentCooldown <= 0;
     }
     /// <summary>
     /// Called by the character animator when it is updating (whose update is called in the player)
@@ -158,7 +158,7 @@ public abstract class ItemData
     public bool UseItem(Player player, HeldItem heldItem)
     {
         SetDefaults();
-        if (this.CanUse())
+        if (this.CanUse(player))
         {
             Vector2 shootingPosition = (Vector2)heldItem.transform.position;
             float itemAngle = heldItem.transform.eulerAngles.z * Mathf.Deg2Rad;
@@ -173,7 +173,7 @@ public abstract class ItemData
 
             Vector2 shootVelocity = ToMouse.normalized * this.ShotVelocity;
             int shootDamage = this.Damage;
-            this.OnUseItem();
+            this.OnUseItem(player);
             bool UseDefaultShoot = this.Shoot(player, ref shootingPosition, ref shootVelocity, ref shootDamage);
             if(UseDefaultShoot)
             {
@@ -228,7 +228,7 @@ public abstract class ItemData
     /// Return false to prevent an item from being useable
     /// </summary>
     /// <returns></returns>
-    public virtual bool CanUseItem()
+    public virtual bool CanUseItem(Player player)
     {
         return true;
     }
@@ -236,7 +236,7 @@ public abstract class ItemData
     /// Allows you to make things happen when the item is used
     /// </summary>
     /// <returns></returns>
-    public virtual void OnUseItem()
+    public virtual void OnUseItem(Player player)
     {
         
     }

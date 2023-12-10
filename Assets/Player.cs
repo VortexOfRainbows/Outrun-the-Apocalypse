@@ -84,7 +84,6 @@ public class Player : EntityWithCharDrawing
         if (MainPlayer == null)
         {
             MainPlayer = this;
-            DontDestroyOnLoad(MainPlayer);
         }
         else
         {
@@ -106,7 +105,6 @@ public class Player : EntityWithCharDrawing
         if (MainPlayer == null)
         {
             MainPlayer = this;
-            DontDestroyOnLoad(MainPlayer);
         }
         else
         {
@@ -317,7 +315,7 @@ public class Player : EntityWithCharDrawing
         }
     }
     [SerializeField] public Inventory Inventory;
-    private const int LeftHandSlotNum = 4;
+    public const int LeftHandSlotNum = 4;
     public const int RightHandSlotNum = 5;
     public void InventoryUpdate()
     {

@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
-    public static float EnemyScalingFactor => 1 + CoinCounter.instance.CoinCount / 100f; //Increases the difficulty of enemies as you gather more coins
+    public const float SecondsUntilEnemyStatsDouble = 900;
+    public static float EnemyScalingFactor => 1 + Timer.RawSeconds / SecondsUntilEnemyStatsDouble; //Increases the difficulty of enemies as you gather more coins
     [SerializeField] protected GameObject HealthUI;
     [SerializeField] private Image HealthBar;
     //These field are public because they often need to be accessed by the character animator
@@ -122,13 +123,22 @@ public abstract class Entity : MonoBehaviour
     /// <param name="damage"></param>
     public void Hurt(float damage, int setImmuneFrames) //This method is public as there may be some situations where damage should be done through other classes
     {
-        DamageTextBehavior.SpawnDamageText(Mathf.CeilToInt(damage), transform.position + new Vector3(0, 12)); //Should spawn twelve pixels above center hit
+        DamageTextBehavior.SpawnDamageText(Mathf.CeilToInt(damage), transform.position + new Vector3(0, 12), Color.red); //Should spawn twelve pixels above center hit
         Life -= damage;
         if(Life <= 0)
         {
             Death();
         }
         ImmunityFrames = setImmuneFrames;
+    }
+    public void Heal(int healAmount)
+    {
+        Life += healAmount;
+        if (Life > MaxLife)
+        {
+            Life = MaxLife;
+        }
+        DamageTextBehavior.SpawnDamageText(Mathf.CeilToInt(healAmount), transform.position + new Vector3(0, 12), Color.green); //Should spawn twelve pixels above center hit
     }
     private void Death()
     {

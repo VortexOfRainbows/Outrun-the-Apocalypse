@@ -37,19 +37,19 @@ public class Zombie : EntityWithCharDrawing
         }
         else
         {
-            if (transform.position.x < player.transform.position.x)
+            if (transform.position.x < player.transform.position.x - 5) //These 5 are simply in place to prevent the zombie from jittering in its movements. They don't really need to be variables because this number is mostly inconsequential otherwise.
             {
                 Velocity.x += 1; //Increase velocity by 1 to the right, since the player is right of the zombie
             }
-            if (transform.position.x > player.transform.position.x)
+            if (transform.position.x > player.transform.position.x + 5)
             {
                 Velocity.x -= 1;
             }
-            if (transform.position.y < player.transform.position.y)
+            if (transform.position.y < player.transform.position.y - 5)
             {
                 Velocity.y += 1;
             }
-            if (transform.position.y > player.transform.position.y)
+            if (transform.position.y > player.transform.position.y + 5)
             {
                 Velocity.y -= 1;
             }

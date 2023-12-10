@@ -20,8 +20,7 @@ public class Inventory : MonoBehaviour
             SB.PerformUpdate(i);
         }
         CursorButton.transform.position = Utils.MouseWorld();
-        if((Player.MainPlayer.Control.LeftClick && !Player.MainPlayer.LastControl.LeftClick)
-            || (Player.MainPlayer.Control.RightClick && !Player.MainPlayer.LastControl.RightClick))
+        if(Player.MainPlayer.Control.SwapItem && !Player.MainPlayer.LastControl.SwapItem)
         {
             DropCursorItem();
         }

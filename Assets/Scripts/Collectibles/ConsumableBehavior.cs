@@ -1,16 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[Obsolete] //this is unused. Please do not consider this for grading purposes.
 public class ConsumableBehavior : MonoBehaviour
 {
     public Consumables consumable;
     public playerBuffState playerBuffState;
-
     private void OnTriggerEnter2D(Collider2D collusion)
     {
-
         if (collusion.gameObject.tag == "Player") 
         {
             Destroy(gameObject);
@@ -37,8 +37,5 @@ public class ConsumableBehavior : MonoBehaviour
                 playerBuffState.hpincrease = consumable.hpincrease;
             }
         }
-        
-
     }
-
 }

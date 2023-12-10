@@ -6,15 +6,18 @@ using UnityEngine.UI;
 
 public class DamageTextBehavior : MonoBehaviour
 {
-    public float DefaultTextScale = 0.75f;
+    private Color drawColor;
+    [SerializeField] private float DefaultTextScale = 0.75f;
     private void Awake()
     {
         transform.localScale = Vector3.zero;
     }
-    public static void SpawnDamageText(int damage, Vector2 position)
+    public static void SpawnDamageText(int damage, Vector2 position, Color color)
     {
         GameObject popupText = Instantiate(PrefabManager.GetPrefab("damageText"), position, new Quaternion());
-        popupText.GetComponent<DamageTextBehavior>().Number = damage;
+        DamageTextBehavior text = popupText.GetComponent<DamageTextBehavior>();
+        text.Number = damage;
+        text.drawColor = color;
     }
     public const float MaxDuration = 60f;
     private float Duration;
@@ -45,7 +48,7 @@ public class DamageTextBehavior : MonoBehaviour
     private void DisplayText()
     {
         TextMeshPro textComponent = GetComponent<TextMeshPro>();
-        textComponent.color = Color.red * (Duration / MaxDuration);
+        textComponent.color = drawColor * (Duration / MaxDuration);
         textComponent.text = Number.ToString();
     }
 }

@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[Obsolete] //this is unused. Please do not consider this for grading purposes.
 public class playerBuffState : MonoBehaviour
 {
     public Player player;
@@ -20,15 +22,14 @@ public class playerBuffState : MonoBehaviour
     public float duration;
     public bool invinciblity;
 
-    private void OnTriggerEnter2D(Collider2D collusion)
+    /*private void OnTriggerEnter2D(Collider2D collusion)
     {
         if (collusion.gameObject.tag == "Healing")
         {
             player.Life += hpincrease;
             DamageTextBehavior.SpawnDamageText(Mathf.CeilToInt(hpincrease), transform.position + new Vector3(0, 12));
-
-            if (player.Life > player.MaxLife) { 
-            
+            if (player.Life > player.MaxLife)
+            { 
                 player.Life = player.MaxLife;
             }
         }
@@ -36,20 +37,17 @@ public class playerBuffState : MonoBehaviour
         
             hpincrease = 0;
         }
-    }
-
+    }*/
     void Update()
     {
-
         if (duration <= 0)
         {
             characterDefaultState();
-}
+        }
         else if (duration > 0)
         {
             characterBuffedState();
         }
-
     }
     public void characterDefaultState()
     {
@@ -62,7 +60,6 @@ public class playerBuffState : MonoBehaviour
 
         invinciblity = false;
     }
-
     public void characterBuffedState() 
     {
         player.MaxMoveSpeed = speedMultiplier;

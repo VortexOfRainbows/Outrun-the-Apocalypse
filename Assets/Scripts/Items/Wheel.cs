@@ -13,7 +13,7 @@ public class Wheel : ItemData
     {
         return true;
     }
-    public override void OnUseItem()
+    public override void OnUseItem(Player player)
     {
         DropItem(this);
     }

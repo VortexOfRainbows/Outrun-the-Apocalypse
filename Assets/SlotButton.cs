@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TerrainTools;
 using UnityEngine.UIElements;
 
 public class SlotButton : MonoBehaviour
@@ -35,6 +36,10 @@ public class SlotButton : MonoBehaviour
             {
                 MouseDown();
             }
+            else if (SlotNumber == Player.LeftHandSlotNum && p.Control.LeftClick && !p.Control.LeftClick)
+                MouseDown();
+            else if (SlotNumber == Player.RightHandSlotNum && p.Control.RightClick && !p.Control.RightClick)
+                MouseDown();
         }
         else if(CorrectKeyDown(SlotNumber))
             MouseDown();
