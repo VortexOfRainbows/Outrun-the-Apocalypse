@@ -67,8 +67,8 @@ public class Timer : MonoBehaviour
         }
 
         //Debug.Log(time < PlayerPrefs.GetFloat("FastestHighScore", 9999f));
-        Debug.Log(PlayerPrefs.GetFloat("FastestHighScore", 9999f));
-        //Debug.Log(time);
+        //Debug.Log(PlayerPrefs.GetFloat("FastestHighScore", 9999f));
+        Debug.Log(time);
 
     }
 }

@@ -87,14 +87,14 @@ public class UIManager : MonoBehaviour
     public void Pause()
     {
         GameIsPaused = true;
-        Time.timeScale = 0f;
         PauseUI.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void Resume()
     {
         GameIsPaused = false;
-        Time.timeScale = 1f;
         PauseUI.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
