@@ -77,6 +77,6 @@ public class Timer : MonoBehaviour
         }
         if(anythingChanged)
             PlayerPrefs.Save();
-        Debug.Log(CurrentTime);
+        //Debug.Log(CurrentTime);
     }
 }

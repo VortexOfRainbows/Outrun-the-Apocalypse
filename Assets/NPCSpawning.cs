@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class NPCSpawning : MonoBehaviour
 {
@@ -12,14 +13,21 @@ public class NPCSpawning : MonoBehaviour
     {
         if(Tilemap == null)
         {
-            TilemapCollider2D maps = FindObjectOfType<TilemapCollider2D>(); //this is the easiest way to consistenly find the tilemap with collision, as scenes may organize maps differently, and the tilemap is hard to serialize (as NPCSpawning belongs to the player, which is tied to something else on scene loading)
-            if(maps != null)
-                Tilemap = maps.gameObject.GetComponent<Tilemap>();
+            TilemapCollider2D[] maps = FindObjectsOfType<TilemapCollider2D>(); //this is the easiest way to consistenly find the tilemap with collision, as scenes may organize maps differently, and the tilemap is hard to serialize (as NPCSpawning belongs to the player, which is tied to something else on scene loading)
+            if (maps != null)
+                foreach (TilemapCollider2D map in maps)
+                {
+                    if(!map.isTrigger)
+                    {
+                        Tilemap = map.gameObject.GetComponent<Tilemap>();
+                        return;
+                    }
+                }
         }
     }
     public bool HasCollide(Vector2 position)
     {
-        Vector3Int VectorAsInt = new Vector3Int((int)position.x, (int)position.y);
+        Vector3Int VectorAsInt = Tilemap.WorldToCell(position);
         return Tilemap.HasTile(VectorAsInt);
     }
     private Vector2 PlayerLocation => Player.MainPlayer.Position;
@@ -75,6 +83,7 @@ public class NPCSpawning : MonoBehaviour
             {
                 Vector2 SpawnLocationOffset = new Vector2(rangeX * xDirection, rangeY * yDirection);
                 Vector2 SpawnLocation = SpawnLocationOffset + PlayerLocation;
+                //Debug.Log(Tilemap);
                 if (Tilemap == null || !HasCollide(SpawnLocation))
                 {
                     return SpawnLocation;
