@@ -44,14 +44,21 @@ public class CharacterAnimator : MonoBehaviour
         RightArm.GetComponent<SpriteRenderer>().sortingOrder = Layer - 1;
         LeftArm.GetComponent<SpriteRenderer>().sortingOrder = Layer + 4;
     }
-    GameObject Body;
-    GameObject Head;
-    GameObject BackLeg;
-    GameObject FrontLeg;
-    GameObject RightArm;
-    GameObject LeftArm;
-    GameObject Shadow;
-    GameObject Eyes;
+    ///
+    /// The references below are public because they need to be accessed for generating gore.
+    /// However, they cannot be stores as properties as they are modified by reference.'
+    /// Properties cannot be modified by ref.
+    /// 
+    /// I could've made seperate get methods for all of them. I understand that. But please consider that would contribute unnecessary bloat to this class.
+    /// 
+    public GameObject Body;
+    public GameObject Head;
+    public GameObject BackLeg;
+    public GameObject FrontLeg;
+    public GameObject RightArm;
+    public GameObject LeftArm;
+    public GameObject Shadow;
+    public GameObject Eyes;
     public void InitLimbs()
     {
         InitValues();

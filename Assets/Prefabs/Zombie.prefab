@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3418515227116727446}
   - component: {fileID: 6428957572462518907}
-  - component: {fileID: 1315925301040050606}
   - component: {fileID: 2767525435448574298}
+  - component: {fileID: 6290819993416228201}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -63,8 +63,50 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &1315925301040050606
-CapsuleCollider2D:
+--- !u!114 &2767525435448574298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5618483985035375901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d0cdcd7ec7f5e40813c70e71c0c3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthUI: {fileID: 1817893066652668590}
+  HealthBar: {fileID: 2531231414762500740}
+  rb: {fileID: 6428957572462518907}
+  Direction: 0
+  LastDirection: 0
+  PrevVelocity: {x: 0, y: 0}
+  Velocity: {x: 0, y: 0}
+  LookTarget: {x: 0, y: 0}
+  Friendly: 0
+  Life: 0
+  MaxLife: 0
+  ContactDamage: 0
+  ImmunityFrames: 0
+  JustSpawnedIn: 1
+  movespeedMultiplier: 1.55
+  directMovespeedMultiplier: 1.4
+  InertiaPercent: 0.2
+  CharacterAnimator: {fileID: 8207784639512121236}
+  baseDropChance: 0.2
+  DrunkVelocity: {x: 0, y: 0}
+  FollowDirect: 0
+  chanceForCorn: 0.1
+  chanceForFarmerGun: 0.035
+  chanceForSpectre: 0.0175
+  chanceForMortar: 0.0125
+  chanceForOdin: 0.005
+  chanceForPotatoGun: 0.0025
+  SpeedMultiplierOutOfRange: 4
+  ActivateOutOfRangeDistance: 270
+  EatCornBaseChance: 0.015
+--- !u!58 &6290819993416228201
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -95,37 +137,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 4}
-  m_Size: {x: 10, y: 24}
-  m_Direction: 0
---- !u!114 &2767525435448574298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5618483985035375901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78d0cdcd7ec7f5e40813c70e71c0c3da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthUI: {fileID: 1817893066652668590}
-  HealthBar: {fileID: 2531231414762500740}
-  rb: {fileID: 6428957572462518907}
-  Direction: 0
-  LastDirection: 0
-  PrevVelocity: {x: 0, y: 0}
-  Velocity: {x: 0, y: 0}
-  LookTarget: {x: 0, y: 0}
-  Friendly: 0
-  Life: 0
-  MaxLife: 0
-  ContactDamage: 0
-  ImmunityFrames: 0
-  CharacterAnimator: {fileID: 8207784639512121236}
-  DrunkVelocity: {x: 0, y: 0}
-  FollowDirect: 0
+  m_Offset: {x: 0, y: 5}
+  serializedVersion: 2
+  m_Radius: 10
 --- !u!1001 &1081384282019629536
 PrefabInstance:
   m_ObjectHideFlags: 0

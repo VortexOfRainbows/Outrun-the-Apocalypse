@@ -23,10 +23,12 @@ public class RangedEnemyBehavior : Entity
     [SerializeField] private int ProjectileSpeed = 8;
     [SerializeField] private float HoverDistance = 120;
     [SerializeField] private float moveSpeedHoverMult = 0.2f;
+    [SerializeField] private float SpeedMultiplierOutOfRange = 3f;
+    [SerializeField] private float ActivateOutOfRangeDistance = 240f;
     public override void SetStats()
     {
         NextSpawnTime = Random.Range(MinTimeLimit, MaxTimeLimit);
-        MaxLife = 12;
+        MaxLife = 11;
         Life = MaxLife;
         ContactDamage = 10;
         Friendly = false;
@@ -37,9 +39,14 @@ public class RangedEnemyBehavior : Entity
         Vector2 toPlayer = (player.transform.position - this.transform.position);
         Velocity *= InertiaPercent;
         float speedMult = movespeedMultiplier;
-        if(toPlayer.magnitude < HoverDistance)
+        float length = toPlayer.magnitude;
+        if (length < HoverDistance)
         {
             speedMult *= moveSpeedHoverMult;
+        }
+        else if(length > ActivateOutOfRangeDistance)
+        {
+            speedMult *= SpeedMultiplierOutOfRange;
         }
         Velocity += toPlayer.normalized * speedMult * (1 - InertiaPercent);
         Velocity *= EnemyScalingFactor;
@@ -95,5 +102,12 @@ public class RangedEnemyBehavior : Entity
         {
             ItemData.NewItem(new PotatoGun(), transform.position, new Vector2(Random.Range(-1, 1f), Random.Range(-1, 1f)));
         }
+    }
+    [SerializeField] private int GoreDropVelo = -6;
+    public override void GenerateGore()
+    {
+        Gore.NewGore(Head, new Vector2(0, GoreDropVelo));
+        Gore.NewGore(LeftWing, new Vector2(0, GoreDropVelo));
+        Gore.NewGore(RightWing, new Vector2(0, GoreDropVelo));
     }
 }

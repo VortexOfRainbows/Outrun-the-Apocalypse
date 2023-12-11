@@ -44,8 +44,10 @@ public abstract class Entity : MonoBehaviour
     public int ImmunityFrames = 30;
     public bool JustSpawnedIn = true;
     public bool Immune => ImmunityFrames > 0 || JustSpawnedIn;
+    private bool Dead;
     private void Start()
     {
+        Dead = false;
         DespawnRange = 480; //480 is 16 pixels * 30 tiles away, some enemies may have differeing ranges
         Despawn = TimeToDespawn; //600 is the time to despawn
         ContactDamage = DefaultImmunityOnHit = ImmunityFrames = 0;
@@ -159,13 +161,18 @@ public abstract class Entity : MonoBehaviour
     }
     private void Death()
     {
-        OnDeath();
-        if (this is Player) 
+        if(!Dead)
         {
-            UIManager.instance.GameOver();
+            GenerateGore();
+            OnDeath();
+            if (this is Player)
+            {
+                UIManager.instance.GameOver();
+            }
+            else
+                Destroy(this.gameObject);
+            Dead = true;
         }
-        else
-            Destroy(this.gameObject);
     }
     /// <summary>
     /// For entities, avoid running the normal update method as it might override entity functiosn
@@ -195,6 +202,10 @@ public abstract class Entity : MonoBehaviour
     /// Use to set the basic stats of an enemy (life, maxlife, damage, etc)
     /// </summary>
     public virtual void SetStats()
+    {
+
+    }
+    public virtual void GenerateGore()
     {
 
     }

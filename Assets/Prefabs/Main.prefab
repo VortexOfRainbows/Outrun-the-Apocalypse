@@ -1355,6 +1355,8 @@ MonoBehaviour:
       _gameObject: {fileID: 5618483985035375901, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
     - _string: beast
       _gameObject: {fileID: 3256726224242854254, guid: 96bcdef21fa600b4baf97c8c6621ae8a, type: 3}
+    - _string: gore
+      _gameObject: {fileID: 7768289232832247973, guid: 2a9b6cf94a9afb64f85e54ef33cd5f8c, type: 3}
   _scriptableObject:
     items:
     - _string: FarmerGun
@@ -1928,7 +1930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -280.00003, y: 115}
+  m_AnchoredPosition: {x: -280, y: 115}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5285401573835322589
