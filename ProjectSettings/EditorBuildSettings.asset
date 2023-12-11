@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Collectibles.unity
     guid: 9f8a666caf00c0649a63596e4582a867
   - enabled: 1
+    path: Assets/Scenes/TIleMapTest.unity
+    guid: 539895a402b4b444fa4adaec6bc14265
+  - enabled: 1
     path: Assets/Scenes/Another Tilemap.unity
     guid: 8c2b31ed997ab32438a0f14d20745c2c
   m_configObjects: {}
