@@ -1373,6 +1373,8 @@ MonoBehaviour:
       _scriptedObject: {fileID: 11400000, guid: 8e1a99e98e580514584b0e97713f7746, type: 2}
     - _string: Key
       _scriptedObject: {fileID: 11400000, guid: 218759a94464e664a861be14f7508b64, type: 2}
+    - _string: Pitchfork
+      _scriptedObject: {fileID: 11400000, guid: 2e94dd9ad980b1a4299514e66f0692f4, type: 2}
 --- !u!1 &2575733483676270995
 GameObject:
   m_ObjectHideFlags: 0
@@ -3872,7 +3874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[7].m_Name
@@ -3883,6 +3885,10 @@ PrefabInstance:
       value: Corn
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[9].m_Name
+      value: Pitchfork
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[7].m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ea85ecd3572504343a3cef41b96d5203, type: 3}
@@ -3890,6 +3896,10 @@ PrefabInstance:
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[8].m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 10ac7f69aa9aae440862c34a61abe98e, type: 3}
+    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[9].m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b81afe67bcf39534fb1a92c64834cdbb, type: 3}
     - target: {fileID: 5342157364069492831, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50

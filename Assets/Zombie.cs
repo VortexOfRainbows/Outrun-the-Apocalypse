@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditorInternal.VersionControl;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -171,6 +172,10 @@ public class Zombie : EntityWithCharDrawing
             }
         }
     }
+    public void GenerateGore()
+    {
+
+    }
     public override void OnDeath()
     {
         AudioManager.instance.Play("ZombieDeath");
@@ -178,5 +183,7 @@ public class Zombie : EntityWithCharDrawing
         coin.GetComponent<Coin>().DespawnCounter = 0;
         DropItems(ref LeftHeldItem);
         DropItems(ref RightHeldItem);
+        LeftHeldItem = new NoItem();
+        RightHeldItem = new NoItem();
     }
 }
