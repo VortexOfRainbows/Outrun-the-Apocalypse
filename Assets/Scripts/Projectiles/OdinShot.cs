@@ -7,8 +7,8 @@ public class OdinShot : ProjectileData
     public override string SpriteName => "Bullet";
     public override void SetStats()
     {
-        Size = new Vector2(20, 20); //Size of the hitbox in pixels
-        Lifetime = 90;
+        Size = new Vector2(40, 1); //Size of the hitbox in pixels
+        Lifetime = 60;
         Pierce = 1;
         Friendly = true;
     }
