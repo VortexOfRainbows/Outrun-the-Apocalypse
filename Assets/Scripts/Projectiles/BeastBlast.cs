@@ -7,6 +7,7 @@ public class BeastBlast : ProjectileData
     public override string SpriteName => "BeastShot";
     public override void SetStats()
     {
+        Size = new Vector2(10, 22);
         Lifetime = 120;
         Hostile = true;
     }

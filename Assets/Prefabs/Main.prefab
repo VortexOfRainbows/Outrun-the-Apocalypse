@@ -1353,6 +1353,8 @@ MonoBehaviour:
       _gameObject: {fileID: 5608224365155138006, guid: 04d2f5706d9dcbd45ac0e020bb0645ce, type: 3}
     - _string: zombie
       _gameObject: {fileID: 5618483985035375901, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
+    - _string: beast
+      _gameObject: {fileID: 3256726224242854254, guid: 96bcdef21fa600b4baf97c8c6621ae8a, type: 3}
   _scriptableObject:
     items:
     - _string: FarmerGun
@@ -3792,39 +3794,39 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
       propertyPath: sounds.Array.size
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[4].clip
+      propertyPath: sounds.Array.data[5].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 7000073cb299fd84a8229847bbc46261, type: 3}
+      objectReference: {fileID: 8300000, guid: eca853d6f43078241beeb1568dadde93, type: 3}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[4].name
-      value: OmNom
+      propertyPath: sounds.Array.data[5].name
+      value: BeastBlast
       objectReference: {fileID: 0}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[4].pitch
-      value: 1.2
+      propertyPath: sounds.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a348f899ec3c25d40b895ac5795b7df5, type: 3}
+    - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
+      propertyPath: sounds.Array.data[6].name
+      value: Ow
       objectReference: {fileID: 0}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[0].volume
-      value: 0.1
+      propertyPath: sounds.Array.data[5].pitch
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[1].volume
-      value: 0.075
+      propertyPath: sounds.Array.data[6].pitch
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[2].volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[3].volume
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
-      propertyPath: sounds.Array.data[4].volume
+      propertyPath: sounds.Array.data[5].volume
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7630182351280842204, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
+      propertyPath: sounds.Array.data[6].volume
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8640575131138550987, guid: dabe43a40a2d3ac4f88a3aa8eb241744, type: 3}
       propertyPath: m_LocalPosition.x

@@ -83,9 +83,13 @@ public class NPCSpawning : MonoBehaviour
         }
         return null;
     }
+    private float ChanceForFlyingBeast => Mathf.Clamp(0.1f + 0.02f * Entity.EnemyScalingFactor, 0.1f, 0.3f);
     public GameObject DetermineEnemy()
     {
-        //In here, we might want to give zombies the ability to wield weapons
+        if(ChanceForFlyingBeast > Random.Range(0, 1f))
+        {
+            return PrefabManager.GetPrefab("beast");
+        }
         return PrefabManager.GetPrefab("zombie");
     }
 }

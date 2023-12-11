@@ -75,3 +75,15 @@ MonoBehaviour:
     pitch: 1.2
     loop: 0
     source: {fileID: 0}
+  - name: BeastBlast
+    clip: {fileID: 8300000, guid: eca853d6f43078241beeb1568dadde93, type: 3}
+    volume: 0.2
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: Ow
+    clip: {fileID: 8300000, guid: a348f899ec3c25d40b895ac5795b7df5, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

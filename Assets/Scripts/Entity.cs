@@ -142,6 +142,10 @@ public abstract class Entity : MonoBehaviour
         {
             Death();
         }
+        if(this is Player)
+        {
+            AudioManager.instance.Play("Ow");
+        }
         ImmunityFrames = setImmuneFrames;
     }
     public void Heal(int healAmount)
