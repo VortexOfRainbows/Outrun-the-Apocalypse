@@ -28,8 +28,8 @@ public class Zombie : EntityWithCharDrawing
         projectileSpeedMultiplier = 0.5f;
         FollowDirect = Random.Range(0.0f, 1.0f) < 0.5;
         DrunkVelocity = new Vector2(0.3f, 0.0f).RotatedBy(Random.Range(0, Mathf.PI * 2));
-        MaxLife = 18;
-        Life = 18;
+        MaxLife = 17;
+        Life = MaxLife;
         ContactDamage = 15;
         Friendly = false;
     }
@@ -71,6 +71,8 @@ public class Zombie : EntityWithCharDrawing
             item = new NoItem();
         }
     }
+    [SerializeField] private float SpeedMultiplierOutOfRange = 2f;
+    [SerializeField] private float ActivateOutOfRangeDistance = 200f;
     public override void OnFixedUpdate()
     {
         if (player == null) 
@@ -80,28 +82,33 @@ public class Zombie : EntityWithCharDrawing
         if (RightHeldItem == null)
             AssignItem(ref RightHeldItem);
         Velocity *= InertiaPercent; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
-        if(FollowDirect)
+        Vector2 toPlayer = player.transform.position - transform.position;
+        float movespeed = movespeedMultiplier;
+        if(toPlayer.magnitude > ActivateOutOfRangeDistance)
         {
-            Vector2 toPlayer = player.transform.position - transform.position;
-            Velocity += toPlayer.normalized * directMovespeedMultiplier * movespeedMultiplier * (1 - InertiaPercent);
+            movespeed *= SpeedMultiplierOutOfRange;
+        }
+        if (FollowDirect)
+        {
+            Velocity += toPlayer.normalized * directMovespeedMultiplier * movespeed * (1 - InertiaPercent);
         }
         else
         {
             if (transform.position.x < player.transform.position.x - 5) //These 5 are simply in place to prevent the zombie from jittering in its movements. They don't really need to be variables because this number is mostly inconsequential otherwise.
             {
-                Velocity.x += movespeedMultiplier * (1 - InertiaPercent); //Increase velocity by 1 to the right, since the player is right of the zombie
+                Velocity.x += movespeed * (1 - InertiaPercent); //Increase velocity by 1 to the right, since the player is right of the zombie
             }
             if (transform.position.x > player.transform.position.x + 5)
             {
-                Velocity.x -= movespeedMultiplier * (1 - InertiaPercent);
+                Velocity.x -= movespeed * (1 - InertiaPercent);
             }
             if (transform.position.y < player.transform.position.y - 5)
             {
-                Velocity.y += movespeedMultiplier * (1 - InertiaPercent);
+                Velocity.y += movespeed * (1 - InertiaPercent);
             }
             if (transform.position.y > player.transform.position.y + 5)
             {
-                Velocity.y -= movespeedMultiplier * (1 - InertiaPercent);
+                Velocity.y -= movespeed * (1 - InertiaPercent);
             }
         }
         Velocity += DrunkVelocity;
@@ -131,6 +138,7 @@ public class Zombie : EntityWithCharDrawing
             }
         }
     }
+    [SerializeField] private float EatCornBaseChance = 0.0125f;
     public bool DecideToUseItem(ItemData item)
     {
         if (item != null && item is not NoItem)
@@ -139,7 +147,7 @@ public class Zombie : EntityWithCharDrawing
             {
                 if(((MaxLife - Life) / item.Damage * (1 - Life / MaxLife)) > Random.Range(0, 1f)) //only use corn if it will heal. greater chance the lower the enemy health is
                 {
-                    float randomChanceToUseEachFrame = 0.01f * EnemyScalingFactor;
+                    float randomChanceToUseEachFrame = EatCornBaseChance * EnemyScalingFactor;
                     if (randomChanceToUseEachFrame > Random.Range(0, 1f))
                     {
                         return true;
@@ -172,10 +180,6 @@ public class Zombie : EntityWithCharDrawing
             }
         }
     }
-    public void GenerateGore()
-    {
-
-    }
     public override void OnDeath()
     {
         AudioManager.instance.Play("ZombieDeath");
@@ -185,5 +189,14 @@ public class Zombie : EntityWithCharDrawing
         DropItems(ref RightHeldItem);
         LeftHeldItem = new NoItem();
         RightHeldItem = new NoItem();
+    }
+    public override void GenerateGore()
+    {
+        Gore.NewGore(CharacterAnimator.LeftArm);
+        Gore.NewGore(CharacterAnimator.RightArm);
+        Gore.NewGore(CharacterAnimator.BackLeg);
+        Gore.NewGore(CharacterAnimator.FrontLeg);
+        Gore.NewGore(CharacterAnimator.Head);
+        Gore.NewGore(CharacterAnimator.Body);
     }
 }

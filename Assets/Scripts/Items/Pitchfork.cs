@@ -17,7 +17,7 @@ public class Pitchfork : ItemData
         for(int i = -1; i <= 1; i++)
         {
             Vector2 perturbedSpeed = velocity.RotatedBy(Mathf.Deg2Rad * i * DegreesSpread);
-            ProjectileData.NewProjectile(player, ShootType, position + perturbedSpeed.normalized * 6, perturbedSpeed, damage);
+            ProjectileData.NewProjectile(player, ShootType, position + perturbedSpeed.normalized * 5, perturbedSpeed, damage);
         }
         return false;
     }

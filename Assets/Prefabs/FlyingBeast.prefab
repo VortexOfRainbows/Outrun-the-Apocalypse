@@ -243,12 +243,15 @@ MonoBehaviour:
   ProjectileSpeed: 8
   HoverDistance: 120
   moveSpeedHoverMult: 0.2
+  SpeedMultiplierOutOfRange: 3
+  ActivateOutOfRangeDistance: 270
   LeftWingRelativePosition: {x: -12.5, y: 2.5}
   RightWingRelativePosition: {x: 12.5, y: 2.5}
   FlapSpeed: 12
   FlapDegrees: 25
   FlapFactor: 0.35
   PotatoGunDropChance: 0.001
+  GoreDropVelo: -6
 --- !u!50 &8812337956086132091
 Rigidbody2D:
   serializedVersion: 4
