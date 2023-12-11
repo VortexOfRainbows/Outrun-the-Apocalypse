@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
         PauseUI.SetActive(false);
         GameIsPaused = false;
         RecordWinTime = false;
+        Time.timeScale = 1f;
     }
     public void Update()
     {
@@ -77,7 +78,6 @@ public class UIManager : MonoBehaviour
     }
     public void PlayGame()
     {
-        Time.timeScale = 1f;
         _GameOver = false;
         RecordWinTime = false;
         InGameUI.SetActive(true);
