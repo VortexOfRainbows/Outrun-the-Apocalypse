@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnTimerCounter: 0
-  MaximumSpawnTime: 300
-  MinimumSpawnTime: 30
+  MaximumSpawnTime: 200
+  MinimumSpawnTime: 20
   LocationAttemptsPerCycle: 50
   SecondsUntilMaxSpawns: 600
   MinimumDistanceY: 160

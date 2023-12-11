@@ -123,12 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &210855943 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6154566563577682251, guid: 06ce33bcee9a3b14ea1f7d5385457751, type: 3}
-  m_PrefabInstance: {fileID: 5503280499430361297}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1129722948
+--- !u!1001 &942816823
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -139,6 +134,10 @@ PrefabInstance:
     - target: {fileID: 2575733483676270995, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
       propertyPath: m_Name
       value: Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 2889124160214356075, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -280.00003
       objectReference: {fileID: 0}
     - target: {fileID: 5673912991178229171, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -180,18 +179,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5930572191478939389, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
-      propertyPath: _prefab.items.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5930572191478939389, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
-      propertyPath: _prefab.items.Array.data[2]._string
-      value: damageText
-      objectReference: {fileID: 0}
-    - target: {fileID: 5930572191478939389, guid: 65e9c69dda33a144485dd1d0ca0e595e, type: 3}
-      propertyPath: _prefab.items.Array.data[2]._gameObject
-      value: 
-      objectReference: {fileID: 210855943}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -443,6 +430,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1129722948}
+  - {fileID: 942816823}
   - {fileID: 5503280499430361297}
   - {fileID: 1608751890}
