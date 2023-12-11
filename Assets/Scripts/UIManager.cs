@@ -71,13 +71,13 @@ public class UIManager : MonoBehaviour
     }
     public void GameOver() 
     {
-        _GameOver = true;
         InGameUI.SetActive(false);
         GameOverUI.SetActive(true);
         Time.timeScale = 0f;
     }
     public void PlayGame()
     {
+        Time.timeScale = 1f;
         _GameOver = false;
         RecordWinTime = false;
         InGameUI.SetActive(true);
