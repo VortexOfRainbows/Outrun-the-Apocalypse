@@ -41,7 +41,7 @@ public class Zombie : EntityWithCharDrawing
     [SerializeField] private float chanceForPotatoGun = 0.0025f;
     public void AssignItem(ref ItemData item)
     {
-        float difficulty = 1 - EnemyScalingFactor; //starts at 1, Linear scaling as time progresses. Until it reaches 2, at which sqrt scaling begins
+        float difficulty = EnemyScalingFactor - 1; //starts at 0, Linear scaling as time progresses. Until it reaches 1, at which sqrt scaling begins
         if(chanceForCorn * (1 + difficulty) > Random.Range(0, 1f))
         {
             item = new Corn();
