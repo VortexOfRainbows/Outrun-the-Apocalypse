@@ -20,6 +20,7 @@ public class Corn : ItemData
     }
     public override void OnUseItem(Entity player)
     {
+        AudioManager.instance.Play("OmNom");
         player.Heal(Damage);
     }
 }

@@ -8,8 +8,8 @@ public class SpectreShot : ProjectileData
     public override string SpriteName => "Bullet";
     public override void SetStats()
     {
-        Size = new Vector2(20, 20); //Size of the hitbox in pixels
-        Lifetime = 10;
+        Size = new Vector2(40, 1); //Size of the hitbox in pixels
+        Lifetime = 20;
         Pierce = 1;
         Friendly = true;
     }
@@ -20,6 +20,6 @@ public class SpectreShot : ProjectileData
     public override void AfterSpawning(GameObject obj)
     {
         AudioManager.instance.Play("Shoot");
-        obj.transform.localScale = new Vector3(1f, 0.90f, 1.0f);
+        obj.transform.localScale = new Vector3(1f, 0.75f, 1.0f);
     }
 }

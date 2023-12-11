@@ -47,25 +47,31 @@ MonoBehaviour:
   sounds:
   - name: CoinPickup
     clip: {fileID: 8300000, guid: 67d71bb6c5b2d1c419963a619b2fb21a, type: 3}
-    volume: 0.3
+    volume: 0.1
     pitch: 1.2
     loop: 0
     source: {fileID: 0}
   - name: ZombieDeath
     clip: {fileID: 8300000, guid: cdd07d3b3b84e674da6ab96edfc87288, type: 3}
-    volume: 0.2
+    volume: 0.075
     pitch: 1.5
     loop: 0
     source: {fileID: 0}
   - name: Shoot
     clip: {fileID: 8300000, guid: c3137c08c2b52744690acd9e797d26e3, type: 3}
-    volume: 0.3
+    volume: 0.1
     pitch: 1.6
     loop: 0
     source: {fileID: 0}
   - name: Slash
     clip: {fileID: 8300000, guid: 171f667fc8ed15e47820c34ee60fb1f8, type: 3}
-    volume: 0.3
+    volume: 0.1
     pitch: 1.6
+    loop: 0
+    source: {fileID: 0}
+  - name: OmNom
+    clip: {fileID: 8300000, guid: 7000073cb299fd84a8229847bbc46261, type: 3}
+    volume: 0.2
+    pitch: 1.2
     loop: 0
     source: {fileID: 0}

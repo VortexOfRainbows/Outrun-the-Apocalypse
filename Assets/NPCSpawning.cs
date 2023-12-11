@@ -24,8 +24,8 @@ public class NPCSpawning : MonoBehaviour
     }
     private Vector2 PlayerLocation => Player.MainPlayer.Position;
     [SerializeField] private float SpawnTimerCounter = 0;
-    [SerializeField] private float MaximumSpawnTime = 300;
-    [SerializeField] private float MinimumSpawnTime = 30;
+    [SerializeField] private float MaximumSpawnTime = 200;
+    [SerializeField] private float MinimumSpawnTime = 20;
     [SerializeField] private int LocationAttemptsPerCycle = 50;
     [SerializeField] private float SecondsUntilMaxSpawns = 600;
     /// 
