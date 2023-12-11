@@ -1,5 +1,59 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5862351416948952366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9194612721332858383}
+  - component: {fileID: 362910725223187859}
+  m_Layer: 0
+  m_Name: EnemySpawningZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9194612721332858383
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862351416948952366}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 240.38184, y: -59.7945, z: -4.5641656}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3497287180800829893}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &362910725223187859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862351416948952366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c4286e66862954886b2af2581ba882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnTimerCounter: 0
+  MaximumSpawnTime: 300
+  MinimumSpawnTime: 30
+  LocationAttemptsPerCycle: 50
+  SecondsUntilMaxSpawns: 600
+  MinimumDistanceY: 160
+  MaximumDistanceY: 260
+  MinimumDistanceX: 250
+  MaximumDistanceX: 350
+  SpawnTimeVariance: 0.1
 --- !u!1 &6149223335012024283
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,6 +86,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9194612721332858383}
   - {fileID: 1788323669224660284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,7 +121,6 @@ MonoBehaviour:
   Collider2D: {fileID: 6487987689985946999}
   LastPosition: {x: 0, y: 0}
   MaxMoveSpeed: 5
-  RotationOffset: 0
   Inventory: {fileID: 0}
 --- !u!50 &4580503390578427558
 Rigidbody2D:

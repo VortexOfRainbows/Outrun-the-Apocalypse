@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wheel
   m_EditorClassIdentifier: 
   ChangeHoldAnimation: 1
-  HoldClick: 1
+  HoldClick: 0
   UseCooldown: 0
   RotationOffset: -1.5707964
   Scale: 1

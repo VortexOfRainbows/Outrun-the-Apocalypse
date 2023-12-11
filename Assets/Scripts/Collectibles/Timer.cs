@@ -3,72 +3,80 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 public class Timer : MonoBehaviour
 {
-    //public static Timer instance;
-
-    public UIManager Manager;
-
-    public TMP_Text timeText;
-    public TMP_Text bestTimeText;
-    public TMP_Text fastestTimeText;
-    
-    private float time;
-    private float minutes;
-    private float seconds;
-
-    void Awake()
+    private const string LongestTime = "LongestTime";
+    private const string FastestTime = "FastestTime";
+    private const string DefaultText = "Current: ";
+    private const string LongestText = "Longest: ";
+    private const string FastestText = "Completion: ";
+    [SerializeField] private UIManager Manager;
+    [SerializeField] private TMP_Text timeText;
+    [SerializeField] private TMP_Text bestTimeText;
+    [SerializeField] private TMP_Text fastestTimeText;
+    public static int CurrentTime => (int)(AccumulatedTime * 60);
+    public static float AccumulatedTime { get; private set; }
+    public static int RawSeconds => CurrentTime / 60;
+    public int Minutes(int time)
     {
-        //instance = this;
+        int min = time / 3600;
+        if (min > 99)
+            min = 99;
+        return min;
     }
-
-    private void Start() 
+    public int Seconds(int time)
     {
-        time = 0;
-        PlayerPrefs.GetFloat("FastestHighScore", 9999f);
-        timeText.text = "Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
-        bestTimeText.text = "Longest Survival Time:  " + PlayerPrefs.GetFloat("HighScoreMin", 0).ToString() + ":" + PlayerPrefs.GetFloat("HighScoreSec", 0).ToString("00");
-        fastestTimeText.text = "Fastest Clear Time:  " + PlayerPrefs.GetFloat("FastestHighScoreMin").ToString() + ":" + PlayerPrefs.GetFloat("FastestHighScoreSec").ToString("00");
+        return (time / 60) % 60;
+    }
+    private string AssembleTimeString(string concat, int time)
+    {
+        if(time >= int.MaxValue)
+        {
+            return concat + "N/A";
+        }
+        int min = Minutes(time);
+        int sec = Seconds(time);
+        string concat2 = ":";
+        if (min < 10)
+            concat += "0";
+        if (sec < 10)
+            concat2 += "0";
+        return concat + min + concat2 + sec;
+    }
+    private void Start()
+    {
+        //PlayerPrefs.DeleteAll(); <-- player prefs should be reset for testing purposes
+        AccumulatedTime = 0;
+        timeText.text = AssembleTimeString(DefaultText, CurrentTime);
+        bestTimeText.text = AssembleTimeString(LongestText, PlayerPrefs.GetInt(LongestTime, 0));
+        fastestTimeText.text = AssembleTimeString(FastestText, PlayerPrefs.GetInt(FastestTime, int.MaxValue));
+        Manager.RecordWinTime = false;
     }
     private void Update()
     {
-        //if (instance != this || instance == null)
-        //    instance = this;
-
-        time = time + (Time.deltaTime * Time.timeScale);
-
-            seconds = time % 60;
-            minutes =  Mathf.FloorToInt(time / 60);
-
-        timeText.text = "Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
-
-        if (time > PlayerPrefs.GetFloat("HighScore", 0))
-        { 
-            PlayerPrefs.SetFloat("HighScore", time);
-            PlayerPrefs.SetFloat("HighScoreMin", minutes);
-            PlayerPrefs.SetFloat("HighScoreSec", seconds);
-
-            PlayerPrefs.Save();
-
-            //Debug.Log(PlayerPrefs.GetFloat("HighScore"));
-
-            bestTimeText.text = "Longest Survival Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
-        }
-
-        if (time < PlayerPrefs.GetFloat("FastestHighScore", 9999f) && Manager.win) 
+        AccumulatedTime += Time.deltaTime;
+        timeText.text = AssembleTimeString(DefaultText, CurrentTime);
+        bool anythingChanged = false;
+        int longestTime = PlayerPrefs.GetInt(LongestTime, 0);
+        int fastestTime = PlayerPrefs.GetInt(FastestTime, int.MaxValue);
+        if (CurrentTime > longestTime)
         {
-            PlayerPrefs.SetFloat("FastestHighScore", time);
-            PlayerPrefs.SetFloat("FastestHighScoreMin", minutes);
-            PlayerPrefs.SetFloat("FastestHighScoreSec", seconds);
-
-            Debug.Log(PlayerPrefs.GetFloat("FastestHighScore"));
-            fastestTimeText.text = "Fastest Clear Time:  " + minutes.ToString() + ":" + Mathf.Round(seconds).ToString("00");
+            PlayerPrefs.SetInt(LongestTime, CurrentTime);
+            bestTimeText.text = AssembleTimeString(LongestText, CurrentTime);
+            anythingChanged = true;
         }
-
-        //Debug.Log(time < PlayerPrefs.GetFloat("FastestHighScore", 9999f));
-        //Debug.Log(PlayerPrefs.GetFloat("FastestHighScore", 9999f));
-        Debug.Log(time);
-
+        if (CurrentTime < fastestTime && Manager.RecordWinTime) 
+        {
+            PlayerPrefs.SetInt(FastestTime, CurrentTime);
+            fastestTimeText.text = AssembleTimeString(FastestText, CurrentTime);
+            anythingChanged = true;
+            //Debug.Log(PlayerPrefs.GetInt("FastestHighScore"));
+        }
+        if(anythingChanged)
+            PlayerPrefs.Save();
+        Debug.Log(CurrentTime);
     }
 }

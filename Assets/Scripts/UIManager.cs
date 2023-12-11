@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject PauseUI;
 
     public bool _GameOver = false;
-    public bool win;
+    public bool RecordWinTime { get; set; }
 
     public static UIManager instance;
     private void Start()
@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
         GameOverUI.SetActive(false);
         PauseUI.SetActive(false);
         GameIsPaused = false;
-        win = false;
+        RecordWinTime = false;
     }
     public void Update()
     {
@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
     public void GameWon()
     {
         _GameOver = true;
-        win = true;
+        RecordWinTime = true;
         Time.timeScale = 0f;
         GameOverUI.GetComponentInChildren<TextMeshProUGUI>().text = "ESCAPE SUCCESSFUL";
         InGameUI.SetActive(false);
@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
     public void PlayGame()
     {
         _GameOver = false;
-        win = false;
+        RecordWinTime = false;
         InGameUI.SetActive(true);
         GameOverUI.SetActive(false);
     }

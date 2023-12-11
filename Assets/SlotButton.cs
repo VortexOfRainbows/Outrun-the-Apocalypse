@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TerrainTools;
 using UnityEngine.UIElements;
 
 public class SlotButton : MonoBehaviour
@@ -23,7 +24,12 @@ public class SlotButton : MonoBehaviour
         Renderer.color = new Color(1, 0.95f, 0.1f);
         Renderer.sprite = SpriteLib.Library.GetSprite("UI", "SwapItemSlot");
     }
-    public void PerformUpdate(int SlotNumber)
+    /// <summary>
+    /// Returns true if an item swapping update was run
+    /// </summary>
+    /// <param name="SlotNumber"></param>
+    /// <returns></returns>
+    public bool PerformUpdate(int SlotNumber)
     {
         Player p = Player.MainPlayer;
         Vector3 mousePos = Utils.MouseWorld();
@@ -34,10 +40,14 @@ public class SlotButton : MonoBehaviour
             if(p.Control.SwapItem && !p.LastControl.SwapItem)
             {
                 MouseDown();
+                return true;
             }
         }
         else if(CorrectKeyDown(SlotNumber))
+        {
             MouseDown();
+            return true;
+        }
         else
         {
             Renderer.sprite = DefaultSprite;
@@ -50,10 +60,11 @@ public class SlotButton : MonoBehaviour
                 Renderer.color = Color.Lerp(Renderer.color, Color.white, 0.2f);
             }
         }
+        return false;
     }
     public bool CorrectKeyDown(int Number)
     {
-        Player p = Player.MainPlayer; 
+        Player p = Player.MainPlayer;
         //I just want to let you  know. I am in as much pain looking at this as you are
         //I was not able to make an array inside my control storing structs, because they require a external reference to be established.
         //I figured that would be bad to do, as I would need to generate a fresh array every frame.
@@ -78,6 +89,13 @@ public class SlotButton : MonoBehaviour
             return true;
         if (Number == 9 && p.Control.Hotkey0 && !p.LastControl.Hotkey0)
             return true;
+        if (p.Inventory.CursorItem is not NoItem && slot.Item is NoItem)
+        {
+            if (Number == Player.LeftHandSlotNum && p.Control.LeftClick && !p.LastControl.LeftClick)
+                return true;
+            if (Number == Player.RightHandSlotNum && p.Control.RightClick && !p.LastControl.RightClick)
+                return true;
+        }
         return false;
     }
 }
