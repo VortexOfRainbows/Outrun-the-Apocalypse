@@ -70,6 +70,9 @@ MonoBehaviour:
     - m_Name: Wheel
       m_Hash: 0
       m_Sprite: {fileID: 21300000, guid: 00d5c04af2ecf6b43ba1c9470d9fefd8, type: 3}
+    - m_Name: Pitchfork
+      m_Hash: 0
+      m_Sprite: {fileID: 21300000, guid: b81afe67bcf39534fb1a92c64834cdbb, type: 3}
   - m_Name: Projectile
     m_Hash: 0
     m_CategoryList:

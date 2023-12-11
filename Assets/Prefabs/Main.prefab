@@ -118,6 +118,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InGameUI: {fileID: 6282734425540351611}
   GameOverUI: {fileID: 5345099858164844810}
+  PauseUI: {fileID: 0}
+  _GameOver: 0
+  win: 0
 --- !u!1 &1036979579826851471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,16 +1778,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[7].m_Name
       value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[8].m_Name
+      value: Pitchfork
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[7].m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ea85ecd3572504343a3cef41b96d5203, type: 3}
+    - target: {fileID: 2478504434921310363, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
+      propertyPath: m_Library.Array.data[0].m_CategoryList.Array.data[8].m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b81afe67bcf39534fb1a92c64834cdbb, type: 3}
     - target: {fileID: 5342157364069492831, guid: b7cb38b155f074546b7d5809b087dca2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50
