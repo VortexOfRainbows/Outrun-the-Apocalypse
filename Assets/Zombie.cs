@@ -83,7 +83,7 @@ public class Zombie : EntityWithCharDrawing
             AssignItem(ref RightHeldItem);
         Velocity *= InertiaPercent; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
         Vector2 toPlayer = player.transform.position - transform.position;
-        float movespeed = movespeedMultiplier;
+        float movespeed = movespeedMultiplier * Mathf.Sqrt(EnemyScalingFactor);
         if(toPlayer.magnitude > ActivateOutOfRangeDistance)
         {
             movespeed *= SpeedMultiplierOutOfRange;
@@ -112,7 +112,6 @@ public class Zombie : EntityWithCharDrawing
             }
         }
         Velocity += DrunkVelocity;
-        Velocity *= EnemyScalingFactor;
         if (Velocity.x > 0)
             Direction = 1;
         else
@@ -168,6 +167,20 @@ public class Zombie : EntityWithCharDrawing
         }
         return false;
     }
+    [SerializeField] private float ShopChanceBase = 0.3f;
+    [SerializeField] private int MaxPriceForNotShop = 100;
+    public bool ShouldItemDropAsShopItem(ItemData item)
+    {
+        if (item is Corn)
+            return false;
+        if (Random.Range(0, 1f) < 0.3f)
+            return true;
+        if(item.Cost < Random.Range(0, MaxPriceForNotShop) || Random.Range(0, 1f) < 0.3f)
+        {
+            return false;
+        }
+        return true;
+    }
     public void DropItems(ref ItemData item)
     {
         if(item is not NoItem)
@@ -176,7 +189,10 @@ public class Zombie : EntityWithCharDrawing
             float dropChance = baseDropChance * Mathf.Sqrt(EnemyScalingFactor); //drop rates should get more common as you get into the game.
             if (item is Corn || dropChance > Random.Range(0, 1f)) //guaranteed to drop corn. Otherwise, drop rate is low
             {
-                ItemData.NewItem(item, transform.position, random);
+                if(ShouldItemDropAsShopItem(item))
+                    Capsule.NewCapsule(item, transform.position);
+                else
+                    ItemData.NewItem(item, transform.position, random);
             }
         }
     }

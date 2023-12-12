@@ -22,3 +22,4 @@ MonoBehaviour:
   Width: -1
   Height: -1
   DeaccelerationRate: 0.95
+  Cost: 5

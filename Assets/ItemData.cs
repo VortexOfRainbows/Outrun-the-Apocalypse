@@ -36,6 +36,7 @@ public abstract class ItemData
         Width = stat.Width;
         Width = stat.Height;
         DeaccelerationRate = stat.DeaccelerationRate;
+        Cost = stat.Cost;
         if (Width < 0 || Height < 0)
         {
             if(SpriteName != "NoItem")
@@ -76,6 +77,7 @@ public abstract class ItemData
     public float UseCooldown { get; protected set; }
     protected float RotationOffset;
     protected float Scale;
+    public int Cost { get; protected set; }
     public int Damage { get; protected set; }
     protected float ShotVelocity;
     protected float Width; //These values determines the size of the item (hitbox)

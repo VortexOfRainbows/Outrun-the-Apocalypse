@@ -56,7 +56,7 @@ public abstract class Entity : MonoBehaviour
         ImmunityFrames = 30;
         SetStats();
         MaxLife *= EnemyScalingFactor;
-        ContactDamage *= EnemyScalingFactor;
+        ContactDamage *= Mathf.Sqrt(EnemyScalingFactor);
         Life = MaxLife;
         JustSpawnedIn = false;
     }

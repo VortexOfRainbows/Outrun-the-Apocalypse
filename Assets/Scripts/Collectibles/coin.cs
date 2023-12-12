@@ -26,7 +26,7 @@ public class Coin : MonoBehaviour
         if (collision.tag == "Player")
         {
             Destroy(gameObject);
-            CoinCounter.instance.increaseCoins();
+            CoinCounter.instance.ChangeCoins(1);
             AudioManager.instance.Play("CoinPickup");
         }
     }

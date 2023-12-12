@@ -102,6 +102,8 @@ public class RangedEnemyBehavior : Entity
         {
             ItemData.NewItem(new PotatoGun(), transform.position, new Vector2(Random.Range(-1, 1f), Random.Range(-1, 1f)));
         }
+        else
+            DropQuestItems();
     }
     [SerializeField] private int GoreDropVelo = -6;
     public override void GenerateGore()
@@ -109,5 +111,18 @@ public class RangedEnemyBehavior : Entity
         Gore.NewGore(Head, new Vector2(0, GoreDropVelo));
         Gore.NewGore(LeftWing, new Vector2(0, GoreDropVelo));
         Gore.NewGore(RightWing, new Vector2(0, GoreDropVelo));
+    }
+    [SerializeField] private float ChanceToDropWheel = 0.01f;
+    [SerializeField] private float ChanceToDropKey = 0.005f;
+    public void DropQuestItems()
+    {
+        if(ChanceToDropWheel > Random.Range(0, 1f))
+        {
+            Capsule.NewCapsule(new Wheel(), transform.position);
+        }
+        if (ChanceToDropKey > Random.Range(0, 1f))
+        {
+            Capsule.NewCapsule(new Key(), transform.position);
+        }
     }
 }
