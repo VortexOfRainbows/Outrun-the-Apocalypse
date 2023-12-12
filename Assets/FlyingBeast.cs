@@ -21,7 +21,7 @@ public class RangedEnemyBehavior : Entity
     private int NextSpawnTime;
     private int timer;
     [SerializeField] private int ProjectileSpeed = 8;
-    [SerializeField] private float HoverDistance = 120;
+    [SerializeField] private float HoverDistance = 150;
     [SerializeField] private float moveSpeedHoverMult = 0.2f;
     [SerializeField] private float SpeedMultiplierOutOfRange = 3f;
     [SerializeField] private float ActivateOutOfRangeDistance = 240f;
@@ -30,7 +30,7 @@ public class RangedEnemyBehavior : Entity
         NextSpawnTime = Random.Range(MinTimeLimit, MaxTimeLimit);
         MaxLife = 11;
         Life = MaxLife;
-        ContactDamage = 10;
+        ContactDamage = 20;
         Friendly = false;
     }
     public override void OnFixedUpdate()

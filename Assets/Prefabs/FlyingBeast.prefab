@@ -229,7 +229,7 @@ MonoBehaviour:
   Friendly: 1
   Life: 0
   MaxLife: 0
-  ContactDamage: 0
+  ContactDamage: 20
   ImmunityFrames: 30
   JustSpawnedIn: 1
   Head: {fileID: 2734970300757879296}
@@ -241,8 +241,8 @@ MonoBehaviour:
   MinTimeLimit: 100
   MaxTimeLimit: 200
   ProjectileSpeed: 8
-  HoverDistance: 120
-  moveSpeedHoverMult: 0.2
+  HoverDistance: 150
+  moveSpeedHoverMult: -1
   SpeedMultiplierOutOfRange: 3
   ActivateOutOfRangeDistance: 270
   LeftWingRelativePosition: {x: -12.5, y: 2.5}
