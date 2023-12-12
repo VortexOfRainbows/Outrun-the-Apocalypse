@@ -27,4 +27,5 @@ public class ItemStats : ScriptableObject
     public float Width = -1;
     public float Height = -1;
     public float DeaccelerationRate = 0.94f;
+    public int Cost = 10;
 }

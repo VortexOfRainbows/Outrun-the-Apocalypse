@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
-    public const float SecondsUntilEnemyStatsDouble = 600;
+    public const float SecondsUntilEnemyStatsDouble = 900;
     public static float EnemyScalingFactor {
         get
         {
@@ -55,8 +55,8 @@ public abstract class Entity : MonoBehaviour
         MaxLife = 10;
         ImmunityFrames = 30;
         SetStats();
-        MaxLife *= EnemyScalingFactor;
-        ContactDamage *= EnemyScalingFactor;
+        MaxLife *= Mathf.Sqrt(EnemyScalingFactor);
+        ContactDamage *= Mathf.Sqrt(EnemyScalingFactor);
         Life = MaxLife;
         JustSpawnedIn = false;
     }

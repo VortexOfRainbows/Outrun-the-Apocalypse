@@ -93,7 +93,7 @@ MonoBehaviour:
   directMovespeedMultiplier: 1.4
   InertiaPercent: 0.2
   CharacterAnimator: {fileID: 8207784639512121236}
-  baseDropChance: 0.2
+  baseDropChance: 0.4
   DrunkVelocity: {x: 0, y: 0}
   FollowDirect: 0
   chanceForCorn: 0.1
@@ -105,6 +105,9 @@ MonoBehaviour:
   SpeedMultiplierOutOfRange: 4
   ActivateOutOfRangeDistance: 270
   EatCornBaseChance: 0.015
+  ShopChanceBase: 0.7
+  MaxPriceForNotShop: 100
+  BaseCornIsShopChance: 0.6
 --- !u!58 &6290819993416228201
 CircleCollider2D:
   m_ObjectHideFlags: 0

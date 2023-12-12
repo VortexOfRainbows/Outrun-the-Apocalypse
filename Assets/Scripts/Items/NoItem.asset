@@ -21,3 +21,5 @@ MonoBehaviour:
   ShotVelocity: 10.5
   Width: 24
   Height: 24
+  DeaccelerationRate: 0.94
+  Cost: 0

@@ -83,7 +83,7 @@ public class Zombie : EntityWithCharDrawing
             AssignItem(ref RightHeldItem);
         Velocity *= InertiaPercent; //using velocity to update position because it helps instruct the animator what to do in order to animate the zombie
         Vector2 toPlayer = player.transform.position - transform.position;
-        float movespeed = movespeedMultiplier;
+        float movespeed = movespeedMultiplier * Mathf.Sqrt(EnemyScalingFactor);
         if(toPlayer.magnitude > ActivateOutOfRangeDistance)
         {
             movespeed *= SpeedMultiplierOutOfRange;
@@ -112,7 +112,6 @@ public class Zombie : EntityWithCharDrawing
             }
         }
         Velocity += DrunkVelocity;
-        Velocity *= EnemyScalingFactor;
         if (Velocity.x > 0)
             Direction = 1;
         else
@@ -168,7 +167,22 @@ public class Zombie : EntityWithCharDrawing
         }
         return false;
     }
-    public void DropItems(ref ItemData item)
+    [SerializeField] private float ShopChanceBase = 0.3f;
+    [SerializeField] private int MaxPriceForNotShop = 100;
+    [SerializeField] private float BaseCornIsShopChance = 0.4f;
+    public bool ShouldItemDropAsShopItem(ItemData item)
+    {
+        if (item is Corn && BaseCornIsShopChance < Random.Range(0, 1f))
+            return false;
+        if (Random.Range(0, 1f) < ShopChanceBase)
+            return true;
+        if(item.Cost < Random.Range(0, MaxPriceForNotShop))
+        {
+            return false;
+        }
+        return true;
+    }
+    public bool DropItems(ref ItemData item)
     {
         if(item is not NoItem)
         {
@@ -176,19 +190,30 @@ public class Zombie : EntityWithCharDrawing
             float dropChance = baseDropChance * Mathf.Sqrt(EnemyScalingFactor); //drop rates should get more common as you get into the game.
             if (item is Corn || dropChance > Random.Range(0, 1f)) //guaranteed to drop corn. Otherwise, drop rate is low
             {
-                ItemData.NewItem(item, transform.position, random);
+                if(ShouldItemDropAsShopItem(item))
+                {
+                    Capsule.NewCapsule(item, transform.position);
+                    return true;
+                }
+                else
+                    ItemData.NewItem(item, transform.position, random);
             }
         }
+        return false;
     }
     public override void OnDeath()
     {
+        bool droppedShop = false;
         AudioManager.instance.Play("ZombieDeath");
-        GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
-        coin.GetComponent<Coin>().DespawnCounter = 0;
-        DropItems(ref LeftHeldItem);
-        DropItems(ref RightHeldItem);
-        LeftHeldItem = new NoItem();
-        RightHeldItem = new NoItem();
+        if (DropItems(ref LeftHeldItem))
+            droppedShop = true;
+        if (DropItems(ref RightHeldItem))
+            droppedShop = true;
+        if (!droppedShop)
+        {
+            GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
+            coin.GetComponent<Coin>().DespawnCounter = 0;
+        }
     }
     public override void GenerateGore()
     {

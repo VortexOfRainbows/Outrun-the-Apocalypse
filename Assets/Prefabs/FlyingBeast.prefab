@@ -250,8 +250,10 @@ MonoBehaviour:
   FlapSpeed: 12
   FlapDegrees: 25
   FlapFactor: 0.35
-  PotatoGunDropChance: 0.001
   GoreDropVelo: -6
+  PotatoGunDropChance: 0.0075
+  ChanceToDropWheel: 0.015
+  ChanceToDropKey: 0.0075
 --- !u!50 &8812337956086132091
 Rigidbody2D:
   serializedVersion: 4
