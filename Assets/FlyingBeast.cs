@@ -92,12 +92,9 @@ public class RangedEnemyBehavior : Entity
         LeftWing.transform.localRotation = (-(Vector2)LeftWing.transform.localPosition).ToRotation().ToQuaternion();
         RightWing.transform.localRotation = ((Vector2)RightWing.transform.localPosition).ToRotation().ToQuaternion();
     }
-    [SerializeField] private float PotatoGunDropChance = 0.001f;
     public override void OnDeath()
     {
         AudioManager.instance.Play("ZombieDeath");
-        GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
-        coin.GetComponent<Coin>().DespawnCounter = 0;
         if(PotatoGunDropChance > Random.Range(0, 1f))
         {
             ItemData.NewItem(new PotatoGun(), transform.position, new Vector2(Random.Range(-1, 1f), Random.Range(-1, 1f)));
@@ -112,17 +109,23 @@ public class RangedEnemyBehavior : Entity
         Gore.NewGore(LeftWing, new Vector2(0, GoreDropVelo));
         Gore.NewGore(RightWing, new Vector2(0, GoreDropVelo));
     }
-    [SerializeField] private float ChanceToDropWheel = 0.01f;
-    [SerializeField] private float ChanceToDropKey = 0.005f;
+    [SerializeField] private float PotatoGunDropChance = 0.0075f;
+    [SerializeField] private float ChanceToDropWheel = 0.015f;
+    [SerializeField] private float ChanceToDropKey = 0.0075f;
     public void DropQuestItems()
     {
         if(ChanceToDropWheel > Random.Range(0, 1f))
         {
             Capsule.NewCapsule(new Wheel(), transform.position);
         }
-        if (ChanceToDropKey > Random.Range(0, 1f))
+        else if (ChanceToDropKey > Random.Range(0, 1f))
         {
             Capsule.NewCapsule(new Key(), transform.position);
+        }
+        else
+        {
+            GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
+            coin.GetComponent<Coin>().DespawnCounter = 0;
         }
     }
 }

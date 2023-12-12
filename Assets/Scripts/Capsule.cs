@@ -8,10 +8,11 @@ public class Capsule : MonoBehaviour
     private const float PriceVariance = 0.2f;
     public static GameObject NewCapsule(ItemData data, Vector2 pos, int price)
     {
-        GameObject capsule = Instantiate(PrefabManager.GetPrefab("Capsule"), pos, Quaternion.identity);
+        GameObject capsule = Instantiate(PrefabManager.GetPrefab("capsule"), pos, Quaternion.identity);
         Capsule c = capsule.GetComponent<Capsule>();
         c.AssignItem(data);
-        c.Cost = price;
+        c.Cost = price; 
+        //Debug.Log(c.item);
         return capsule;
     }
     public static GameObject NewCapsule(ItemData data, Vector2 pos)
@@ -21,6 +22,7 @@ public class Capsule : MonoBehaviour
     public void AssignItem(ItemData data)
     {
         Slot.UpdateItem(data);
+        item = data;
     }
     public void Awake()
     {
@@ -31,6 +33,7 @@ public class Capsule : MonoBehaviour
     [SerializeField] private PreSpawnedItem defaultItem;
     [SerializeField] private TMPro.TextMeshPro priceDisplay;
     [SerializeField] private int Cost = 10;
+    private ItemData item;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
@@ -51,7 +54,7 @@ public class Capsule : MonoBehaviour
     private void FixedUpdate()
     {
         priceDisplay.text = Cost.ToString();
-        if(Slot.Item is NoItem)
+        if(item != null && item is NoItem)
         {
             Destroy(gameObject);
         }
@@ -61,8 +64,9 @@ public class Capsule : MonoBehaviour
     {
         if(CoinCounter.instance.CoinCount >= Cost && !dead)
         {
+            AudioManager.instance.Play("ZombieDeath");
             CoinCounter.instance.ChangeCoins(-Cost);
-            ItemData.NewItem(defaultItem.SpawnItem, transform.position, new Vector2(Random.Range(-2, 2f), Random.Range(-2, 2f)));
+            ItemData.NewItem(item, transform.position, new Vector2(Random.Range(-2, 2f), Random.Range(-2, 2f)));
             dead = true;
             Destroy(gameObject);
         }

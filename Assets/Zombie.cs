@@ -169,19 +169,20 @@ public class Zombie : EntityWithCharDrawing
     }
     [SerializeField] private float ShopChanceBase = 0.3f;
     [SerializeField] private int MaxPriceForNotShop = 100;
+    [SerializeField] private float BaseCornIsShopChance = 0.4f;
     public bool ShouldItemDropAsShopItem(ItemData item)
     {
-        if (item is Corn)
+        if (item is Corn && BaseCornIsShopChance < Random.Range(0, 1f))
             return false;
-        if (Random.Range(0, 1f) < 0.3f)
+        if (Random.Range(0, 1f) < ShopChanceBase)
             return true;
-        if(item.Cost < Random.Range(0, MaxPriceForNotShop) || Random.Range(0, 1f) < 0.3f)
+        if(item.Cost < Random.Range(0, MaxPriceForNotShop))
         {
             return false;
         }
         return true;
     }
-    public void DropItems(ref ItemData item)
+    public bool DropItems(ref ItemData item)
     {
         if(item is not NoItem)
         {
@@ -190,21 +191,29 @@ public class Zombie : EntityWithCharDrawing
             if (item is Corn || dropChance > Random.Range(0, 1f)) //guaranteed to drop corn. Otherwise, drop rate is low
             {
                 if(ShouldItemDropAsShopItem(item))
+                {
                     Capsule.NewCapsule(item, transform.position);
+                    return true;
+                }
                 else
                     ItemData.NewItem(item, transform.position, random);
             }
         }
+        return false;
     }
     public override void OnDeath()
     {
+        bool droppedShop = false;
         AudioManager.instance.Play("ZombieDeath");
-        GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
-        coin.GetComponent<Coin>().DespawnCounter = 0;
-        DropItems(ref LeftHeldItem);
-        DropItems(ref RightHeldItem);
-        LeftHeldItem = new NoItem();
-        RightHeldItem = new NoItem();
+        if (DropItems(ref LeftHeldItem))
+            droppedShop = true;
+        if (DropItems(ref RightHeldItem))
+            droppedShop = true;
+        if (!droppedShop)
+        {
+            GameObject coin = Instantiate(PrefabManager.GetPrefab("coin"), transform.position, new Quaternion());
+            coin.GetComponent<Coin>().DespawnCounter = 0;
+        }
     }
     public override void GenerateGore()
     {

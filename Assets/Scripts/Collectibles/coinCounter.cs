@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class CoinCounter : MonoBehaviour
 {
     public static CoinCounter instance;
-    public TMP_Text coinText;
+    [SerializeField] private TMP_Text Text;
     public int CoinCount { get; private set; }
     void Awake()
     {
@@ -21,11 +21,11 @@ public class CoinCounter : MonoBehaviour
     }
     private void Start()
     {
-        coinText.text = "Coins:  " + CoinCount.ToString();
+        Text.text = CoinCount.ToString();
     }
     public void ChangeCoins(int changeAmount = 1)
     {
         CoinCount += changeAmount;
-        coinText.text = "Coins:  " + CoinCount.ToString();
+        Text.text = CoinCount.ToString();
     }
 }
