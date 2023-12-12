@@ -26,7 +26,7 @@ public class Capsule : MonoBehaviour
     }
     public void Awake()
     {
-        Slot.UpdateItem(defaultItem.SpawnItem);
+        AssignItem(defaultItem.SpawnItem);
     }
     [SerializeField] private GameObject Button;
     [SerializeField] private InventorySlot Slot;
