@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5618483985035375901, guid: 99991b72dd254664ab0f80c4e9a1a7e2, type: 3}
-  spawnMinTime: 2
-  spawnMaxTime: 4
+  spawnMinTime: 4
+  spawnMaxTime: 5
 --- !u!212 &9135044968081895075
 SpriteRenderer:
   m_ObjectHideFlags: 0
