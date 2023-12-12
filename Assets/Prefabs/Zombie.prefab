@@ -86,7 +86,7 @@ MonoBehaviour:
   Friendly: 0
   Life: 0
   MaxLife: 0
-  ContactDamage: 0
+  ContactDamage: 14
   ImmunityFrames: 0
   JustSpawnedIn: 1
   movespeedMultiplier: 1.55

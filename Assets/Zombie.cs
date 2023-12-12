@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Zombie : EntityWithCharDrawing
 {
@@ -30,7 +23,7 @@ public class Zombie : EntityWithCharDrawing
         DrunkVelocity = new Vector2(0.3f, 0.0f).RotatedBy(Random.Range(0, Mathf.PI * 2));
         MaxLife = 17;
         Life = MaxLife;
-        ContactDamage = 15;
+        ContactDamage = 14;
         Friendly = false;
     }
     [SerializeField] private float chanceForCorn = 0.1f; //Items appearing on Zombies becomes more common as time progresses

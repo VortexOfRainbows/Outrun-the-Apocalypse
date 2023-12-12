@@ -30,7 +30,7 @@ public class RangedEnemyBehavior : Entity
         NextSpawnTime = Random.Range(MinTimeLimit, MaxTimeLimit);
         MaxLife = 11;
         Life = MaxLife;
-        ContactDamage = 20;
+        ContactDamage = 17;
         Friendly = false;
     }
     public override void OnFixedUpdate()
